@@ -10,7 +10,6 @@ import java.util.Scanner;
  * @author Vincenzo Parrilla
  */
 public class Protocol {
-	
 	/**Iniziale del colore nero*/
 	public static final char black = 'B';
 	/**Possibili direzioni lungo le quali una o più pedine possono essere mosse.*/

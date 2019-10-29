@@ -6,8 +6,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import communication.Protocol;
+import player.Player;
 
 @SuppressWarnings("unused")
 public class TestServer {
@@ -32,10 +35,9 @@ public class TestServer {
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		TestServer ts = new TestServer();
-		ts.send("WELCOME "+Protocol.black);
-		ts.send("VICTORY");
-		System.out.println(ts.recv());
-		
+		ts.send("WELCOME Black");
+		ts.send("OPPONENT_MOVE F5,N,2");
+		ts.send("YOUR_TURN");
 		/*
 		int[] a = new int[12];
 		for(int i=0; i<12; i++)
