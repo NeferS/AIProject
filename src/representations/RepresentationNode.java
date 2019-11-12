@@ -9,15 +9,6 @@ public interface RepresentationNode {
 	 * @return la mossa che ha generato questa configurazione
 	 */
 	<T> T lastMoveInPath();
-	/**Crea un nuovo nodo a partire dalla configurazione this.
-	 * @param m la mossa da eseguire sulla configurazione
-	 * @return la rappresentazione di un nuovo nodo creato applicando la mossa m alla configurazione this
-	 */
-	<T> RepresentationNode move(T m);
-	/**Calcola e restituisce tutte le mosse valide a partire da questa configurazione.
-	 * @return un array di mosse
-	 */
-	<T> T[] validActions();
 	/**Salva il valore euristico calcolato per la configurazione this.
 	 * @param h il valore della funzione euristica su this
 	 */

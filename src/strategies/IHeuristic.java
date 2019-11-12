@@ -7,7 +7,7 @@ import representations.RepresentationNode;
  * @param R la rappresentazione dello spazio degli stati
  * @author Vincenzo Parrilla
  */
-public interface IStrategy {
+public interface IHeuristic {
 	
 	/**Assegna un valore h(n) al nodo ricevuto in input.
 	 * @param node la configurazione da valutare
@@ -20,5 +20,5 @@ public interface IStrategy {
 	 * @param configuration la configurazione attuale
 	 * @return la prossima strategia (può coincidere con this)
 	 */
-	IStrategy valuateStrategy(RepresentationNode configuration);
+	IHeuristic valuateStrategy(RepresentationNode configuration);
 }

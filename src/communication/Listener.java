@@ -1,7 +1,6 @@
 package communication;
 
 import java.util.Timer;
-
 import player.Player;
 
 /**Resta tutto il tempo in ascolto di messaggi in arrivo dal server.
@@ -45,7 +44,7 @@ public class Listener extends Thread {
 			case 13: //OPPONENT_MOVE
 				/*Notifica il giocatore che può aggiornare la configurazione corrente.*/
 				pl.update(msg[1]); 
-				StaticSemaphore.release();
+				pl.interrupt();
 				break;
 			case 7: //TIMEOUT, VICTORY, MESSAGE
 				if(msg[0].charAt(0) == Protocol.tout)
@@ -68,4 +67,5 @@ public class Listener extends Thread {
 	 * @param msg il messaggio da stampare
 	 */
 	public void printMsg(String msg) { System.out.println(msg);	}
+	
 }

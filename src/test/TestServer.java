@@ -36,8 +36,16 @@ public class TestServer {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		TestServer ts = new TestServer();
 		ts.send("WELCOME Black");
+		for(int i=1; i<4; i++) {
+			System.out.println(i);
+			Thread.sleep(1000);
+		}
 		ts.send("OPPONENT_MOVE F5,N,2");
 		ts.send("YOUR_TURN");
+		long t = System.currentTimeMillis();
+		System.out.println(ts.recv());
+		t = System.currentTimeMillis() - t;
+		System.out.println("t: "+t);
 		/*
 		int[] a = new int[12];
 		for(int i=0; i<12; i++)

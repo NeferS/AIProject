@@ -2,7 +2,7 @@ package player;
 
 import communication.Listener;
 import communication.Protocol;
-import communication.StaticSemaphore;
+import main.General;
 import representations.RepresentationNode;
 import strategies.SearchAlgorithm;
 
@@ -11,7 +11,7 @@ public class Player extends Thread {
 	protected Protocol protocol;
 	protected SearchAlgorithm algorithm;
 	protected RepresentationNode configuration;
-	protected boolean isWhite;
+	protected boolean isWhite, sent;
 	
 	public Player(Protocol p, SearchAlgorithm a) {
 		if(p == null || a == null) throw new IllegalArgumentException();
@@ -24,19 +24,13 @@ public class Player extends Thread {
 		init();
 		warmup();
 		try { play(); } 
-		catch (InterruptedException e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
+		catch (InterruptedException e) { e.printStackTrace(); System.exit(-1); }
 	}
 	
 	/**Aggiorna la rappresentazione del mondo dopo una mossa.
 	 * @param move la mossa eseguita
 	 */
-	public void update(String move) {
-		if(move != null)
-			configuration = configuration.move(move);
-	}
+	public void update(String move) { configuration = General.getGameEngine().result(configuration, move); }
 	
 	/**Esegue operazioni di inizializzazione: riceve il messaggio di welcome ed avvia un Listener.*/
 	protected void init() {
@@ -45,10 +39,11 @@ public class Player extends Thread {
 			System.out.println("Errore: messaggio dal server malformato.");
 			System.exit(0);
 		}//programma terminato
-		configuration = null;//costruisci il primo RepresentationNode passando il colore ricevuto (welcome[1])
+		configuration = null;//costruisci il primo RepresentationNode passando il colore ricevuto (welcome[1]) //TODO
 		isWhite = welcome[1].charAt(0) != Protocol.black;
 		Listener l = new Listener(protocol, this);
 		l.start();
+		//algorithm.initStrategy(); //TODO
 	}
 	
 	//TODO
@@ -58,14 +53,25 @@ public class Player extends Thread {
 	 * @throws InterruptedException if this thread is interrupted*/
 	protected void play() throws InterruptedException {
 		if(!isWhite)
-			StaticSemaphore.acquire();
+			algorithm.preCompute(configuration, this);
 		while(true) {
 			String bestMove = algorithm.explore(configuration, this);
 			protocol.send(bestMove);
+			sent = true;
 			Thread.interrupted();
-			configuration = configuration.move(bestMove);
-			algorithm.updateDataStructure(new Object[] { }); //punto debole, da migliorare
-			StaticSemaphore.acquire();
+			update(bestMove);
+			algorithm.preCompute(configuration, this);
 		}
+	}
+	
+	/**Indica se il giocatore ha inviato la risposta al server.
+	 * @return true se il giocatore ha inviato la sua risposta
+	 */
+	public boolean didSend() {
+		if(sent) {
+			sent = false;
+			return true;
+		}
+		return false;
 	}
 }
