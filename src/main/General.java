@@ -2,9 +2,11 @@ package main;
 
 import representations.GameEngine;
 
+/**Classe di utilità in cui 'buttare' i riferimenti a tutti gli oggetti istanziati solo una volta (o alle variabili)
+ * e che sono utilizzati da più di una classe.
+ * @author Vincenzo Parrilla
+ */
 public final class General {
-	private static GameEngine gameEngine;
-	
-	public static void setGameEngine(GameEngine ge) { gameEngine = ge; }
-	public static GameEngine getGameEngine() { return gameEngine; }
+	public static GameEngine gameEngine;
+	public static boolean isWhite;
 }

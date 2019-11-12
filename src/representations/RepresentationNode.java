@@ -8,7 +8,11 @@ public interface RepresentationNode {
 	/**Restituisce la mossa che ha generato questa configurazione.
 	 * @return la mossa che ha generato questa configurazione
 	 */
-	<T> T lastMoveInPath();
+	String getMove();
+	/**Salva la mossa che ha generato questa configurazione.
+	 * @param m la mossa che ha generato questa configurazione
+	 */
+	void setMove(String m);
 	/**Salva il valore euristico calcolato per la configurazione this.
 	 * @param h il valore della funzione euristica su this
 	 */

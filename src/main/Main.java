@@ -16,6 +16,10 @@ public class Main {
 		pl.start();
 	}
 	
+	/**Verifica che il programma è stato lanciato correttamente.
+	 * @param args gli argomenti del programma
+	 * @return true se gli argomenti sono corretti, false altrimenti
+	 */
 	protected static boolean badUsage(String[] args) {
 		return (args.length < 4) || (args[0].length() != 2 || args[0].charAt(0) != '-' || args[2].length() != 2 || args[2].charAt(0) != '-') ||
 			   (args[0].charAt(1) != 'h' && args[0].charAt(1) != 'p') || (args[2].charAt(1) != 'h' &&  args[2].charAt(1) != 'p') || 

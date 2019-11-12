@@ -39,18 +39,20 @@ public class Listener extends Thread {
 				printMsg(msg[0]);
 				break;
 			case 10: case 12://VALID_MOVE, ILLEGAL_MOVE
+				Semaphores.sendACK();
 				printMsg(msg[0]);
 				break;
 			case 13: //OPPONENT_MOVE
 				/*Notifica il giocatore che può aggiornare la configurazione corrente.*/
-				pl.update(msg[1]); 
+				//pl.update(msg[1]); //TODO
 				pl.interrupt();
+				printMsg(msg[0]);
 				break;
 			case 7: //TIMEOUT, VICTORY, MESSAGE
 				if(msg[0].charAt(0) == Protocol.tout)
 					printMsg(msg[0]);
 				else if(msg[0].charAt(0) == Protocol.msg)
-					printMsg(msg[0]+": "+msg[1]);
+					printMsg(msg);
 				else {
 					printMsg(msg[0]);
 					System.exit(0);
@@ -67,5 +69,15 @@ public class Listener extends Thread {
 	 * @param msg il messaggio da stampare
 	 */
 	public void printMsg(String msg) { System.out.println(msg);	}
+	
+	/**Stampa un messaggio che era stato precedentemente splittato.
+	 * @param msg il messaggio da stampare
+	 */
+	public void printMsg(String[] msg) {
+		String s = "";
+		for(String tk: msg)
+			s += tk+" ";
+		System.out.println(s);
+	}
 	
 }

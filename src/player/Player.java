@@ -2,6 +2,7 @@ package player;
 
 import communication.Listener;
 import communication.Protocol;
+import communication.Semaphores;
 import main.General;
 import representations.RepresentationNode;
 import strategies.SearchAlgorithm;
@@ -11,7 +12,8 @@ public class Player extends Thread {
 	protected Protocol protocol;
 	protected SearchAlgorithm algorithm;
 	protected RepresentationNode configuration;
-	protected boolean isWhite, sent;
+	protected boolean sent;
+	protected final String MOVE = "MOVE ";
 	
 	public Player(Protocol p, SearchAlgorithm a) {
 		if(p == null || a == null) throw new IllegalArgumentException();
@@ -30,7 +32,7 @@ public class Player extends Thread {
 	/**Aggiorna la rappresentazione del mondo dopo una mossa.
 	 * @param move la mossa eseguita
 	 */
-	public void update(String move) { configuration = General.getGameEngine().result(configuration, move); }
+	public void update(String move) { configuration = General.gameEngine.result(configuration, move); }
 	
 	/**Esegue operazioni di inizializzazione: riceve il messaggio di welcome ed avvia un Listener.*/
 	protected void init() {
@@ -40,27 +42,32 @@ public class Player extends Thread {
 			System.exit(0);
 		}//programma terminato
 		configuration = null;//costruisci il primo RepresentationNode passando il colore ricevuto (welcome[1]) //TODO
-		isWhite = welcome[1].charAt(0) != Protocol.black;
+		General.isWhite = welcome[1].charAt(0) != Protocol.black;
+		//algorithm.initStrategy(); //TODO
+		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
+		protocol.recv(); //MESSAGE All players connected
 		Listener l = new Listener(protocol, this);
 		l.start();
-		//algorithm.initStrategy(); //TODO
 	}
 	
-	//TODO
-	protected void warmup() {  }
+	protected void warmup() {  }//TODO
 	
 	/**Gioca la partita.
 	 * @throws InterruptedException if this thread is interrupted*/
 	protected void play() throws InterruptedException {
-		if(!isWhite)
+		if(!General.isWhite) {
 			algorithm.preCompute(configuration, this);
-		while(true) {
-			String bestMove = algorithm.explore(configuration, this);
-			protocol.send(bestMove);
-			sent = true;
 			Thread.interrupted();
-			update(bestMove);
+		}
+		while(true) {
+			String bestMove = (General.isWhite)? "H5,N,4":"A4,S,4";//algorithm.explore(configuration, this);
+			protocol.send(MOVE+bestMove);
+			sent = true;
+			Semaphores.waitACK();
+			Thread.interrupted();
+			//update(bestMove); TODO
 			algorithm.preCompute(configuration, this);
+			Thread.interrupted();
 		}
 	}
 	
