@@ -32,5 +32,5 @@ public abstract class SearchAlgorithm{
 	 * @param configuration configurazione di partenza
 	 * @param caller il thread chiamante
 	 */
-	public abstract void preCompute(RepresentationNode configuration, Thread caller);
+	public void preCompute(RepresentationNode configuration, Thread caller) { while(!caller.isInterrupted()); }
 }

@@ -1,13 +1,19 @@
 package strategies;
 
 import representations.RepresentationNode;
-import main.General;
+import util.General;
 
+/**Implementa l'algoritmo di espansione dell'albero degli stati MinMax con AlphaBeta-Pruning, limitato ad un livello
+ * fissato L.
+ * @author Vincenzo Parrilla
+ */
 public class MinMaxAlphaBeta extends SearchAlgorithm {
 
-	private static final double infinite = Double.MAX_VALUE, min_infinite = -1;
-	private static final byte L = 5; //deve essere dispari per riprendere sempre 
+	protected final double infinite = Double.MAX_VALUE, min_infinite = -1;
+	protected final byte L = 5;
 	
+	/*Esegue il primo passo della funzione valoreMax, ma si applica solo al nodo radice in quanto esegue
+	 *operazioni specifiche (come, ad esempio, tenere traccia della migliore mossa fino ad un generico istante t.*/
 	@Override
 	public String explore(RepresentationNode node, Thread caller) {
 		RepresentationNode[] actions = General.gameEngine.validActions(node); //validActions deve essere ordinato per pruning efficiente
@@ -28,6 +34,15 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		return bestMove;
 	}
 	
+	/**Restituisce il valore massimo fra le etichette dei nodi figli del nodo passato come parametro, assegnando quindi
+	 * questa etichetta al nodo stesso.
+	 * @param caller il thread che ha invocato il metodo
+	 * @param depth la profondità del nodo parametro
+	 * @param node il nodo a cui assegnare l'etichetta
+	 * @param alpha lower bound per il pruning
+	 * @param beta upper bound per il pruning
+	 * @return l'etichetta del nodo passato come parametro, ricavata come massimo fra le etichette dei nodi figli
+	 */
 	protected double valoreMax(Thread caller, byte depth, RepresentationNode node, double alpha, double beta) {
 		if(depth == L) return strategy.h(node);
 		double v = min_infinite;
@@ -42,6 +57,15 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		return v;
 	}
 	
+	/**Restituisce il valore minimo fra le etichette dei nodi figli del nodo passato come parametro, assegnando quindi
+	 * questa etichetta al nodo stesso.
+	 * @param caller il thread che ha invocato il metodo
+	 * @param depth la profondità del nodo parametro
+	 * @param node il nodo a cui assegnare l'etichetta
+	 * @param alpha lower bound per il pruning
+	 * @param beta upper bound per il pruning
+	 * @return l'etichetta del nodo passato come parametro, ricavata come minimo fra le etichette dei nodi figli
+	 */
 	protected double valoreMin(Thread caller, byte depth, RepresentationNode node, double alpha, double beta) {
 		if(depth == L) return strategy.h(node);
 		double v = infinite;
@@ -55,10 +79,4 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		}
 		return v;
 	}
-
-	@Override
-	public void preCompute(RepresentationNode configuration, Thread caller) {
-		while(!caller.isInterrupted());
-	}
-	
 }

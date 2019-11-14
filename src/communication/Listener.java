@@ -2,6 +2,7 @@ package communication;
 
 import java.util.Timer;
 import player.Player;
+import util.Semaphores;
 
 /**Resta tutto il tempo in ascolto di messaggi in arrivo dal server.
  * @author Vincenzo Parrilla

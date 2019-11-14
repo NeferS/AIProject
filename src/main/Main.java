@@ -10,7 +10,7 @@ public class Main {
 			System.out.println("Arguments:\n\t-h <host-name>\n\t-p <port-number>");
 			System.exit(0);
 		}
-		//General.setGameEngine();
+		//General.setGameEngine(); TODO
 		Protocol p = (args[0].charAt(1) == 'h')? new Protocol(args[1], Integer.parseInt(args[3])) : new Protocol(args[3], Integer.parseInt(args[1]));
 		Player pl = new Player(p, new MinMaxAlphaBeta());
 		pl.start();

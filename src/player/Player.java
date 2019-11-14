@@ -2,8 +2,8 @@ package player;
 
 import communication.Listener;
 import communication.Protocol;
-import communication.Semaphores;
-import main.General;
+import util.Semaphores;
+import util.General;
 import representations.RepresentationNode;
 import strategies.SearchAlgorithm;
 

@@ -1,4 +1,4 @@
-package communication;
+package util;
 
 import java.util.concurrent.Semaphore;
 
