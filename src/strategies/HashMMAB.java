@@ -4,6 +4,7 @@ import util.General;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 
 import representations.RepresentationNode;
@@ -20,17 +21,17 @@ public class HashMMAB extends MinMaxAlphaBeta {
 	
 	@Override
 	public String explore(RepresentationNode node, Thread caller) {
-		RepresentationNode[] actions;
+		List<RepresentationNode> actions;
 		
 		/*Se ho precedentemente salvato il figlio della mossa migliore dell'iterazione precedente (quella
 		 *effettivamente inviata al server) che corrisponde alla mossa effettuata dall'avversario, ho già 
 		 *un ordine di preferenza sui nodi figli di tale nodo.*/
 		if(best != null && best.get(node) != null)
-			actions = best.get(node).toArray(new RepresentationNode[0]);
+			actions = best.get(node);
 		/*Altrimenti mi affido al gameEngine.*/
 		else
 			actions = General.gameEngine.validActions(node); //validActions deve essere ordinato per pruning efficiente
-		String bestMove = actions[0].getMove(); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
+		String bestMove = actions.get(0).getMove(); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
 		if(bestMove.split(",")[2].charAt(0) == '0') return bestMove;
 		
 		double v = min_infinite;
@@ -54,7 +55,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 	protected double valoreMax(Thread caller, byte depth, RepresentationNode node, double alpha, double beta) {
 		if(depth == L) return strategy.h(node);
 		double v = min_infinite;
-		RepresentationNode[] actions = General.gameEngine.validActions(node);
+		List<RepresentationNode> actions = General.gameEngine.validActions(node);
 		
 		/*Ogni chiamata di questo metodo al livello 2 viene effettuata su uno dei nodi "radice" dell'iterazione
 		 *successiva.*/

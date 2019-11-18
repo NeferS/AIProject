@@ -1,5 +1,7 @@
 package representations;
 
+import java.util.List;
+
 public interface GameEngine {
 	
 	/**Crea un nuovo nodo a partire dalla configurazione this.
@@ -11,6 +13,5 @@ public interface GameEngine {
 	 * @param configuration la configurazione di partenza
 	 * @return un array di mosse valide
 	 */
-	RepresentationNode[] validActions(RepresentationNode configuration);
-	
+	List<RepresentationNode> validActions(RepresentationNode configuration);
 }

@@ -1,5 +1,7 @@
 package strategies;
 
+import java.util.List;
+
 import representations.RepresentationNode;
 import util.General;
 
@@ -16,8 +18,8 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	 *operazioni specifiche (come, ad esempio, tenere traccia della migliore mossa fino ad un generico istante t.*/
 	@Override
 	public String explore(RepresentationNode node, Thread caller) {
-		RepresentationNode[] actions = General.gameEngine.validActions(node); //validActions deve essere ordinato per pruning efficiente
-		String bestMove = actions[0].getMove(); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
+		List<RepresentationNode> actions = General.gameEngine.validActions(node); //validActions deve essere ordinato per pruning efficiente
+		String bestMove = actions.get(0).getMove(); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
 		if(bestMove.split(",")[2].charAt(0) == '0') return bestMove;
 		
 		double v = min_infinite;
