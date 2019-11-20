@@ -1,5 +1,6 @@
 package representations;
 
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -1539,6 +1540,8 @@ public class BasicGameEngine implements GameEngine {
 		//eventuali o + 1 pedine dello stesso colore sulla casella di destinazione
 		int o = -1;
 		
+
+		
 		//Sicuramente non ci sono più playerStackSize + 1 pedine su srcSquare, per cui
 		//aggiorno la bitboard che rappresenta le posizioni degli stack
 		//di n + 1 pedine settando a 0 il bit srcSquare. 
@@ -1547,7 +1550,10 @@ public class BasicGameEngine implements GameEngine {
 		//Se su srcSquare rimangono k + 1 pedine dopo lo spostamento,
 		//aggiorno la bitboard che rappresenta le posizioni degli
 		//stack di k pedine settando a 1 il bit srcSquare.
-		if(k >= 0) newPlayerPieces[k].flip(srcSquare);
+		if(k >= 0) {
+			newPlayerPieces[k] = (BitSet) newPlayerPieces[k].clone();
+			newPlayerPieces[k].flip(srcSquare);
+		}
 		
 		
 		//Se la casella di destinazione (dstSquare) contiene già pedine 
@@ -1564,7 +1570,7 @@ public class BasicGameEngine implements GameEngine {
 		//Se la casella di destinazione non contiene pedine, aggiorno
 		//la bitboard che rappresenta le posizioni degli stack con m + 1
 		//pedine settando a 1 il bit dstSquare
-		if(o == -1) {
+		if(o < 0) {
 			newPlayerPieces[m] = (BitSet) newPlayerPieces[m].clone();
 			newPlayerPieces[m].flip(dstSquare);
 		}
@@ -1572,6 +1578,13 @@ public class BasicGameEngine implements GameEngine {
 		//la bitboard che rappresenta le posizioni degli stack con 
 		//o + distance + 1 pedine settando a 1 il bit dstSquare
 		else {
+			if(o + distance > 11) {
+				System.out.println(srcSquare);
+				System.out.println(dstSquare);
+				System.out.println(direction);
+				System.out.println(distance);
+				System.out.println("o: "+o);
+			}
 			newPlayerPieces[o + distance] = (BitSet) newPlayerPieces[o + distance].clone();
 			newPlayerPieces[o + distance].flip(dstSquare);
 		}
@@ -1898,10 +1911,8 @@ public class BasicGameEngine implements GameEngine {
 	@Override
 	public RepresentationNode enemyMakeMove(String encodedMove) {
 		
-		StringTokenizer st = new StringTokenizer(encodedMove, " ");
-		st.nextToken();
-		encodedMove = st.nextToken();
-		st = new StringTokenizer(encodedMove, ",");
+
+		StringTokenizer st = new StringTokenizer(encodedMove, ",");
 		
 		String encodedSrcSquare = st.nextToken();
 		int srcSquare = -1;
@@ -1909,7 +1920,7 @@ public class BasicGameEngine implements GameEngine {
 		int distance = Integer.valueOf(st.nextToken());
 		
 		for(int i = 0; i < 32; i++) {
-			if(this.encodedSquares[i].contentEquals(encodedSrcSquare)) {
+			if(this.encodedSquares[i].equals(encodedSrcSquare)) {
 				srcSquare = i;
 				break;
 			}
@@ -1924,6 +1935,7 @@ public class BasicGameEngine implements GameEngine {
 				break;
 			}
 		}
+		
 		BitSet[] playerPieces = this.currentBoardState.getPlayerPieces(this.playerColor);
 		
 		if(distance >= this.exitMovesDistances[this.enemyColor.ordinal()][srcSquare] && 
@@ -1933,6 +1945,7 @@ public class BasicGameEngine implements GameEngine {
 																	enemyStackSize, 
 																	srcSquare, 
 																	distance);
+					//TODO devo generare tutte le mosse di uscita possibili
 		}
 		
 		else {
@@ -1940,7 +1953,7 @@ public class BasicGameEngine implements GameEngine {
 			int dstSquare = -1;
 			LinkedList<Integer> squares = new LinkedList<Integer>();
 			for(int i = 0; i < 32; i++) {
-				if(this.distanceMatrix[srcSquare][i] == distance) squares.add(this.distanceMatrix[srcSquare][i]);
+				if(this.distanceMatrix[srcSquare][i] == distance) squares.add(i);
 			}
 			
 			while(!squares.isEmpty()) {

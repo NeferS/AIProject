@@ -4,7 +4,6 @@ import communication.Listener;
 import communication.Protocol;
 import util.Semaphores;
 import util.General;
-import representations.BitboardRepresentationNode;
 import representations.Color;
 import representations.RepresentationNode;
 import strategies.IdioticHeuristic;
@@ -14,7 +13,6 @@ public class Player extends Thread {
 	
 	protected Protocol protocol;
 	protected SearchAlgorithm algorithm;
-	protected RepresentationNode configuration;
 	protected boolean sent;
 	protected final String MOVE = "MOVE ";
 	
@@ -35,7 +33,7 @@ public class Player extends Thread {
 	/**Aggiorna la rappresentazione del mondo dopo una mossa.
 	 * @param move la mossa eseguita
 	 */
-	public void update(String move) { configuration = General.gameEngine.enemyMakeMove(move); }
+	public void update(String move) { General.gameEngine.enemyMakeMove(move); }
 	
 	/**Esegue operazioni di inizializzazione: riceve il messaggio di welcome ed avvia un Listener.*/
 	protected void init() {
@@ -45,7 +43,6 @@ public class Player extends Thread {
 			System.exit(0);
 		}//programma terminato
 		General.isWhite = welcome[1].charAt(0) != Protocol.black;
-		configuration = new BitboardRepresentationNode();
 		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
 		algorithm.initStrategy(new IdioticHeuristic());
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
@@ -60,17 +57,17 @@ public class Player extends Thread {
 	 * @throws InterruptedException if this thread is interrupted*/
 	protected void play() throws InterruptedException {
 		if(!General.isWhite) {
-			algorithm.preCompute(configuration, this);
+			algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);
 			Thread.interrupted();
 		}
 		while(true) {
-			configuration = algorithm.explore(configuration, this);
+			RepresentationNode configuration = algorithm.explore(General.gameEngine.getCurrentBoardState(), this);
 			protocol.send(MOVE+configuration.getMove());
 			sent = true;
 			Semaphores.waitACK();
 			Thread.interrupted();
 			General.gameEngine.playerMakeMove(configuration);
-			algorithm.preCompute(configuration, this);
+			algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);
 			Thread.interrupted();
 		}
 	}
