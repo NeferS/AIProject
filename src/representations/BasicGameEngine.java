@@ -1869,6 +1869,22 @@ public class BasicGameEngine implements GameEngine {
 	public void start(Color color) {
 		this.playerColor = color;
 		this.enemyColor = Color.otherColor(color);
+		this.currentBoardState = new BitboardRepresentationNode();
+		
+		BitSet[] whitePieces = new BitSet[12];
+		BitSet[] blackPieces = new BitSet[12];
+		
+		for(int i = 0; i < 11; i++) {
+			whitePieces[i] = BitSet.valueOf(new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00});
+			blackPieces[i] = BitSet.valueOf(new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00});
+		}
+		
+		whitePieces[11] = BitSet.valueOf(new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x40});
+		blackPieces[11] = BitSet.valueOf(new byte[] { (byte) 0x02, (byte) 0x00, (byte) 0x00, (byte) 0x00});
+		
+		this.currentBoardState.setPlayerPieces(Color.WHITE, whitePieces);
+		this.currentBoardState.setPlayerPieces(Color.BLACK, blackPieces);
+		
 	}
 
 	@Override

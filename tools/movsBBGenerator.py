@@ -645,6 +645,49 @@ def printEncodedSquares(encodedSquares):
 		
 	return output
 
+def printInitialBoardState(bitboard):
+	
+	output = ""
+	output += "BitSet.valueOf(new byte[] { " + str(bitboard[24:32]) + ", " + str(bitboard[16:24]) + ", " + str(bitboard[8:16]) + ", " + str(bitboard[0:8]) + ")};\n"  
+
+	
+	return output
+
+
+def calculateWhiteInitialBoardState():
+	
+	masterBitboard = []
+	for i in range(31, -1, -1):
+		masterBitboard.append(i)
+	
+	masterBitboard = tuple(masterBitboard)
+	masterBitboard = bitset("bitboard", masterBitboard)
+	
+	bitmask = masterBitboard(tuple([30])).bits()
+	bitboard = [BitArray('0b'+bitmask[24:32]),
+				BitArray('0b'+bitmask[16:24]),
+				BitArray('0b'+bitmask[8:16]),
+				BitArray('0b'+bitmask[0:8])]
+
+	return bitboard
+
+
+def calculateBlackInitialBoardState():
+	
+	masterBitboard = []
+	for i in range(31, -1, -1):
+		masterBitboard.append(i)
+	
+	masterBitboard = tuple(masterBitboard)
+	masterBitboard = bitset("bitboard", masterBitboard)
+	
+	bitmask = masterBitboard(tuple([1])).bits()
+	bitboard = [BitArray('0b'+bitmask[24:32]),
+				BitArray('0b'+bitmask[16:24]),
+				BitArray('0b'+bitmask[8:16]),
+				BitArray('0b'+bitmask[0:8])]
+
+	return bitboard
 
 
 #Main
@@ -659,7 +702,10 @@ classifiedExitMoves = extractExitMoves(rawExitMoves)
 
 encodedSquares = calculateEncodedSquares(mainMatrix)
 
-print printEncodedSquares(encodedSquares)
+print calculateBlackInitialBoardState()
+
+#print printInitialBoardState(calculateInitialBoardState())
+#print printEncodedSquares(encodedSquares)
 #print printExitMovesDirections(classifiedExitMoves)
 #print printExitMovesDistances(classifiedExitMoves)
 
