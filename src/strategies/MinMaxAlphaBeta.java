@@ -17,10 +17,10 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	/*Esegue il primo passo della funzione valoreMax, ma si applica solo al nodo radice in quanto esegue
 	 *operazioni specifiche (come, ad esempio, tenere traccia della migliore mossa fino ad un generico istante t.*/
 	@Override
-	public String explore(RepresentationNode node, Thread caller) {
+	public RepresentationNode explore(RepresentationNode node, Thread caller) {
 		List<RepresentationNode> actions = General.gameEngine.validActions(node); //validActions deve essere ordinato per pruning efficiente
-		String bestMove = actions.get(0).getMove(); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
-		if(bestMove.split(",")[2].charAt(0) == '0') return bestMove;
+		RepresentationNode bestMove = actions.get(0); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
+		if(bestMove.getMove().split(",")[2].charAt(0) == '0') return bestMove;
 		
 		double v = min_infinite;
 		double alpha = v;
@@ -28,7 +28,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 			double val = valoreMin(caller, (byte)1, child, alpha, infinite);
 			if(val > v) {
 				v = val;
-				bestMove = child.getMove();
+				bestMove = child;
 			}
 			if(caller.isInterrupted()) break; //TODO
 			alpha = (alpha > val)? alpha : val;

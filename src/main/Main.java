@@ -1,13 +1,10 @@
 package main;
 
-
-import java.nio.ByteBuffer;
-import java.util.BitSet;
-
 import communication.Protocol;
 import player.Player;
 import representations.BasicGameEngine;
-import strategies.MinMaxAlphaBeta;
+import strategies.HashMMAB;
+import util.General;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
@@ -16,17 +13,13 @@ public class Main {
 			System.out.println("Arguments:\n\t-h <host-name>\n\t-p <port-number>");
 			System.exit(0);
 		}
-		//General.setGameEngine(); TODO
+		General.gameEngine = new BasicGameEngine();
 		Protocol p = (args[0].charAt(1) == 'h')? new Protocol(args[1], Integer.parseInt(args[3])) : new Protocol(args[3], Integer.parseInt(args[1]));
-		Player pl = new Player(p, new MinMaxAlphaBeta());
+		Player pl = new Player(p, new HashMMAB());
 		pl.start();
-	
-		
-	
-		
 	}
 	
-	/**Verifica che il programma � stato lanciato correttamente.
+	/**Verifica che il programma sia stato lanciato correttamente.
 	 * @param args gli argomenti del programma
 	 * @return true se gli argomenti sono corretti, false altrimenti
 	 */

@@ -26,7 +26,7 @@ public abstract class SearchAlgorithm{
 	 * @param caller il thread chiamante
 	 * @return la migliore mossa possibile
 	 */
-	public abstract String explore(RepresentationNode root, Thread caller);
+	public abstract RepresentationNode explore(RepresentationNode root, Thread caller);
 	
 	/**Esplora lo spazio di ricerca mentre l'avversario sta rispondendo.
 	 * @param configuration configurazione di partenza

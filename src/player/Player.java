@@ -4,7 +4,10 @@ import communication.Listener;
 import communication.Protocol;
 import util.Semaphores;
 import util.General;
+import representations.BitboardRepresentationNode;
+import representations.Color;
 import representations.RepresentationNode;
+import strategies.IdioticHeuristic;
 import strategies.SearchAlgorithm;
 
 public class Player extends Thread {
@@ -32,7 +35,7 @@ public class Player extends Thread {
 	/**Aggiorna la rappresentazione del mondo dopo una mossa.
 	 * @param move la mossa eseguita
 	 */
-	public void update(String move) { configuration = General.gameEngine.result(configuration, move); }
+	public void update(String move) { configuration = General.gameEngine.enemyMakeMove(move); }
 	
 	/**Esegue operazioni di inizializzazione: riceve il messaggio di welcome ed avvia un Listener.*/
 	protected void init() {
@@ -41,9 +44,10 @@ public class Player extends Thread {
 			System.out.println("Errore: messaggio dal server malformato.");
 			System.exit(0);
 		}//programma terminato
-		configuration = null;//costruisci il primo RepresentationNode passando il colore ricevuto (welcome[1]) //TODO
 		General.isWhite = welcome[1].charAt(0) != Protocol.black;
-		//algorithm.initStrategy(); //TODO
+		configuration = new BitboardRepresentationNode();
+		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
+		algorithm.initStrategy(new IdioticHeuristic());
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected
 		Listener l = new Listener(protocol, this);
@@ -60,12 +64,12 @@ public class Player extends Thread {
 			Thread.interrupted();
 		}
 		while(true) {
-			String bestMove = (General.isWhite)? "H5,N,4":"A4,S,4";//algorithm.explore(configuration, this);
-			protocol.send(MOVE+bestMove);
+			configuration = algorithm.explore(configuration, this);
+			protocol.send(MOVE+configuration.getMove());
 			sent = true;
 			Semaphores.waitACK();
 			Thread.interrupted();
-			//update(bestMove); TODO
+			General.gameEngine.playerMakeMove(configuration);
 			algorithm.preCompute(configuration, this);
 			Thread.interrupted();
 		}

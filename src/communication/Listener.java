@@ -45,7 +45,7 @@ public class Listener extends Thread {
 				break;
 			case 13: //OPPONENT_MOVE
 				/*Notifica il giocatore che può aggiornare la configurazione corrente.*/
-				//pl.update(msg[1]); //TODO
+				pl.update(msg[1]);
 				pl.interrupt();
 				printMsg(msg[0]);
 				break;

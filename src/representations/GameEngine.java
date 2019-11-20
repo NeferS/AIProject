@@ -11,11 +11,11 @@ public interface GameEngine {
 	 */
 	List<RepresentationNode> validActions(RepresentationNode configuration);
 
-	public void start(Color color);
+	void start(Color color);
 	
-	public RepresentationNode getCurrentBoardState();
+	RepresentationNode getCurrentBoardState();
 	
-	public void playerMakeMove(RepresentationNode boardState);
+	void playerMakeMove(RepresentationNode boardState);
 	
-	public RepresentationNode enemyMakeMove(String encodedMove);
+	RepresentationNode enemyMakeMove(String encodedMove);
 }
