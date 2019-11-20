@@ -1,11 +1,17 @@
 package main;
 
+
+import java.nio.ByteBuffer;
+import java.util.BitSet;
+
 import communication.Protocol;
 import player.Player;
+import representations.BasicGameEngine;
 import strategies.MinMaxAlphaBeta;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
+		
 		if(badUsage(args)) {
 			System.out.println("Arguments:\n\t-h <host-name>\n\t-p <port-number>");
 			System.exit(0);
@@ -14,9 +20,13 @@ public class Main {
 		Protocol p = (args[0].charAt(1) == 'h')? new Protocol(args[1], Integer.parseInt(args[3])) : new Protocol(args[3], Integer.parseInt(args[1]));
 		Player pl = new Player(p, new MinMaxAlphaBeta());
 		pl.start();
+	
+		
+	
+		
 	}
 	
-	/**Verifica che il programma è stato lanciato correttamente.
+	/**Verifica che il programma ï¿½ stato lanciato correttamente.
 	 * @param args gli argomenti del programma
 	 * @return true se gli argomenti sono corretti, false altrimenti
 	 */

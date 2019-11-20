@@ -9,7 +9,10 @@ public interface GameEngine {
 	 * @param configuration la configurazione di partenza
 	 * @return un array di mosse valide
 	 */
+<<<<<<< HEAD
 	List<RepresentationNode> validActions(RepresentationNode configuration);
+=======
+	public List<RepresentationNode> validActions(RepresentationNode configuration);
 
 	public void start(Color color);
 	
@@ -18,4 +21,6 @@ public interface GameEngine {
 	public void playerMakeMove(RepresentationNode boardState);
 	
 	public RepresentationNode enemyMakeMove(String encodedMove);
+	
+>>>>>>> origin/vincent
 }
