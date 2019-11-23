@@ -47,6 +47,7 @@ public class Player extends Thread {
 		algorithm.initStrategy(new IdioticHeuristic());
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected
+		
 		Listener l = new Listener(protocol, this);
 		l.start();
 	}
@@ -58,11 +59,12 @@ public class Player extends Thread {
 	protected void play() throws InterruptedException {
 		
 		if(!General.isWhite) {
-			algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);
-			Thread.interrupted();
+			//algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);
+			//while(Thread.interrupted());
 		}
 		
 		while(true) {
+			Semaphores.waitACK();
 			RepresentationNode configuration = algorithm.explore(General.gameEngine.getCurrentBoardState(), this);
 			General.gameEngine.playerMakeMove(configuration);
 			protocol.send(MOVE+configuration.getMove());
@@ -70,15 +72,18 @@ public class Player extends Thread {
 			else System.out.println("Black : " + configuration.getMove());
 			sent = true;
 			Semaphores.waitACK();
-			Thread.interrupted();
-			algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);
-			Thread.interrupted();
+			
+			
+			//Thread.interrupted();
+			//algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);
+			//Thread.interrupted();
 		}
 	}
 	
 	/**Indica se il giocatore ha inviato la risposta al server.
 	 * @return true se il giocatore ha inviato la sua risposta
 	 */
+	/*
 	public boolean didSend() {
 		if(sent) {
 			sent = false;
@@ -86,4 +91,5 @@ public class Player extends Thread {
 		}
 		return false;
 	}
+	*/
 }

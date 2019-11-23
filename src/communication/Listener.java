@@ -13,7 +13,7 @@ public class Listener extends Thread {
 	protected Protocol pr;
 	/**Il giocatore automatico al quale comunicare le azioni del server.*/
 	protected Player pl;
-	/**Timer che viene attivato quando è il turno del giocatore.*/
+	/**Timer che viene attivato quando ï¿½ il turno del giocatore.*/
 	protected Timer timer;
 	/**Tempo concesso al giocatore automatico per rispondere,*/
 	private final long t = 800;
@@ -36,17 +36,19 @@ public class Listener extends Thread {
 			switch(msg[0].length()) {
 			case 9: //YOUR_TURN
 				/*Pianifica l'interruzione dell'elaborazione per fornire una risposta al server.*/
-				timer.schedule(new Interrupter(pl), t);
-				printMsg(msg[0]);
-				break;
-			case 10: case 12://VALID_MOVE, ILLEGAL_MOVE
+				//timer.schedule(new Interrupter(pl), t);
 				Semaphores.sendACK();
 				printMsg(msg[0]);
 				break;
+			case 10: case 12://VALID_MOVE, ILLEGAL_MOVE
+				//Semaphores.sendACK();
+				printMsg(msg[0]);
+				break;
 			case 13: //OPPONENT_MOVE
-				/*Notifica il giocatore che può aggiornare la configurazione corrente.*/
+				/*Notifica il giocatore che puï¿½ aggiornare la configurazione corrente.*/
 				pl.update(msg[1]);
-				pl.interrupt();
+				Semaphores.sendACK();
+				//pl.interrupt();
 				printMsg(msg[0]);
 				break;
 			case 7: //TIMEOUT, VICTORY, MESSAGE

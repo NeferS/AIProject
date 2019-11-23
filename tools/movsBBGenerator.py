@@ -508,7 +508,7 @@ def calculateExitMoves(matrix, x, y):
 	return exitMoves
 
 #Estrae le mosse di uscita delle pedine dalla scacchiera per il giocatore bianco e quello nero
-def extractExitMoves(exitMoves):
+def extractOptimisedExitMoves(exitMoves):
 	
 	whiteExitMoves = []
 	blackExitMoves = []
@@ -534,7 +534,7 @@ def extractExitMoves(exitMoves):
 	return { "whiteExitMoves": whiteExitMoves, "blackExitMoves": blackExitMoves }
 		
 
-def printExitMovesDirections(classifiedExitMoves):
+def printOptimisedExitMovesDirections(classifiedExitMoves):
 	
 	name = "exitMovesDirections"
 	output = "final String[][] " + name + " = {\n"
@@ -572,7 +572,7 @@ def printExitMovesDirections(classifiedExitMoves):
 	return output
 	
 	
-def printExitMovesDistances(classifiedExitMoves):
+def printOptimisedExitMovesDistances(classifiedExitMoves):
 	
 	name = "exitMovesDistances"
 	output = "final int[][] " + name + " = {\n"
@@ -698,16 +698,17 @@ classifiedMoves = extractMoves(rawMoves)
 classifiedMovesBitboards = calculateMovesBitboards(classifiedMoves)
 
 rawExitMoves = bruteforceExitMoves(mainMatrix)
-classifiedExitMoves = extractExitMoves(rawExitMoves)
+classifiedExitMoves = extractOptimisedExitMoves(rawExitMoves)
 
 encodedSquares = calculateEncodedSquares(mainMatrix)
 
-print calculateBlackInitialBoardState()
 
+
+#print calculateBlackInitialBoardState()
 #print printInitialBoardState(calculateInitialBoardState())
 #print printEncodedSquares(encodedSquares)
 #print printExitMovesDirections(classifiedExitMoves)
-#print printExitMovesDistances(classifiedExitMoves)
+print printOptimisedExitMovesDistances(classifiedExitMoves)
 
 '''
 javaFormattedBitboards = ""

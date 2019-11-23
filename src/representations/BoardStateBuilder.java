@@ -101,16 +101,16 @@ public class BoardStateBuilder {
 	}
 	
 	public static BitboardRepresentationNode calculateCaptureMove(BitSet[] playerPieces, 
-			BitSet[] enemyPieces, 
-			int playerStackSize,
-			int enemyStackSize,
-			int srcSquare, 
-			int dstSquare,
-			String encodedSrcSquare,
-			String direction,
-			int distance,
-			Color playerColor,
-			Color enemyColor) {
+																  BitSet[] enemyPieces, 
+																  int playerStackSize,
+																  int enemyStackSize,
+																  int srcSquare, 
+																  int dstSquare,
+																  String encodedSrcSquare,
+																  String direction,
+																  int distance,
+																  Color playerColor,
+																  Color enemyColor) {
 
 
 		BitboardRepresentationNode validMove = new BitboardRepresentationNode();
@@ -147,6 +147,7 @@ public class BoardStateBuilder {
 		
 		
 		//Disintegro le pedine catturate
+		newEnemyPieces[enemyStackSize] = (BitSet) newEnemyPieces[enemyStackSize].clone();
 		newEnemyPieces[enemyStackSize].flip(dstSquare);
 		
 		validMove.setPlayerPieces(playerColor, newPlayerPieces);

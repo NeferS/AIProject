@@ -16,5 +16,8 @@ public class Interrupter extends TimerTask {
 		this.p = p;
 	}
 	@Override
-	public void run() { if(!p.didSend()) p.interrupt(); }
+	public void run() { 
+		//if(!p.didSend()) p.interrupt(); 
+		}
 }
+
