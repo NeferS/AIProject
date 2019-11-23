@@ -56,17 +56,21 @@ public class Player extends Thread {
 	/**Gioca la partita.
 	 * @throws InterruptedException if this thread is interrupted*/
 	protected void play() throws InterruptedException {
+		
 		if(!General.isWhite) {
 			algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);
 			Thread.interrupted();
 		}
+		
 		while(true) {
 			RepresentationNode configuration = algorithm.explore(General.gameEngine.getCurrentBoardState(), this);
+			General.gameEngine.playerMakeMove(configuration);
 			protocol.send(MOVE+configuration.getMove());
+			if(General.isWhite) System.out.println("White : " + configuration.getMove());
+			else System.out.println("Black : " + configuration.getMove());
 			sent = true;
 			Semaphores.waitACK();
 			Thread.interrupted();
-			General.gameEngine.playerMakeMove(configuration);
 			algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);
 			Thread.interrupted();
 		}

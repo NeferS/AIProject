@@ -10,6 +10,7 @@ import util.General;
 public class Main {
 	public static void main(String[] args) throws Exception {
 		
+		
 		if(badUsage(args)) {
 			System.out.println("Arguments:\n\t-h <host-name>\n\t-p <port-number>");
 			System.exit(0);

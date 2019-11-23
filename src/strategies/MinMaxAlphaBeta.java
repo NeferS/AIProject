@@ -39,7 +39,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	/**Restituisce il valore massimo fra le etichette dei nodi figli del nodo passato come parametro, assegnando quindi
 	 * questa etichetta al nodo stesso.
 	 * @param caller il thread che ha invocato il metodo
-	 * @param depth la profondità del nodo parametro
+	 * @param depth la profonditï¿½ del nodo parametro
 	 * @param node il nodo a cui assegnare l'etichetta
 	 * @param alpha lower bound per il pruning
 	 * @param beta upper bound per il pruning
@@ -62,7 +62,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	/**Restituisce il valore minimo fra le etichette dei nodi figli del nodo passato come parametro, assegnando quindi
 	 * questa etichetta al nodo stesso.
 	 * @param caller il thread che ha invocato il metodo
-	 * @param depth la profondità del nodo parametro
+	 * @param depth la profonditï¿½ del nodo parametro
 	 * @param node il nodo a cui assegnare l'etichetta
 	 * @param alpha lower bound per il pruning
 	 * @param beta upper bound per il pruning

@@ -2,7 +2,7 @@ package util;
 
 import java.util.concurrent.Semaphore;
 
-/**Classe di utilità in cui inserire gli eventuali semafori utilizzati per la sincronizzazione
+/**Classe di utilitï¿½ in cui inserire gli eventuali semafori utilizzati per la sincronizzazione
  * dei thread (fra di loro o con il server).
  * @author Vincenzo Parrilla
  */
