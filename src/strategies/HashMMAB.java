@@ -32,7 +32,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 		else
 			actions = General.gameEngine.validActions(node); //validActions deve essere ordinato per pruning efficiente
 		RepresentationNode bestMove = actions.get(0); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
-		//if(bestMove.getMove().split(",")[2].charAt(0) == '0') return bestMove;
+		if(bestMove.getMove().split(",")[2].charAt(0) == '0') return bestMove;
 		
 		double v = min_infinite;
 		double alpha = v;
@@ -77,8 +77,10 @@ public class HashMMAB extends MinMaxAlphaBeta {
 			}
 			/*Se non ho fatto pruning su questo nodo, lo inserisco nella lista dei nodi sibling al suo giusto posto 
 			 *(in ordine decrescente di valore euristico).*/
-			child.setHeuristicValue(val);
-			insertSorted(current.get(node), child);
+			if(depth == 2) {
+				child.setHeuristicValue(val);
+				insertSorted(current.get(node), child);
+			}
 			
 			if(caller.isInterrupted()) return beta; //TODO
 			alpha = (alpha > v)? alpha : v;
