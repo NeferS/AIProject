@@ -456,6 +456,9 @@ def calculateExitMoves(matrix, x, y):
 	exitMoves.append(("S", minDistance))
 		
 
+	exitMoves.append(("W", -1))
+	exitMoves.append(("E", -1))
+
 	#Evaluate NW direction
 	minDistance = 0
 	i = x - 1
@@ -508,6 +511,7 @@ def calculateExitMoves(matrix, x, y):
 	return exitMoves
 
 #Estrae le mosse di uscita delle pedine dalla scacchiera per il giocatore bianco e quello nero
+'''
 def extractOptimisedExitMoves(exitMoves):
 	
 	whiteExitMoves = []
@@ -608,7 +612,70 @@ def printOptimisedExitMovesDistances(classifiedExitMoves):
 	
 	
 	return output
+'''
 
+#Estrae le mosse di uscita delle pedine dalla scacchiera per il giocatore bianco e quello nero
+def extractExitMoves(exitMoves):
+	
+	whiteExitMoves = []
+	blackExitMoves = []
+	count = 0
+	
+	
+	for i in range(32):
+		
+		whiteSrcExitMoves = copy.copy(exitMoves[i])
+		blackSrcExitMoves = copy.copy(exitMoves[i])
+		for j in range(8):
+			
+
+			
+			if whiteSrcExitMoves[j][0] == "W" or whiteSrcExitMoves[j][0] == "E" or  whiteSrcExitMoves[j][0] == "S" or whiteSrcExitMoves[j][0] == "SW" or whiteSrcExitMoves[j][0] == "SE":
+				whiteSrcExitMoves[j] = (whiteSrcExitMoves[j][0], -1)
+				
+			if blackSrcExitMoves[j][0] == "W" or blackSrcExitMoves[j][0] == "E" or  blackSrcExitMoves[j][0] == "N" or blackSrcExitMoves[j][0] == "NW" or blackSrcExitMoves[j][0] == "NE":
+				blackSrcExitMoves[j] = (blackSrcExitMoves[j][0], -1)	
+									
+			
+		whiteExitMoves.append(whiteSrcExitMoves)
+		blackExitMoves.append(blackSrcExitMoves)
+		
+	return { "whiteExitMoves": whiteExitMoves, "blackExitMoves": blackExitMoves }
+
+
+def printExitMoves(classifiedExitMoves):
+	
+	output = "final int[][][] exitMoves = {\n"	
+	output += "\t\t\t\t\t\t\t\t\t\t\t\t\t\t{\n" #Apro il bianco
+	
+	whiteExitMoves = classifiedExitMoves["whiteExitMoves"]
+	
+	for srcSquareMoves in whiteExitMoves:
+		
+		output += "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{" #Apro src squares
+		for exitMove in srcSquareMoves:
+			output += str(exitMove[1]) + ", "
+		
+		output += "},\n"
+		
+	output += "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n" 
+	
+	output += "\t\t\t\t\t\t\t\t\t\t\t\t\t\t{\n" #Apro il nero
+	
+	blackExitMoves = classifiedExitMoves["blackExitMoves"]
+	
+	for srcSquareMoves in blackExitMoves:
+		
+		output += "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{" #Apro src squares
+		for exitMove in srcSquareMoves:
+			output += str(exitMove[1]) + ", "
+		
+		output += "},\n"
+		
+	output += "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n" 
+	output += "\t\t\t\t\t\t\t\t}\n"
+	
+	return output
 
 def calculateEncodedSquares(matrix):
 		
@@ -698,17 +765,19 @@ classifiedMoves = extractMoves(rawMoves)
 classifiedMovesBitboards = calculateMovesBitboards(classifiedMoves)
 
 rawExitMoves = bruteforceExitMoves(mainMatrix)
-classifiedExitMoves = extractOptimisedExitMoves(rawExitMoves)
+classifiedExitMoves = extractExitMoves(rawExitMoves)
 
 encodedSquares = calculateEncodedSquares(mainMatrix)
 
-
+#print rawExitMoves
+#print classifiedExitMoves
+print printExitMoves(classifiedExitMoves)
 
 #print calculateBlackInitialBoardState()
 #print printInitialBoardState(calculateInitialBoardState())
 #print printEncodedSquares(encodedSquares)
 #print printExitMovesDirections(classifiedExitMoves)
-print printOptimisedExitMovesDistances(classifiedExitMoves)
+#print printOptimisedExitMovesDistances(classifiedExitMoves)
 
 '''
 javaFormattedBitboards = ""

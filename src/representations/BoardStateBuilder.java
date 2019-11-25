@@ -160,7 +160,7 @@ public class BoardStateBuilder {
 	
 	public static BitboardRepresentationNode calculateExitMove(BitSet[] playerPieces, 
 				 											   BitSet[] enemyPieces, 
-				 											   int stackSize,
+				 											   int playerStackSize,
 				 											   int srcSquare,
 				 											   String encodedSrcSquare,
 				 											   String direction,
@@ -180,10 +180,10 @@ public class BoardStateBuilder {
 		.concat(",")
 		.concat(Integer.toString(distance));
 		
-		newPlayerPieces[stackSize] = (BitSet)newPlayerPieces[stackSize].clone();
-		newPlayerPieces[stackSize].flip(srcSquare);
+		newPlayerPieces[playerStackSize] = (BitSet)newPlayerPieces[playerStackSize].clone();
+		newPlayerPieces[playerStackSize].flip(srcSquare);
 		
-		int remainingStackSize = stackSize - distance;
+		int remainingStackSize = playerStackSize - distance;
 		if(remainingStackSize >= 0) {
 			newPlayerPieces[remainingStackSize] = (BitSet)newPlayerPieces[remainingStackSize].clone();
 			newPlayerPieces[remainingStackSize].flip(srcSquare); 
