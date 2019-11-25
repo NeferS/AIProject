@@ -2005,6 +2005,32 @@ public class BasicGameEngine implements GameEngine {
 		return this.currentBoardState;
 	}
 	
+	public RepresentationNode calculateEmptyMove(BitSet[] playerPieces) {
+		
+		RepresentationNode emptyMove = this.currentBoardState;		
+		boolean exit = false;
+		
+		for(int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
+			
+			int srcSquare = 0;
+			while(true) {
+				srcSquare = playerPieces[playerStackSize].nextSetBit(srcSquare);
+				if(srcSquare == -1) break;
+				String encodedSrcSquare = this.encodedSquares[srcSquare];
+				String encodedMove = encodedSrcSquare.concat(",");
+				if(this.playerColor == Color.WHITE) encodedMove = encodedMove.concat("N").concat(",");
+				else encodedMove = encodedMove.concat("S").concat(",");
+				encodedMove = encodedMove.concat(Integer.toString(0));
+				emptyMove.setMove(encodedMove);
+				exit = true;
+				break;
+			}
+			if(exit) break;
+		}
+		
+		return emptyMove;
+	}
+	
 	
 	public List<RepresentationNode> validActions(RepresentationNode configuration) {
 		 
@@ -2039,7 +2065,9 @@ public class BasicGameEngine implements GameEngine {
 						   emptySquares, 
 						   validMoves);
 					   
-		
+		if(validMoves.isEmpty()) {
+			validMoves.add(calculateEmptyMove(concreteBoardState.getPlayerPieces(this.playerColor)));
+		}
 		
 		return validMoves;
 		
