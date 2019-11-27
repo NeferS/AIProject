@@ -11,9 +11,12 @@ public final class Semaphores {
 	/**Il semaforo 'ack' viene utilizzato per segnalare un acknowledgement in seguito alla risposta
 	 * del server circa la mossa inviata.*/
 	private static Semaphore ack = new Semaphore(0);
-	public static void waitACK() { 
+	private static long t;
+	
+	public static long waitACK() { 
 		try { ack.acquire(); }
 		catch (InterruptedException e) { e.printStackTrace(); }
+		return t;
 	}
-	public static void sendACK() { ack.release(); }
+	public static void sendACK() { t = System.currentTimeMillis(); ack.release(); }
 }

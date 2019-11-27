@@ -9,15 +9,13 @@ public class IdioticHeuristic implements IHeuristic {
 	private static double test = 900000000;
 	
 	//@Override
-	public double h(RepresentationNode node) { return r.nextDouble(); }
+	//public double h(RepresentationNode node) { return r.nextDouble(); }
 
-	/*
+	
 	public double h(RepresentationNode node) { 
 		
-		double res = test - 0.00000001;
-		test = test - 0.00000001;
+		test = test - 0.1;
 		
 		return test;
 	}
-	*/
 }

@@ -64,8 +64,8 @@ public class Player extends Thread {
 		}
 		
 		while(true) {
-			Semaphores.waitACK();
-			RepresentationNode configuration = algorithm.explore(General.gameEngine.getCurrentBoardState(), this);
+			long t = Semaphores.waitACK();
+			RepresentationNode configuration = algorithm.explore(General.gameEngine.getCurrentBoardState(), t);
 			General.gameEngine.playerMakeMove(configuration);
 			protocol.send(MOVE+configuration.getMove());
 			if(General.isWhite) System.out.println("White : " + configuration.getMove());

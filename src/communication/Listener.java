@@ -36,7 +36,6 @@ public class Listener extends Thread {
 			switch(msg[0].length()) {
 			case 9: //YOUR_TURN
 				/*Pianifica l'interruzione dell'elaborazione per fornire una risposta al server.*/
-				//timer.schedule(new Interrupter(pl), t);
 				Semaphores.sendACK();
 				printMsg(msg[0]);
 				break;
@@ -48,7 +47,6 @@ public class Listener extends Thread {
 				/*Notifica il giocatore che pu� aggiornare la configurazione corrente.*/
 				pl.update(msg[1]);
 				Semaphores.sendACK();
-				//pl.interrupt();
 				printMsg(msg[0]);
 				break;
 			case 7: //TIMEOUT, VICTORY, MESSAGE

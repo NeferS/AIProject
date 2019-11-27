@@ -20,7 +20,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 	private HashMap<RepresentationNode, LinkedList<RepresentationNode>> current, best;
 	
 	@Override
-	public RepresentationNode explore(RepresentationNode node, Thread caller) {
+	public RepresentationNode explore(RepresentationNode node, long t) {
 		List<RepresentationNode> actions;
 		
 		/*Se ho precedentemente salvato il figlio della mossa migliore dell'iterazione precedente (quella
@@ -39,20 +39,20 @@ public class HashMMAB extends MinMaxAlphaBeta {
 		best = null;
 		for(RepresentationNode child: actions) {
 			current = new HashMap<>();
-			double val = valoreMin(caller, (byte)1, child, alpha, infinite);
+			double val = valoreMin(t, (byte)1, child, alpha, infinite);
 			if(val > v) {
 				v = val;
 				bestMove = child;
 				best = current;
 			}
-			if(caller.isInterrupted()) break; //TODO
+			if((System.currentTimeMillis() - t) >= LIMIT) break;
 			alpha = (alpha > val)? alpha : val;
 		}
 		return bestMove;
 	}
 	
 	@Override
-	protected double valoreMax(Thread caller, byte depth, RepresentationNode node, double alpha, double beta) {
+	protected double valoreMax(long t, byte depth, RepresentationNode node, double alpha, double beta) {
 		if(depth == L) return strategy.h(node);
 		double v = min_infinite;
 		List<RepresentationNode> actions = General.gameEngine.validActions(node);
@@ -62,9 +62,9 @@ public class HashMMAB extends MinMaxAlphaBeta {
 		if(depth == 2) 
 			current.put(node, new LinkedList<>());
 		
-		if(caller.isInterrupted()) return beta; //TODO
+		if((System.currentTimeMillis() - t) >= LIMIT) return beta;
 		for(RepresentationNode child: actions) {
-			double val = valoreMin(caller, (byte)(depth+1), child, alpha, beta);
+			double val = valoreMin(t, (byte)(depth+1), child, alpha, beta);
 			v = (v > val)? v : val;
 			
 			/*Se faccio pruning su questo nodo è perché rappresenta una scelta che probabilmente l'avversario non
@@ -82,7 +82,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 				insertSorted(current.get(node), child);
 			}
 			
-			if(caller.isInterrupted()) return beta; //TODO
+			if((System.currentTimeMillis() - t) >= LIMIT) return beta;
 			alpha = (alpha > v)? alpha : v;
 		}
 		return v;

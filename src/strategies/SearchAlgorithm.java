@@ -8,6 +8,7 @@ import representations.RepresentationNode;
 public abstract class SearchAlgorithm{
 	/**La strategia che implementa la funzione euristica dell'algoritmo.*/
 	protected IHeuristic strategy = null;
+	protected final long LIMIT = 850;
 	
 	/**Inizializza la strategia di questo oggetto.
 	 * @param s0 la strategia iniziale
@@ -26,7 +27,7 @@ public abstract class SearchAlgorithm{
 	 * @param caller il thread chiamante
 	 * @return la migliore mossa possibile
 	 */
-	public abstract RepresentationNode explore(RepresentationNode root, Thread caller);
+	public abstract RepresentationNode explore(RepresentationNode root, long t);
 	
 	/**Esplora lo spazio di ricerca mentre l'avversario sta rispondendo.
 	 * @param configuration configurazione di partenza

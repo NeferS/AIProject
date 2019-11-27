@@ -1,6 +1,5 @@
 package representations;
 
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -1861,12 +1860,6 @@ public class BasicGameEngine implements GameEngine {
 		
 		this.currentBoardState.setPlayerPieces(Color.WHITE, whitePieces);
 		this.currentBoardState.setPlayerPieces(Color.BLACK, blackPieces);
-		
-		
-		List<RepresentationNode> tmp = new LinkedList<RepresentationNode>();
-		tmp = this.validActions(this.currentBoardState);
-		for(int i = 0; i < tmp.size(); i++) System.out.println(tmp.get(i).getMove());
-		
 		
 	}
 
