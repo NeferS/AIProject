@@ -71,6 +71,7 @@ public class Player extends Thread {
 			if(General.isWhite) System.out.println("White : " + configuration.getMove());
 			else System.out.println("Black : " + configuration.getMove());
 			sent = true;
+			System.out.println(System.currentTimeMillis()-t);
 			Semaphores.waitACK();
 			
 			

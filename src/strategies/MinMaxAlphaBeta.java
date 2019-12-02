@@ -12,7 +12,7 @@ import util.General;
 public class MinMaxAlphaBeta extends SearchAlgorithm {
 
 	protected final double infinite = Double.MAX_VALUE, min_infinite = -1;
-	protected final byte L = 20;
+	protected final byte L = 5;
 	
 	/*Esegue il primo passo della funzione valoreMax, ma si applica solo al nodo radice in quanto esegue
 	 *operazioni specifiche (come, ad esempio, tenere traccia della migliore mossa fino ad un generico istante t.*/
