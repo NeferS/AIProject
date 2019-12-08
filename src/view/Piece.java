@@ -1,10 +1,5 @@
-/*
- * Decompiled with CFR 0.145.
- */
 package view;
 
-import controller.Cell;
-import controller.Colour;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,10 +9,15 @@ import java.awt.Rectangle;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
-import view.GUI;
 
-class Piece
-extends JPanel {
+import model.Cell;
+
+/*
+ * Clase che implementa una cella della scacchiera, 
+ * in cui al suo interno, se presenti vengono disegnate le pedine 
+ */
+
+class Piece extends JPanel {
     private static final long serialVersionUID = -7640741678482143083L;
     static long pc_count = 0L;
     Color bgcolor;
@@ -26,8 +26,6 @@ extends JPanel {
     char[] text = new char[2];
     int size;
     int fontSize = 24;
-    private static /* synthetic */ int[] $SWITCH_TABLE$controller$Colour;
-    
 
     public Piece(Color bgcolor, int size, int i, int j, boolean is_heading) {
         this.bgcolor = bgcolor;
@@ -78,11 +76,7 @@ extends JPanel {
             Font f = g.getFont();
             f = new Font(f.getFontName(), 1, this.fontSize - 4);
             g.setFont(f);
-            if (this.color == Color.BLACK) {
-                g.setColor(GUI.white_cells);
-            } else {
-                g.setColor(GUI.black_cells);
-            }
+            g.setColor(new Color(170, 82, 45));
             g.drawChars(this.text, 0, this.text.length, (diameter - f.getSize()) / 2, (diameter + f.getSize()) / 2);
         }
     }
@@ -90,16 +84,10 @@ extends JPanel {
     public void repaint(Cell cell) {
     	if (cell.getColour() != null) {
 
-    		if (cell.getColour() == Colour.White) {
+    		if (cell.getColour() == representations.Color.WHITE) {
     			this.color = Color.WHITE;
     		}else {
     			this.color = Color.BLACK;}
-    		/*	
-        	if ($SWITCH_TABLE$controller$Colour()[cell.getColour().ordinal()]==2) {
-        		this.color = Color.WHITE;
-        	}else {
-        		this.color = Color.BLACK;
-        	}*/
     		if (cell.getPieces() > 9) {
     			this.text[0] = 49;
     			this.text[1] = ("" + (cell.getPieces() - 10)).charAt(0);
@@ -112,24 +100,6 @@ extends JPanel {
     	}
     	this.paintComponent(this.getGraphics());
     }
-
-    static /* synthetic */ int[] $SWITCH_TABLE$controller$Colour() {
-        if ($SWITCH_TABLE$controller$Colour != null) {
-            int[] arrn = null;
-            return arrn;
-        }
-        int[] arrn = new int[Colour.values().length];
-        try {
-            arrn[Colour.Black.ordinal()] = 1;
-        }
-        catch (NoSuchFieldError noSuchFieldError) {}
-        try {
-            arrn[Colour.White.ordinal()] = 2;
-        }
-        catch (NoSuchFieldError noSuchFieldError) {}
-        $SWITCH_TABLE$controller$Colour = arrn;
-        return $SWITCH_TABLE$controller$Colour;
-    }
     
     public Point getPosizione () {
 		Rectangle r = this.getBounds();
@@ -139,7 +109,6 @@ extends JPanel {
 		
 		return new Point(row-1, col-1);
 	}
-    
     
 }
 

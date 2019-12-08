@@ -6,7 +6,7 @@ public class IdioticHeuristic implements IHeuristic {
 
 	private java.util.Random r = new java.util.Random();
 	
-	private static double test = 900000000;
+	//private static double test = 900000000;
 	
 	//@Override
 	public double h(RepresentationNode node) {

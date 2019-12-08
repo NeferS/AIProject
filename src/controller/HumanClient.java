@@ -1,41 +1,119 @@
 package controller;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-import view.GUI;
+import model.BoardDataStructure;
+import model.Point;
+import representations.Color;
+import util.ProcessorMove;
+import view.Game;
+
 
 public class HumanClient {
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
-	String colour = null;
-	String move;
-	
-	String cellStart = "";
-	String direction = "";
-	String numPiece = "";
+	private Color color;
+	private String colour = null;
+	private String move;
+	private String opponentMove;
 	
 	public HumanClient(String serverAddress, int port) throws Exception {
 		this.socket = new Socket(serverAddress, port);
 		this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 		this.out = new PrintWriter(this.socket.getOutputStream(), true);
 	}
-
 	
-	public void playGUI() {
-		BoardDataStructure board = new BoardDataStructure(8, 8);
-		GUI.showGUI(board);
-		board.add(7,4,Colour.White, 12);
-		board.add(0,3,Colour.Black, 12);
-		GUI.refreshBoard(board);
-		GUI.refreshBoard(board);
+	public void playGUI(Game g, BoardDataStructure board) throws Exception {
+		g.showGUI();
+		try {
+			String response = this.in.readLine();
+			if (response.startsWith("WELCOME")) {
+				this.colour = response.substring(8);
+				if (colour.toUpperCase().equals("BLACK")){
+					color = Color.BLACK;
+					g.setColor(Color.BLACK);
+				}else {
+					color = Color.WHITE;
+					g.setColor(Color.WHITE);
+				}
+				g.publish_server(this.colour);
+			}
+			do {
+				if ((response = this.in.readLine()).startsWith("VALID_MOVE")) {
+					g.publish_server("Valid move, please wait");
+					/*
+					 * gestire qui la rimozione delle pedine dalla scacchiera, 
+					 * cioé quando si vogliono buttare fuori pedine
+					 */
+					Point [] points = ProcessorMove.calculateMove(move);
+					int numPiece = ProcessorMove.calculateNumPos(move);
+					board.remove(points[0].x, points[0].y, this.color,numPiece);
+					/*
+					 * Se l'operazione di add ritorna l'eccezzione che viene generata nella classe, allora non devo aggiungere
+					 * nulla. La add alla board genera eccezzione quando si voglio aggiungere pezzi in una cella che non fa parte della
+					 * scacchiera. Questo si verifica quando vengono rimosse pedine dalla scacchiera
+					 */
+					try{
+						board.add(points[1].x, points[1].y, this.color,numPiece);	
+					}catch (Exception e) {}
+					g.refreshBoard(board);
+					continue;
+				}
+				if (response.startsWith("OPPONENT_MOVE")) {
+					g.publish_server("[" + System.currentTimeMillis() + "] ");
+					opponentMove = response.substring(14);
+					g.publish_server("Opponent move: " + opponentMove);
+					Point [] points = ProcessorMove.calculateMove(opponentMove);
+					int numPiece = ProcessorMove.calculateNumPos(opponentMove);
+					board.remove(points[0].x, points[0].y, Color.otherColor(color),numPiece);
+					try {
+						board.add(points[1].x, points[1].y, Color.otherColor(color),numPiece);						
+					}catch (Exception e) {}
+					
+					g.refreshBoard(board);
+					continue;
+				}
+				if (response.startsWith("VICTORY")) {
+					g.publish_server("You win");
+					break;
+				}
+				if (response.startsWith("DEFEAT")) {
+					g.publish_server("You lose");
+					break;
+				}
+				if (response.startsWith("TIE")) {
+					g.publish_server("You tied");
+					break;
+				}
+				if (response.startsWith("YOUR_TURN")) {
+					g.publish_server("[" + System.currentTimeMillis() + "] ");
+					g.publish_server("Your move: ");
+					continue;
+				}
+				if (response.startsWith("TIMEOUT")) {
+					g.publish_server("Time out");
+					continue;
+				}
+				if (!response.startsWith("MESSAGE")) continue;
+				g.publish_server("[" + System.currentTimeMillis() + "] ");
+				g.publish_server(response.substring(8));
+			} while (true);
+		}
+		finally {
+			this.socket.close();
+		}
 	}
-	
+
+	public void sendMove(String move) {
+		this.move = move;
+		System.out.println(move);
+		this.out.println("MOVE " + this.move);
+	}
 	
 	public void play() throws Exception {
 		Scanner sc = new Scanner(System.in);
@@ -88,12 +166,4 @@ public class HumanClient {
 			this.socket.close();
 		}
 	}
-
-	public static void main(String[] args) throws Exception {
-		String serverAddress = args.length == 0 ? "localhost" : args[0];
-		int serverPort = args.length == 0 ? 8901 : Integer.valueOf(args[1]);
-		HumanClient client = new HumanClient(serverAddress, serverPort);
-		client.play();
-	}
-
 }
