@@ -5,7 +5,7 @@ import java.util.BitSet;
 public class BitboardRepresentationNode implements RepresentationNode{
 
 	
-	private BitSet[][] playersPieces;
+	public BitSet[][] playersPieces;
 	
 	private String encodedMove;
 	

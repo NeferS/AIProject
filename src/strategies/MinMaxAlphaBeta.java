@@ -11,8 +11,8 @@ import util.General;
  */
 public class MinMaxAlphaBeta extends SearchAlgorithm {
 
-	protected final double infinite = Double.MAX_VALUE, min_infinite = -1;
-	protected final byte L = 20;
+	protected final double infinite = Double.MAX_VALUE, min_infinite = Double.MIN_VALUE;
+	protected final byte L = 5;
 	
 	/*Esegue il primo passo della funzione valoreMax, ma si applica solo al nodo radice in quanto esegue
 	 *operazioni specifiche (come, ad esempio, tenere traccia della migliore mossa fino ad un generico istante t.*/
@@ -20,10 +20,10 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	public RepresentationNode explore(RepresentationNode node, long t) {
 		List<RepresentationNode> actions = General.gameEngine.validActions(node); //validActions deve essere ordinato per pruning efficiente
 		RepresentationNode bestMove = actions.get(0); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
-		if(bestMove.getMove().split(",")[2].charAt(0) == '0') return bestMove;
 		
 		double v = min_infinite;
 		double alpha = v;
+		
 		for(RepresentationNode child: actions) {
 			double val = valoreMin(t, (byte)1, child, alpha, infinite);
 			if(val > v) {
@@ -49,7 +49,12 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		if(depth == L) return strategy.h(node);
 		double v = min_infinite;
 		if((System.currentTimeMillis() - t) >= LIMIT) return beta;
-		for(RepresentationNode child: General.gameEngine.validActions(node)) {
+		
+		List<RepresentationNode> actions = General.gameEngine.validActions(node);
+		if(actions.isEmpty())
+			return strategy.h(node);
+		
+		for(RepresentationNode child: actions) {
 			double val = valoreMin(t, (byte)(depth+1), child, alpha, beta);
 			v = (v > val)? v : val;
 			if(v >= beta) return v;
@@ -72,7 +77,12 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		if(depth == L) return strategy.h(node);
 		double v = infinite;
 		if((System.currentTimeMillis() - t) >= LIMIT) return alpha;
-		for(RepresentationNode child: General.gameEngine.validActions(node)) {
+		
+		List<RepresentationNode> actions = General.gameEngine.validActions(node);
+		if(actions.isEmpty())
+			return strategy.h(node);
+		
+		for(RepresentationNode child: actions) {
 			double val = valoreMax(t, (byte)(depth+1), child, alpha, beta);
 			v = (v < val)? v : val;
 			if(v <= alpha) return v;

@@ -55,7 +55,10 @@ public class HashMMAB extends MinMaxAlphaBeta {
 	protected double valoreMax(long t, byte depth, RepresentationNode node, double alpha, double beta) {
 		if(depth == L) return strategy.h(node);
 		double v = min_infinite;
+		
 		List<RepresentationNode> actions = General.gameEngine.validActions(node);
+		if(actions.isEmpty())
+			return strategy.h(node);
 		
 		/*Ogni chiamata di questo metodo al livello 2 viene effettuata su uno dei nodi "radice" dell'iterazione
 		 *successiva.*/

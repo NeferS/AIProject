@@ -1547,7 +1547,6 @@ public class BasicGameEngine implements GameEngine {
 		};
 	
 	
-	
 	private Color playerColor;
 
 	private Color enemyColor;
@@ -2021,6 +2020,9 @@ public class BasicGameEngine implements GameEngine {
 			if(exit) break;
 		}
 		
+		if(!exit)
+			emptyMove = null;
+		
 		return emptyMove;
 	}
 	
@@ -2042,7 +2044,7 @@ public class BasicGameEngine implements GameEngine {
 				 				 playersOccupiedSquares[this.enemyColor.ordinal()], 
 				 				 emptySquares, 
 				 				 validMoves);
-			
+		
 		calculateCapturesMoves(concreteBoardState.getPlayerPieces(this.playerColor), 
 				   concreteBoardState.getPlayerPieces(this.enemyColor),
 				   playersOccupiedSquares[this.playerColor.ordinal()], 
@@ -2050,16 +2052,17 @@ public class BasicGameEngine implements GameEngine {
 				   emptySquares, 
 				   validMoves);
 		
-		
 		calculateExitMoves(concreteBoardState.getPlayerPieces(this.playerColor),
 						   concreteBoardState.getPlayerPieces(this.enemyColor),
 						   playersOccupiedSquares[this.playerColor.ordinal()], 
 						   playersOccupiedSquares[this.enemyColor.ordinal()], 
 						   emptySquares, 
 						   validMoves);
-					   
+		
 		if(validMoves.isEmpty()) {
-			validMoves.add(calculateEmptyMove(concreteBoardState.getPlayerPieces(this.playerColor)));
+			RepresentationNode node = calculateEmptyMove(concreteBoardState.getPlayerPieces(this.playerColor));
+			if(node != null)
+				validMoves.add(node);
 		}
 		
 		return validMoves;

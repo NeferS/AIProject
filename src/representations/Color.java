@@ -5,11 +5,7 @@ public enum Color {
 	
 	
 	public static Color otherColor(Color color) {
-		
-		Color otherColor = null;
-		if(color == Color.WHITE) otherColor = Color.BLACK;
-		else if(color == Color.BLACK) otherColor = Color.WHITE;
-		
-		return otherColor;
+		if(color == Color.WHITE) return Color.BLACK;
+		return Color.WHITE;
 	}
 }

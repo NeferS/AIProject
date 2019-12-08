@@ -6,7 +6,8 @@ import util.Semaphores;
 import util.General;
 import representations.Color;
 import representations.RepresentationNode;
-import strategies.IdioticHeuristic;
+import strategies.MyHeuristic;
+import strategies.RandomizedMMAB;
 import strategies.SearchAlgorithm;
 
 public class Player extends Thread {
@@ -44,7 +45,9 @@ public class Player extends Thread {
 		}//programma terminato
 		General.isWhite = welcome[1].charAt(0) != Protocol.black;
 		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
-		algorithm.initStrategy(new IdioticHeuristic());
+		if(!General.isWhite)
+			algorithm = new RandomizedMMAB();
+		algorithm.initStrategy(new MyHeuristic(General.isWhite? Color.WHITE : Color.BLACK));
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected
 		
@@ -72,7 +75,6 @@ public class Player extends Thread {
 			else System.out.println("Black : " + configuration.getMove());
 			sent = true;
 			Semaphores.waitACK();
-			
 			
 			//Thread.interrupted();
 			//algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);

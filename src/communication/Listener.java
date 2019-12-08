@@ -1,6 +1,5 @@
 package communication;
 
-import java.util.Timer;
 import player.Player;
 import util.Semaphores;
 
@@ -13,10 +12,6 @@ public class Listener extends Thread {
 	protected Protocol pr;
 	/**Il giocatore automatico al quale comunicare le azioni del server.*/
 	protected Player pl;
-	/**Timer che viene attivato quando � il turno del giocatore.*/
-	protected Timer timer;
-	/**Tempo concesso al giocatore automatico per rispondere,*/
-	private final long t = 800;
 	
 	/**Costruttore di base.
 	 * @param pr canale d'ascolto sul server
@@ -26,7 +21,6 @@ public class Listener extends Thread {
 		if(pr == null || pl == null) throw new IllegalArgumentException();
 		this.pr = pr;
 		this.pl = pl;
-		timer = new Timer();
 	}
 	
 	@Override
