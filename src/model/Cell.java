@@ -31,6 +31,11 @@ public class Cell {
     void set(int pieces) {
         this.pieces = pieces;
     }
+    
+    public void remove_all() {
+    	colour = null;
+    	pieces = 0;
+    }
 
     boolean is_out() {
         return this.equals(out_cell);

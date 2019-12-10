@@ -245,7 +245,7 @@ public class Game {
 					model.Point ap = new model.Point(arrivalCell.x, arrivalCell.y);
 					move = txtStartCell.getText()+","+ProcessorMove.calculateDirection(sp,ap);
 					int response = JOptionPane.showConfirmDialog(frame,"Vuoi confermare la mossa?");  
-					if(response==JOptionPane.YES_OPTION){  
+					if(response==JOptionPane.YES_OPTION || ProcessorMove.checkMove(board.get(sp.x, sp.y), board.get(ap.x, ap.y)) ){  
 						player.sendMove(move);
 					}  else if (response==JOptionPane.NO_OPTION) {}
 				} catch (Exception e1) {

@@ -47,18 +47,23 @@ public class HumanClient {
 				if ((response = this.in.readLine()).startsWith("VALID_MOVE")) {
 					g.publish_server("Valid move, please wait");
 					/*
-					 * gestire qui la rimozione delle pedine dalla scacchiera, 
-					 * cio� quando si vogliono buttare fuori pedine
+					 * Operazione di aggiornamento della scacchiera, sono sicuro che la mossa che inviato è valida
+					 * poichè il server ha fatto il check
 					 */
+					
 					Point [] points = ProcessorMove.calculateMove(move);
 					int numPiece = ProcessorMove.calculateNumPos(move);
 					board.remove(points[0].x, points[0].y, this.color,numPiece);
 					/*
-					 * Se l'operazione di add ritorna l'eccezzione che viene generata nella classe, allora non devo aggiungere
-					 * nulla. La add alla board genera eccezzione quando si voglio aggiungere pezzi in una cella che non fa parte della
+					 * Se l'operazione di add ritorna l'eccezione che viene generata nella classe, allora non devo aggiungere
+					 * nulla. La add alla board genera eccezione quando si vogliono aggiungere pezzi in una cella che non fa parte della
 					 * scacchiera. Questo si verifica quando vengono rimosse pedine dalla scacchiera
 					 */
 					try{
+						if (board.get(points[1].x, points[1].y).getColour() != this.color) {//vuol dire che nella cella destinazine ci sono pedine avversarie
+							//le posso rimuovere tranquillamente perchè ho già fatto il check
+							board.get(points[1].x, points[1].y).remove_all();
+						}
 						board.add(points[1].x, points[1].y, this.color,numPiece);	
 					}catch (Exception e) {}
 					g.refreshBoard(board);
@@ -68,15 +73,26 @@ public class HumanClient {
 					g.publish_server("[" + System.currentTimeMillis() + "] ");
 					opponentMove = response.substring(14);
 					g.publish_server("Opponent move: " + opponentMove);
+					
 					Point [] points = ProcessorMove.calculateMove(opponentMove);
 					int numPiece = ProcessorMove.calculateNumPos(opponentMove);
-					board.remove(points[0].x, points[0].y, Color.otherColor(color),numPiece);
-					try {
-						board.add(points[1].x, points[1].y, Color.otherColor(color),numPiece);						
-					}catch (Exception e) {}
 					
+					board.remove(points[0].x, points[0].y, Color.otherColor(color),numPiece);
+					/*
+					 * Se l'operazione di add ritorna l'eccezione che viene generata nella classe, allora non devo aggiungere
+					 * nulla. La add alla board genera eccezione quando si vogliono aggiungere pezzi in una cella che non fa parte della
+					 * scacchiera. Questo si verifica quando vengono rimosse pedine dalla scacchiera
+					 */
+					try{
+						if (board.get(points[1].x, points[1].y).getColour() == this.color) {//vuol dire che nella cella destinazine ci sono pedine avversarie
+							//le posso rimuovere tranquillamente perchè ho già fatto il check
+							board.get(points[1].x, points[1].y).remove_all();
+						}
+						board.add(points[1].x, points[1].y, Color.otherColor(color),numPiece);	
+					}catch (Exception e) {}
 					g.refreshBoard(board);
-					continue;
+					continue;								
+					
 				}
 				if (response.startsWith("VICTORY")) {
 					g.publish_server("You win");

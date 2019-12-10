@@ -1,5 +1,6 @@
 package util;
 
+import model.Cell;
 import model.Point;
 
 public class ProcessorMove {
@@ -53,6 +54,15 @@ public class ProcessorMove {
 		}
 		return ret;
 	}
+	
+	/*
+	 * Metodo che ritorna true se lo stack che si trova nella cella di partenza, può muoversi 
+	 * nella cella di destinazione, questo include anche il check per verificare se può mangiare lo stack che si trova nella cella di destinazione
+	 */
+	public static boolean checkMove(Cell start, Cell destination) {
+		return !(start.getPieces() >= destination.getPieces() && start.getColour() != destination.getColour()); 
+	}
+	
 
 	/*
 	 * Data una stringa contenente la mossa del tipo "A4,S,2" ritorna i due punti con le coordinate interessate
