@@ -225,7 +225,6 @@ public class Game {
 			if (p.bgcolor == black_cells ) {
 				if (color.equals(p.color) && e.getClickCount() == 2) {
 					startingCell = p.getPosizione();
-					//graphic_board[startingCell.x][startingCell.y].
 					txtStartCell.setText(ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) ));
 				}else if (startingCell != null){
 					if (arrivalCell != null) {
@@ -262,16 +261,15 @@ public class Game {
 					String [] options2 = {"N", "NE", "E", "SE", "S","SO","O","NO"};
 					int dir = JOptionPane.showOptionDialog(null, "Verso quale direzione?",
 							"Click a button",JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options2, null);
-					System.out.println(numPieceRmv +""+ dir);
 					switch(dir) {
 						case 0: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",N,"+ (numPieceRmv+1);break;
 						case 1: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",NE,"+ (numPieceRmv+1);break;
 						case 2: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",E,"+ (numPieceRmv+1);break;
 						case 3: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",SE,"+ (numPieceRmv+1);break;
 						case 4: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",S,"+ (numPieceRmv+1);break;
-						case 5: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",SO,"+ (numPieceRmv+1);break;
-						case 6: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",O,"+ (numPieceRmv+1);break;
-						case 7: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",NO,"+ (numPieceRmv+1);break;
+						case 5: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",SW,"+ (numPieceRmv+1);break;
+						case 6: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",W,"+ (numPieceRmv+1);break;
+						case 7: move = ProcessorMove.calculateCell(new model.Point(startingCell.x, startingCell.y) )+",NW,"+ (numPieceRmv+1);break;
 					}
 					player.sendMove(move);
 				}

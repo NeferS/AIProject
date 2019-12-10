@@ -16,7 +16,6 @@ public class MainHuman {
 		 * Avvio client senza gui
 		playerClient.play();
 		 */
-		
 		Game g = new Game(board, playerClient);
 		playerClient.playGUI(g,board);
 		  

@@ -42,14 +42,14 @@ public class ProcessorMove {
 		}
 		if(start.x < destination.x && start.y > destination.y) {
 			if (differenceX != differenceY) throw new Exception("Mossa non valida");
-			ret = "SO,"+differenceX;
+			ret = "SW,"+differenceX;
 		}
 		if(start.x == destination.x && start.y > destination.y) {
-			ret = "O,"+differenceY;
+			ret = "W,"+differenceY;
 		}
 		if(start.x > destination.x && start.y > destination.y) {
 			if (differenceX != differenceY) throw new Exception("Mossa non valida");
-			ret = "NO,"+differenceX;
+			ret = "NW,"+differenceX;
 		}
 		return ret;
 	}
@@ -85,15 +85,15 @@ public class ProcessorMove {
 			  p2.x=p1.x+numPos;
 			  p2.y=p1.y;
 			  break;
-		  case "SO":
+		  case "SW":
 			  p2.x=p1.x+numPos;
 			  p2.y=p1.y-numPos;
 			  break;
-		  case "O":
+		  case "W":
 			  p2.x=p1.x;
 			  p2.y=p1.y-numPos;
 			  break;
-		  case "NO":
+		  case "NW":
 			  p2.x=p1.x-numPos;
 			  p2.y=p1.y-numPos;
 			  break;
