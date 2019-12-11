@@ -6,6 +6,7 @@ import util.Semaphores;
 import util.General;
 import representations.Color;
 import representations.RepresentationNode;
+import strategies.FirstHeuristic;
 import strategies.MyHeuristic;
 import strategies.RandomizedMMAB;
 import strategies.SearchAlgorithm;
@@ -47,7 +48,7 @@ public class Player extends Thread {
 		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
 		if(!General.isWhite)
 			algorithm = new RandomizedMMAB();
-		algorithm.initStrategy(new MyHeuristic(General.isWhite? Color.WHITE : Color.BLACK));
+		algorithm.initStrategy(new FirstHeuristic(General.gameEngine));
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected
 		

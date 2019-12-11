@@ -1554,6 +1554,10 @@ public class BasicGameEngine implements GameEngine {
 	private BitboardRepresentationNode currentBoardState;
 	
 	
+	public Color getPlayerColor() { return this.playerColor; }
+	
+	public Color getEnemyColor() { return this.enemyColor; }
+	
 	//Dato l'array di 12 bitboards di un giocatore, calcola una bitboard relativa a tutte le posizioni occupate
 	private BitSet calculateOccupiedSquares(BitSet[] pieces) {
 		
