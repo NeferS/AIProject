@@ -34,6 +34,8 @@ public class MyHeuristic implements IHeuristic {
 			totpp += ps[i].cardinality();
 			totep += es[i].cardinality();
 		}
+		if(totpp == 0) return Double.MIN_VALUE;
+		if(totep == 0) return Double.MAX_VALUE;
 		return h + (totpp - totep);
 	}
 
