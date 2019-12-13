@@ -20,14 +20,15 @@ public class RandomizedMMAB extends MinMaxAlphaBeta {
 		List<RepresentationNode> equalVals = null;
 		
 		for(RepresentationNode child: actions) {
-			double val = valoreMin(t, (byte)1, child, alpha, infinite);
+			if(Integer.parseInt(child.getMove().split(",")[2]) > 6) continue;
 			
+			double val = valoreMin(t, (byte)1, child, alpha, infinite);
 			if(val > v) {
 				v = val;
 				bestMove = child;
 				equalVals = new ArrayList<>(maxElem - explored);
 				equalVals.add(child);
-			} else if(Math.abs(val - v) < 1e-8 && equalVals != null)
+			} else if(val == v && equalVals != null)
 				equalVals.add(child);
 			
 			explored++;
@@ -35,13 +36,9 @@ public class RandomizedMMAB extends MinMaxAlphaBeta {
 			alpha = (alpha > val)? alpha : val;
 		}
 		
-		if(equalVals != null && equalVals.size() > 1) {
-			System.out.print("[ ");
-			for(RepresentationNode n1: equalVals)
-				System.out.print(n1.getMove()+","+n1.getHeuristicValue()+" ");
-			System.out.println("]");
+		if(equalVals != null && equalVals.size() > 1) 
 			bestMove = equalVals.get(new Random().nextInt(equalVals.size()));
-		}
+		
 		return bestMove;
 	}
 	

@@ -7,7 +7,6 @@ import util.General;
 import representations.Color;
 import representations.RepresentationNode;
 import strategies.MyHeuristic;
-import strategies.RandomizedMMAB;
 import strategies.SearchAlgorithm;
 
 public class Player extends Thread {
@@ -45,8 +44,6 @@ public class Player extends Thread {
 		}//programma terminato
 		General.isWhite = welcome[1].charAt(0) != Protocol.black;
 		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
-		if(!General.isWhite)
-			algorithm = new RandomizedMMAB();
 		algorithm.initStrategy(new MyHeuristic(General.isWhite? Color.WHITE : Color.BLACK));
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected
@@ -69,29 +66,12 @@ public class Player extends Thread {
 		while(true) {
 			long t = Semaphores.waitACK();
 			RepresentationNode configuration = algorithm.explore(General.gameEngine.getCurrentBoardState(), t);
-			General.gameEngine.playerMakeMove(configuration);
 			protocol.send(MOVE+configuration.getMove());
+			General.gameEngine.playerMakeMove(configuration);
 			if(General.isWhite) System.out.println("White : " + configuration.getMove());
 			else System.out.println("Black : " + configuration.getMove());
 			sent = true;
 			Semaphores.waitACK();
-			
-			//Thread.interrupted();
-			//algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);
-			//Thread.interrupted();
 		}
 	}
-	
-	/**Indica se il giocatore ha inviato la risposta al server.
-	 * @return true se il giocatore ha inviato la sua risposta
-	 */
-	/*
-	public boolean didSend() {
-		if(sent) {
-			sent = false;
-			return true;
-		}
-		return false;
-	}
-	*/
 }
