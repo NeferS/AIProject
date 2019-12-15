@@ -6,6 +6,8 @@ import util.Semaphores;
 import util.General;
 import representations.Color;
 import representations.RepresentationNode;
+import strategies.HashMMAB;
+import strategies.MinMaxAlphaBeta;
 import strategies.MyHeuristic;
 import strategies.NewHeuristic;
 import strategies.RandomizedMMAB;
@@ -47,7 +49,7 @@ public class Player extends Thread {
 		General.isWhite = welcome[1].charAt(0) != Protocol.black;
 		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
 		if(!General.isWhite)
-			algorithm = new RandomizedMMAB();
+			algorithm = new HashMMAB();//MinMaxAlphaBeta();//new RandomizedMMAB();
 		algorithm.initStrategy(new NewHeuristic(General.isWhite? Color.WHITE : Color.BLACK)); //MyHeuristic(General.isWhite? Color.WHITE : Color.BLACK));
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected

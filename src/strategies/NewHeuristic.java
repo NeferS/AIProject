@@ -20,6 +20,9 @@ public class NewHeuristic implements IHeuristic {
 												0.7, 0.55, 0.4, 0.85, 0.55, 0.25, 0.25, 0.55, 0.55, 0.4, 0.25, 0.25, 0.25,
 												0.1, 0.1, 0.1, 0.1, 0.1
 											}};
+	
+	
+	
 
 
 	public NewHeuristic(Color playerColor) {
@@ -39,12 +42,22 @@ public class NewHeuristic implements IHeuristic {
 		double playerAdvantage = pa[0];
 		double enemyAdvantage = aa[0];
 
-		double diffPedine =  Math.abs(pa[1]-aa[1]);
+		double diffPedine =  pa[1]-aa[1];
+		
+		if (diffPedine >0) {
+			playerAdvantage += (diffPedine);
+		}else {
+			enemyAdvantage += (diffPedine);
+		}
 		
 		double res =  enemyAdvantage - playerAdvantage;
-		return res-(diffPedine*0.8);
+		return res;
 	}
 
+	/*
+	 * ritorna in posizione zero il vantaggio del giocatore in relazione alla posizione e al numero di pedine
+	 * ritorna in posizione uno la differenza di pedine tra i due giocatori
+	 */
 
 
 	private double [] calculateAdvantage(BitSet[] player, Color playerColor) {
