@@ -3,9 +3,8 @@ package player;
 import communication.Listener;
 import communication.Protocol;
 import representations.Color;
+import strategies.AlternativeHeuristic;
 import strategies.HashMMAB;
-import strategies.MyHeuristic;
-import strategies.NewHeuristic;
 import strategies.SearchAlgorithm;
 import util.General;
 
@@ -30,8 +29,8 @@ public class Player2 extends Player {
 		General.isWhite = welcome[1].charAt(0) != Protocol.black;
 		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
 		if(!General.isWhite)
-			algorithm = new HashMMAB();//MinMaxAlphaBeta();//new RandomizedMMAB();
-		algorithm.initStrategy(new MyHeuristic(General.isWhite? Color.WHITE : Color.BLACK));
+			algorithm = new HashMMAB();//new RandomizedMMAB();
+		algorithm.initStrategy(new AlternativeHeuristic(General.isWhite? Color.WHITE : Color.BLACK));//AlternativeHeuristic(General.isWhite? Color.WHITE : Color.BLACK));
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected
 		

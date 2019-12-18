@@ -18,7 +18,7 @@ public class MainSecondHeuristic {
 			}
 			General.gameEngine = new BasicGameEngine();
 			Protocol p = (args[0].charAt(1) == 'h')? new Protocol(args[1], Integer.parseInt(args[3])) : new Protocol(args[3], Integer.parseInt(args[1]));
-			Player2 pl = new Player2(p, new HashMMAB());//new MinMaxAlphaBeta());
+			Player2 pl = new Player2(p, new HashMMAB()); //new RandomizedMMAB());////new MinMaxAlphaBeta());
 			pl.start();
 		}
 		

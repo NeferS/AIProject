@@ -58,21 +58,22 @@ public class NewHeuristic implements IHeuristic {
 	 * ritorna in posizione zero il vantaggio del giocatore in relazione alla posizione e al numero di pedine
 	 * ritorna in posizione uno la differenza di pedine tra i due giocatori
 	 */
-
-
 	private double [] calculateAdvantage(BitSet[] player, Color playerColor) {
 		double advantage = 0;
 		int srcSquare = 0;
 		double numPedine = 0;
 		for(int i=0; i<BOARDS; i++) {
-			srcSquare = player[i].nextSetBit(0);
-			if(srcSquare != -1) {
+			srcSquare = 0;
+			while(true) {
+				srcSquare = player[i].nextSetBit(srcSquare);
+				if(srcSquare == -1) break;
 				/*
 				 * In srcSquare ho il valore della cella su cui si trova lo stack.
 				 * la variabile (i+1), indica quante pedine ci sono nello stack
-				 */
+				 * */
 				advantage += (i+1)*CELLWEIGHT[playerColor.ordinal()][srcSquare]; 
 				numPedine += i+1;
+				srcSquare++;
 			}
 		}
 		double [] ret = {advantage, numPedine};
