@@ -7,15 +7,24 @@ import representations.RepresentationNode;
 import representations.Color;
 
 public class MyHeuristic implements IHeuristic {
-
-	private Color playerColor, enemyColor;
+	
+	//colori iniziali di default: vanno cambiati o nel costruttore o con il metodo 'color'
+	private Color playerColor = Color.WHITE, enemyColor = Color.BLACK;
 	private final int BOARDS = 12;
 	private final int[] maxs_stacks  = { 2, 4, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1 };
 	
 	
+	public MyHeuristic() { }
+	
 	public MyHeuristic(Color playerColor) {
 		this.playerColor = playerColor;
 		this.enemyColor = Color.otherColor(playerColor);
+	}
+	
+	public void color(Color c) { 
+		if(c == null) return; 
+		playerColor = c;
+		enemyColor = Color.otherColor(c);
 	}
 	
 	@Override
@@ -55,8 +64,8 @@ public class MyHeuristic implements IHeuristic {
 		}
 		
 		
-		if(totpp == 0) return Double.MAX_VALUE * -1;
-		if(totep == 0) return Double.MAX_VALUE;
+		if(totpp == 0) return Double.NEGATIVE_INFINITY;
+		if(totep == 0) return Double.POSITIVE_INFINITY;
 		return (totpm - totem) + (totpp - totep) + tots;
 	}
 

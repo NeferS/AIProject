@@ -1,5 +1,6 @@
 package strategies;
 
+import representations.Color;
 import representations.RepresentationNode;
 
 /**Definisce una strategia che il giocatore automatico pu� seguire sulla rapprentazione dello
@@ -14,5 +15,10 @@ public interface IHeuristic {
 	 * @return il valore della funzione euristica h
 	 */
 	public double h(RepresentationNode node);
+	
+	/**Informa l'euristica del colore del giocatore.
+	 * @param c il colore del giocatore
+	 */
+	public void color(Color c);
 
 }

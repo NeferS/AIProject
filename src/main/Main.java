@@ -3,7 +3,6 @@ package main;
 import communication.Protocol;
 import player.Player;
 import representations.BasicGameEngine;
-import strategies.MinMaxAlphaBeta;
 import strategies.RandomizedMMAB;
 import util.General;
 
@@ -17,7 +16,7 @@ public class Main {
 		}
 		General.gameEngine = new BasicGameEngine();
 		Protocol p = (args[0].charAt(1) == 'h')? new Protocol(args[1], Integer.parseInt(args[3])) : new Protocol(args[3], Integer.parseInt(args[1]));
-		Player pl = new Player(p, new RandomizedMMAB());
+		Player pl = new Player(p, new RandomizedMMAB(), null);
 		pl.start();
 	}
 	
