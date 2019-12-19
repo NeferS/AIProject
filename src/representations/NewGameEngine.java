@@ -1547,127 +1547,80 @@ public class NewGameEngine implements GameEngine {
 	@Override
 	public void playerMakeMove(RepresentationNode newBoardState) { currentBoardState = (BitboardRepresentationNode)newBoardState; }
 
-	//TODO
 	@Override 
 	public RepresentationNode enemyMakeMove(String encodedMove) {
-		
-
 		StringTokenizer st = new StringTokenizer(encodedMove, ",");
 		
 		String encodedSrcSquare = st.nextToken();
+		String direction = st.nextToken();
+		int distance = Integer.valueOf(st.nextToken());
+		
+		//mossa vuota
+		if(distance == 0) {
+			currentBoardState.setMove(encodedMove);
+			return currentBoardState;
+		}
+		
+		//altrimenti
 		int col = Integer.parseInt(""+encodedSrcSquare.charAt(1));
 		int srcSquare = ((char)encodedSrcSquare.charAt(0)-65)*4;
 		srcSquare += (col%2 == 0)? col/2-1 : col/2;
 		
-		
-		String direction = st.nextToken();
-		int distance = Integer.valueOf(st.nextToken());
-		
-		
 		int enemyStackSize = -1;
-		BitSet[] enemyPieces = this.currentBoardState.getPlayerPieces(this.enemyColor);
-		for(int i = 0; i < 12; i++) {
+		BitSet[] enemyPieces = currentBoardState.getPlayerPieces(enemyColor);
+		for(int i = 0; i < 12; i++)
 			if(enemyPieces[i].get(srcSquare)) {
 				enemyStackSize = i;
 				break;
 			}
-		}
 		
-		BitSet[] playerPieces = this.currentBoardState.getPlayerPieces(this.playerColor);
-		
-		List<Integer> potentialsExitDirections = new LinkedList<Integer>();
-		for(int i = 0; i < 8; i++) {
-			if(exitMoves[this.enemyColor.ordinal()][srcSquare][i] != -1 &&
-			   exitMoves[this.enemyColor.ordinal()][srcSquare][i] <= distance) {
-				potentialsExitDirections.add(i);
+		//mossa di uscita
+		for(int i = 0; i < 8; i++)
+			if(exitMoves[enemyColor.ordinal()][srcSquare][i] != -1 && 
+			   exitMoves[enemyColor.ordinal()][srcSquare][i] <= distance &&
+			   Direction.getDirectionByInt(i).toString().equals(direction))
+			{
+				return currentBoardState = BoardStateBuilder.calculateExitMove(
+						enemyPieces,
+						currentBoardState.getPlayerPieces(playerColor),
+						enemyStackSize, 
+						srcSquare, 
+						encodedSrcSquare, 
+						direction, 
+						distance, 
+						enemyColor, 
+						playerColor);
 			}
-		}
 		
-		boolean exitMove = false;
-		String tmpDirection;
-		while(!potentialsExitDirections.isEmpty()) {
-			tmpDirection = Direction.getDirectionByInt(potentialsExitDirections.remove(0)).toString();
-			if(tmpDirection.equals(direction)) {
-				exitMove = true;
+		//altrimenti
+		BitSet[] playerPieces = currentBoardState.getPlayerPieces(playerColor);
+		int dstSquare = -1;
+		for (int i = 0; i < 32; i++) {
+			if (distances[srcSquare][i] == distance && direction.equals(directions[srcSquare][i])) {
+				dstSquare = i;
 				break;
 			}
-			
 		}
+
+		BitSet playerOccupiedSquares = BoardStateBuilder.calculateOccupiedSquares(playerPieces);
+		//nonCaptureMove
+		if (!playerOccupiedSquares.get(dstSquare)) {
+			BitSet enemyOccupiedSquares = BoardStateBuilder.calculateOccupiedSquares(enemyPieces);
+
+			return currentBoardState = BoardStateBuilder.calculateNonCaptureMove(enemyPieces, playerPieces,
+					enemyOccupiedSquares, enemyStackSize, srcSquare, dstSquare, encodedSrcSquare, direction, distance,
+					enemyColor, playerColor);
+		} 
 		
-		
-		if(exitMove) {
-			
-			this.currentBoardState = BoardStateBuilder.calculateExitMove(enemyPieces, 
-																		 playerPieces, 
-																		 enemyStackSize, 
-																		 srcSquare, 
-																		 encodedSrcSquare, 
-																		 direction, 
-																		 distance, 
-																		 enemyColor, 
-																		 playerColor);
-		}
-		
-		else {
-		
-			int dstSquare = -1;
-			LinkedList<Integer> squares = new LinkedList<Integer>();
-			for(int i = 0; i < 32; i++) {
-				if(distances[srcSquare][i] == distance) squares.add(i);
+		//altrimenti : captureMove
+		int playerStackSize = -1;
+		for (int i = 0; i < distance; i++)
+			if (playerPieces[i].get(dstSquare)) {
+				playerStackSize = i;
+				break;
 			}
-			
-			while(!squares.isEmpty()) {
-				int square = squares.removeFirst();
-				if(direction.equals(directions[srcSquare][square])) {
-					dstSquare = square;
-					break;
-				}
-			}
-			
-			BitSet playerOccupiedSquares = BoardStateBuilder.calculateOccupiedSquares(playerPieces);
-			if(!playerOccupiedSquares.get(dstSquare)) {
-				BitSet enemyOccupiedSquares = BoardStateBuilder.calculateOccupiedSquares(enemyPieces);
-				
-				this.currentBoardState = BoardStateBuilder.calculateNonCaptureMove(enemyPieces, 
-																	  			   playerPieces, 
-																	  			   enemyOccupiedSquares, 
-																	  			   enemyStackSize, 
-																	  			   srcSquare, 
-																	  			   dstSquare,
-																	  			   encodedSrcSquare,
-																	  			   direction,
-																	  			   distance,
-																	  			   this.enemyColor,
-																	  			   this.playerColor);
-			}
-			else {
-				
-				int playerStackSize = -1;
-				for(int i = 0; i < 12; i++) {
-					if(playerPieces[i].get(dstSquare)) {
-						playerStackSize = i;
-						break;
-					}
-				}
-				
-				
-				this.currentBoardState = BoardStateBuilder.calculateCaptureMove(enemyPieces,
-																   				playerPieces,
-																   				enemyStackSize,
-																   				playerStackSize,
-																   				srcSquare,
-																   				dstSquare,
-																   				encodedSrcSquare,
-																   				direction,
-																   				distance,
-																   				this.enemyColor,
-																   				this.playerColor);								   
-			}
-			
-		}
-		
-		
-		return this.currentBoardState;
+		return currentBoardState = BoardStateBuilder.calculateCaptureMove(enemyPieces, playerPieces, enemyStackSize,
+				playerStackSize, srcSquare, dstSquare, encodedSrcSquare, direction, distance, enemyColor, playerColor);
 	}
 	
 	@Override
