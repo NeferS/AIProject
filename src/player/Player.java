@@ -46,7 +46,6 @@ public class Player extends Thread {
 		}//programma terminato
 		General.isWhite = welcome[1].charAt(0) != Protocol.black;
 		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
-		initialStrategy.color(General.isWhite? Color.WHITE : Color.BLACK);
 		algorithm.initStrategy(initialStrategy);
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected

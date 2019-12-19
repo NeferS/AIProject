@@ -3,7 +3,6 @@ package test;
 import java.util.BitSet;
 
 import representations.BasicGameEngine;
-import util.General;
 
 public class TestStampa {
 	
@@ -97,7 +96,7 @@ public class TestStampa {
 					while(true){
 						square = enemy[j].nextSetBit(square);
 						if (square == -1) break;
-						int distance = ((BasicGameEngine)General.gameEngine).distances[srcSquare][square];
+						int distance = BasicGameEngine.distances[srcSquare][square];
 						if (distance != -1) {
 							System.out.println("Stack bianco da "+i+" e stack nero da "+j+" a distanza "+ distance);
 							int diffPedine = i-j;

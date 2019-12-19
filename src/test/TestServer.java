@@ -32,7 +32,7 @@ public class TestServer {
 		General.gameEngine = new BasicGameEngine();
 		General.gameEngine.start(Color.WHITE);
 		RandomizedMMAB rmmab = new RandomizedMMAB();
-		rmmab.initStrategy(new MyHeuristic(Color.WHITE));
+		rmmab.initStrategy(new MyHeuristic());
 		RepresentationNode node0 = rmmab.explore(General.gameEngine.getCurrentBoardState(), System.currentTimeMillis());
 		System.out.println(node0.getMove());
 	}

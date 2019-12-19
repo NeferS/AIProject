@@ -5,11 +5,11 @@ import java.util.BitSet;
 import representations.BitboardRepresentationNode;
 import representations.Color;
 import representations.RepresentationNode;
+import util.General;
 
 public class NewHeuristic implements IHeuristic {
 
 	private final int BOARDS = 12;
-	private Color playerColor, enemyColor;
 	//0: BIANCHI
 	//1: NERI
 	private final double[][] CELLWEIGHT = {	{	0.1, 0.1, 0.1, 0.1, 0.1, 0.25, 0.25, 0.25, 0.4, 0.55, 0.55, 0.25, 0.25,
@@ -20,24 +20,15 @@ public class NewHeuristic implements IHeuristic {
 												0.7, 0.55, 0.4, 0.85, 0.55, 0.25, 0.25, 0.55, 0.55, 0.4, 0.25, 0.25, 0.25,
 												0.1, 0.1, 0.1, 0.1, 0.1
 											}};
-	
-	
-	
-	public NewHeuristic() { }
-
-	public NewHeuristic(Color playerColor) {
-		this.playerColor = playerColor;
-		this.enemyColor = Color.otherColor(playerColor);
-	}
 
 
 	@Override
 	public double h(RepresentationNode node) {
-		BitSet[] player = ((BitboardRepresentationNode)node).playersPieces[playerColor.ordinal()];
-		BitSet[] enemy = ((BitboardRepresentationNode)node).playersPieces[enemyColor.ordinal()];
+		BitSet[] player = ((BitboardRepresentationNode)node).playersPieces[General.gameEngine.getPlayerColor().ordinal()];
+		BitSet[] enemy = ((BitboardRepresentationNode)node).playersPieces[General.gameEngine.getEnemyColor().ordinal()];
 
-		double [] pa = calculateAdvantage(player, playerColor);
-		double [] aa = calculateAdvantage(enemy, enemyColor);
+		double [] pa = calculateAdvantage(player, General.gameEngine.getPlayerColor());
+		double [] aa = calculateAdvantage(enemy, General.gameEngine.getEnemyColor());
 		
 		double playerAdvantage = pa[0];
 		double enemyAdvantage = aa[0];
@@ -79,12 +70,4 @@ public class NewHeuristic implements IHeuristic {
 		double [] ret = {advantage, numPedine};
 		return ret;
 	}
-
-
-	@Override
-	public void color(Color c) {
-		this.playerColor = c;
-		this.enemyColor = Color.otherColor(c);
-	}
-
 }
