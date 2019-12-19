@@ -2,21 +2,20 @@ package main;
 
 import communication.Protocol;
 import player.Player;
-import representations.BasicGameEngine;
-import strategies.RandomizedMMAB;
+import representations.*;
+import searching.*;
+import strategies.*;
 import util.General;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		
-		
 		if(badUsage(args)) {
 			System.out.println("Arguments:\n\t-h <host-name>\n\t-p <port-number>");
 			System.exit(0);
 		}
-		General.gameEngine = new BasicGameEngine();
+		General.gameEngine = new NewGameEngine();
 		Protocol p = (args[0].charAt(1) == 'h')? new Protocol(args[1], Integer.parseInt(args[3])) : new Protocol(args[3], Integer.parseInt(args[1]));
-		Player pl = new Player(p, new RandomizedMMAB(), null);
+		Player pl = new Player(p, new RandomizedMMAB(), new MyHeuristic());
 		pl.start();
 	}
 	

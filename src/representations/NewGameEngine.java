@@ -5,10 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class BasicGameEngine implements GameEngine {
+public class NewGameEngine implements GameEngine {
 	
-	
-	private final BitSet[][] captureMovesBB = {
+	public static final BitSet[][] captureMovesBB = {
 			{
 				BitSet.valueOf(new byte[] { (byte) 0x30, (byte) 0x00, (byte) 0x00, (byte) 0x00, }),
 				BitSet.valueOf(new byte[] { (byte) 0x02, (byte) 0x03, (byte) 0x00, (byte) 0x00, }),
@@ -459,9 +458,7 @@ public class BasicGameEngine implements GameEngine {
 			},
 		};
 
-	
-
-	private final BitSet[][][] nonCaptureMovesBB = {
+	public static final BitSet[][][] nonCaptureMovesBB = {
 			{
 				{
 					BitSet.valueOf(new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, }),
@@ -1364,7 +1361,7 @@ public class BasicGameEngine implements GameEngine {
 				}
 			};
 
-	public final int[][][] exitMoves = {
+	public static final int[][][] exitMoves = {
 			{
 					{2, -1, -1, -1, 1, 1, -1, -1, },
 					{2, -1, -1, -1, 1, 1, -1, -1, },
@@ -1434,49 +1431,15 @@ public class BasicGameEngine implements GameEngine {
 					{-1, 2, -1, -1, -1, -1, 1, 1, },
 			},
 	};
-
-
-	
-	/*
-	final String[][] exitMovesDirections = {
-			{
-			 "N", "N", "N", "N", "NW", "N", "N", "N", 
-			 "NW", "N", "N", "NE", "NW", "NW", "N", "NE", 
-			 "NW", "NW", "NE", "NE", "NW", "NW", "NE", "NE", 
-			 "NW", "NW", "NE", "NE", "NW", "NW", "NE", "NE", 
-			},
-			{
-			 "SW", "SW", "SE", "SE", "SW", "SW", "SE", "SE", 
-			 "SW", "SW", "SE", "SE", "SW", "SW", "SE", "SE", 
-			 "SW", "S", "SE", "SE", "SW", "S", "S", "SE", 
-			 "S", "S", "S", "SE", "S", "S", "S", "S", 
-			}
-	};
-	
-	final int[][] exitMovesDistances = {
-			{
-				1, 1, 1, 1, 1, 2, 2, 2, 
-				2, 3, 3, 1, 1, 3, 4, 2, 
-				2, 4, 3, 1, 1, 3, 4, 2, 
-				2, 4, 3, 1, 1, 3, 4, 2, 
-			},
-			{
-				2, 4, 3, 1, 1, 3, 4, 2, 
-				2, 4, 3, 1, 1, 3, 4, 2, 
-				2, 4, 3, 1, 1, 3, 3, 2, 
-				2, 2, 2, 1, 1, 1, 1, 1, 
-			},
-	};
-	*/
 			
-	final String[] encodedSquares = {
+	public static final String[] encodedSquares = {
 			 "A2", "A4", "A6", "A8", "B1", "B3", "B5", "B7", 
 			 "C2", "C4", "C6", "C8", "D1", "D3", "D5", "D7", 
 			 "E2", "E4", "E6", "E8", "F1", "F3", "F5", "F7", 
 			 "G2", "G4", "G6", "G8", "H1", "H3", "H5", "H7", 
 	};
 	
-	private final String[][] directions = {
+	public static final String[][] directions = {
 			{ "", "E", "E", "E", "SW", "SE", "", "", "S", "SE", "", "", "", "", "SE", "", "S", "", "SE", "", "", "", "", "SE", "S", "", "", "SE", "", "", "", "", 										},
 			{ "W", "", "E", "E", "", "SW", "SE", "", "SW", "S", "SE", "", "SW", "", "", "SE", "", "S", "", "SE", "", "", "", "", "", "S", "", "", "", "", "", "", 										},
 			{ "W", "W", "", "E", "", "", "SW", "SE", "", "SW", "S", "SE", "", "SW", "", "", "SW", "", "S", "", "SW", "", "", "", "", "", "S", "", "", "", "", "", 										},
@@ -1511,7 +1474,7 @@ public class BasicGameEngine implements GameEngine {
 			{ "", "", "", "", "NW", "", "", "N", "NW", "", "", "", "", "NW", "", "N", "", "NW", "", "", "", "", "NW", "N", "", "", "NW", "NE", "W", "W", "W", "", 										},
 		};
 	
-	public final int[][] distances = {
+	public static final int[][] distances = {
 			{ 0, 2, 4, 6, 1, 1, -1, -1, 2, 2, -1, -1, -1, -1, 3, -1, 4, -1, 4, -1, -1, -1, -1, 5, 6, -1, -1, 6, -1, -1, -1, -1, 										},
 			{ 2, 0, 2, 4, -1, 1, 1, -1, 2, 2, 2, -1, 3, -1, -1, 3, -1, 4, -1, 4, -1, -1, -1, -1, -1, 6, -1, -1, -1, -1, -1, -1, 										},
 			{ 4, 2, 0, 2, -1, -1, 1, 1, -1, 2, 2, 2, -1, 3, -1, -1, 4, -1, 4, -1, 5, -1, -1, -1, -1, -1, 6, -1, -1, -1, -1, -1, 										},
@@ -1547,308 +1510,14 @@ public class BasicGameEngine implements GameEngine {
 		};
 	
 	
-	private Color playerColor;
-
-	private Color enemyColor;
-	
+	private Color playerColor, enemyColor;
 	private BitboardRepresentationNode currentBoardState;
 	
-	
-	public Color getPlayerColor() { return this.playerColor; }
-	
-	public Color getEnemyColor() { return this.enemyColor; }
-	
-	//Dato l'array di 12 bitboards di un giocatore, calcola una bitboard relativa a tutte le posizioni occupate
-	private BitSet calculateOccupiedSquares(BitSet[] pieces) {
-		
-		BitSet result = new BitSet(32);
-		
-		for(int i = 0; i < 12; i++) {
-			result.or(pieces[i]);
-		}
-		
-		return result;
-	}
-	
-	//Dati i due array di 12 bb ciascuno (uno per giocatore), calcola una bb relativa a tutte le caselle vuote
-	private BitSet calculateEmptySquares(BitSet occupiedSquares1, BitSet occupiedSquares2) {
-		
-		BitSet result = new BitSet(32);
-		result.flip(0, 32);
-		result.andNot(occupiedSquares1);
-		result.andNot(occupiedSquares2);
-		
-		return result;
-		
-	}
-	
-	
-
-	
-	//Calcola iterativamente tutte le coordinate delle non-capture moves e, per ciascuna di esse,
-	//richiama il metodo che genera il nuovo stato della schacchera, che viene poi aggiunto alla lista
-	//delle mosse valide.
-	private void calculateNonCaptureMoves(BitSet[] playerPieces, 
-										  BitSet[] enemyPieces,
-										  BitSet playerOccupiedSquares, 
-										  BitSet enemyOccupiedSquares, 
-										  BitSet emptySquares,
-										  List<RepresentationNode> validMoves) {
-		
-		//Bitboard che, per ogni coppia di iterazoni (esterna ed interna) individua,
-		//alla fine dei calcoli, le posizioni su cui potrebbe spostarsi uno stack di n
-		//pedine posizionato in una certa casella (srcSquare).
-		BitSet reachableSquares = new BitSet(32);
-		
-		//Bitboard (calcolata immediatamente) che individua caselle vuote e caselle occupate
-		//da pedine dello stesso colore. L'intersezione di questa bitboard con quella precedente
-		//individua, ad ogni iterazione e quindi per ogni stack su una specifica casella, le posizioni
-		//effettivamente raggiungibili.
-		BitSet idleSquares = new BitSet(32);
-		idleSquares.or(playerOccupiedSquares);
-		idleSquares.or(emptySquares);
-		
-		//Itero su ogni tipologia di stack (stack con n + 1 pedine) 0 <= n < 12
-		for(int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
-			
-			//Per ogni stack con n + 1 pedine, calcolo le celle su cui potrebbe spostarsi
-			//cioè celle vuote o contenenti stack dello stesso colore
-			int srcSquare = 0;
-			while(true) {
-				srcSquare = playerPieces[playerStackSize].nextSetBit(srcSquare);
-				if(srcSquare == -1) break;
-
-				//Poichè in nonCaptureMovesBB (per ciascun colore e posizione di partenza) una bitboard
-				//in posizione i marca SOLO le posizioni raggiungibili a distanza i+1, se voglio valutare 
-				//tutti gli spostamenti che uno stack di n+1 può fare, devo "sommare" tutte le bitboard
-				//da 0 a n
-				reachableSquares.clear();
-				for(int i = 0; i <= playerStackSize; i++) {
-					reachableSquares.or(this.nonCaptureMovesBB[this.playerColor.ordinal()][srcSquare][i]);
-				}
-				reachableSquares.and(idleSquares);
-					
-				//Estraggo le celle raggiungibili e per ognuna genero la mossa corrispondente
-				int dstSquare = 0;
-				while(true) {
-					dstSquare = reachableSquares.nextSetBit(dstSquare);
-					if(dstSquare == -1) break;
-					
-					String encodedSrcSquare = this.encodedSquares[srcSquare];
-					String direction = directions[srcSquare][dstSquare];
-					int distance = distances[srcSquare][dstSquare];
-					
-					validMoves.add(BoardStateBuilder.calculateNonCaptureMove(playerPieces, 
-														   enemyPieces,
-														   playerOccupiedSquares,
-														   playerStackSize,
-														   srcSquare,
-														   dstSquare,
-														   encodedSrcSquare,
-														   direction,
-														   distance,
-														   this.playerColor,
-														   this.enemyColor));
-					dstSquare++;
-				}
-				
-				srcSquare++;
-			}
-		}
-				
-	}
-		
-	
-	private void calculateExitMoves(BitSet[] playerPieces, 
-									BitSet[] enemyPieces,
-									BitSet playerOccupiedSquares, 
-									BitSet enemyOccupiedSquares, 
-									BitSet emptySquares,
-									List<RepresentationNode> validMoves) {
-		
-		
-		
-		
-		//Itero su ogni tipologia di stack (stack con stackSize + 1 pedine) 0 <= stackSize < 12
-		for(int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
-			
-			int srcSquare = 0;
-			while(true) {
-				srcSquare = playerPieces[playerStackSize].nextSetBit(srcSquare);
-				if(srcSquare == -1) break;
-				
-				String encodedSrcSquare = this.encodedSquares[srcSquare];
-				String direction = null;
-				int minDistance = -1;
-				for(int i = 0; i < 8; i++) {
-					if(this.exitMoves[this.playerColor.ordinal()][srcSquare][i] != -1) {
-						minDistance = this.exitMoves[this.playerColor.ordinal()][srcSquare][i];
-						direction = Direction.getDirectionByInt(i).toString();
-						
-						for(int distance = minDistance; playerStackSize - distance >= -1 && (direction.equals("N") || direction.equals("S")); distance += 2) {
-							validMoves.add(BoardStateBuilder.calculateExitMove(playerPieces, 
-											  				    			   enemyPieces,
-											  				    			   playerStackSize,
-											  				    			   srcSquare,
-											  				    			   encodedSrcSquare,
-											  				    			   direction,
-											  				    			   distance,
-											  				    			   this.playerColor,
-											  				    			   this.enemyColor
-											  								  ));
-						}
-						
-						for(int distance = minDistance; playerStackSize - distance >= -1 && (direction.equals("NW") || direction.equals("NE") || direction.equals("SW") || direction.equals("SE")); distance += 1) {
-							validMoves.add(BoardStateBuilder.calculateExitMove(playerPieces, 
-											  				    			   enemyPieces,
-											  				    			   playerStackSize,
-											  				    			   srcSquare,
-											  				    			   encodedSrcSquare,
-											  				    			   direction,
-											  				    			   distance,
-											  				    			   this.playerColor,
-											  				    			   this.enemyColor
-											  								  ));
-						}
-					}
-				}
-			
-				srcSquare++;
-			}
-		}
-		
-	}
-
-	/*	
-	private void calculateExitMoves(BitSet[] playerPieces, 
-									BitSet[] enemyPieces,
-									BitSet playerOccupiedSquares, 
-									BitSet enemyOccupiedSquares, 
-									BitSet emptySquares,
-									List<RepresentationNode> validMoves) {
-		
-		
-		//Itero su ogni tipologia di stack (stack con stackSize + 1 pedine) 0 <= stackSize < 12
-		for(int stackSize = 0; stackSize < 12; stackSize++) {
-			
-			int srcSquare = 0;
-			while(true) {
-				srcSquare = playerPieces[stackSize].nextSetBit(srcSquare);
-				if(srcSquare == -1) break;
-
-				int minDistance = this.exitMovesDistances[this.playerColor.ordinal()][srcSquare];
-				String encodedSrcSquare = this.encodedSquares[srcSquare];
-				String direction = this.exitMovesDirections[this.playerColor.ordinal()][srcSquare];
-				for(int distance = minDistance; stackSize - distance >= 0; distance++) {
-					BoardStateBuilder.calculateExitMove(playerPieces, 
-									  enemyPieces,
-									  stackSize,
-									  srcSquare,
-									  encodedSrcSquare,
-									  direction,
-									  distance,
-									  this.playerColor,
-									  this.enemyColor
-									  );
-				}
-	
-				srcSquare++;
-			}
-		}
-	
-	}
-	*/
-
-
-
-	private void calculateCapturesMoves(BitSet[] playerPieces, 
-										BitSet[] enemyPieces,
-								   		BitSet playerOccupiedSquares, 
-								   		BitSet enemyOccupiedSquares, 
-								   		BitSet emptySquares,
-								   		List<RepresentationNode> validMoves) {
-
-		
-
-		//Bitboard che, per ogni coppia di iterazoni (esterna ed interna) individua,
-		//alla fine dei calcoli, le posizioni su cui potrebbe spostarsi uno stack di n
-		//pedine posizionato in una certa casella (srcSquare).
-		BitSet reachableSquares = new BitSet(32);
-		
-		//Bitboard (calcolata immediatamente) che individua le caselle occupate dal nemico.
-		//L'intersezione di questa bitboard con quella precedente individua, ad ogni iterazione 
-		//i pezzi potenzialmente catturabili.
-		BitSet idleSquares = new BitSet(32);
-		idleSquares.or(enemyOccupiedSquares);
-		
-		//Itero su ogni tipologia di stack (stack con n + 1 pedine) 0 <= n < 12
-		for(int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
-			
-			//Per ogni stack con n + 1 pedine, calcolo le celle su cui potrebbe spostarsi
-			//cioè celle vuote o contenenti stack dello stesso colore
-			int srcSquare = 0;
-			while(true) {
-				srcSquare = playerPieces[playerStackSize].nextSetBit(srcSquare);
-				if(srcSquare == -1) break;
-
-				//Poichè in captureMovesBB (per ciascun colore e posizione di partenza) una bitboard
-				//in posizione i marca SOLO le posizioni raggiungibili a distanza i + 1, se voglio valutare 
-				//tutti gli spostamenti che uno stack di n+1 può fare, devo "sommare" tutte le bitboard
-				//da 0 a n
-				reachableSquares.clear();
-				for(int i = 0; i <= playerStackSize; i++) {
-					reachableSquares.or(this.captureMovesBB[srcSquare][i]);
-				}
-				reachableSquares.and(idleSquares);
-					
-				//Estraggo le celle di destinazione corrispondenti a capture moves valide e, per ognuna di esse,
-				//genero il nuovo stato della scacchiera.
-				int dstSquare = 0;
-				while(true) {
-					dstSquare = reachableSquares.nextSetBit(dstSquare);
-					if(dstSquare == -1) break;
-					
-					int enemyStackSize = -1;
-					for(int i = 0; i < 12; i++) {
-						if(enemyPieces[i].get(dstSquare)) {
-							enemyStackSize = i;
-							break;
-						}
-					}
-					int distance = this.distances[srcSquare][dstSquare];
-
-					if(distance - 1 >= enemyStackSize &&  playerStackSize >= enemyStackSize) {
-						String encodedSrcSquare = this.encodedSquares[srcSquare];
-						String direction = this.directions[srcSquare][dstSquare];
-						
-						validMoves.add(BoardStateBuilder.calculateCaptureMove(playerPieces, 
-																			  enemyPieces, 
-																			  playerStackSize, 
-																			  enemyStackSize, 
-																			  srcSquare, 
-																			  dstSquare,
-																			  encodedSrcSquare,
-																			  direction,
-																			  distance,
-																			  this.playerColor,
-																			  this.enemyColor
-																			 ));
-					}
-					
-					dstSquare++;
-				}
-				
-				srcSquare++;
-			}
-		}
-		
-	}
-
 	@Override
 	public void start(Color color) {
-		this.playerColor = color;
-		this.enemyColor = Color.otherColor(color);
-		this.currentBoardState = new BitboardRepresentationNode();
+		playerColor = color;
+		enemyColor = Color.otherColor(color);
+		currentBoardState = new BitboardRepresentationNode();
 		
 		BitSet[] whitePieces = new BitSet[12];
 		BitSet[] blackPieces = new BitSet[12];
@@ -1861,38 +1530,38 @@ public class BasicGameEngine implements GameEngine {
 		whitePieces[11] = BitSet.valueOf(new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x40});
 		blackPieces[11] = BitSet.valueOf(new byte[] { (byte) 0x02, (byte) 0x00, (byte) 0x00, (byte) 0x00});
 		
-		this.currentBoardState.setPlayerPieces(Color.WHITE, whitePieces);
-		this.currentBoardState.setPlayerPieces(Color.BLACK, blackPieces);
+		currentBoardState.setPlayerPieces(Color.WHITE, whitePieces);
+		currentBoardState.setPlayerPieces(Color.BLACK, blackPieces);
 		
 	}
+	
+	@Override
+	public Color getPlayerColor() { return playerColor; }
+	
+	@Override
+	public Color getEnemyColor() { return enemyColor; }
 
 	@Override
-	public RepresentationNode getCurrentBoardState() { return this.currentBoardState; }
+	public RepresentationNode getCurrentBoardState() { return currentBoardState; }
 
 	@Override
-	public void playerMakeMove(RepresentationNode newBoardState) {
-		
-		this.currentBoardState = (BitboardRepresentationNode)newBoardState;
-		
-	}
+	public void playerMakeMove(RepresentationNode newBoardState) { currentBoardState = (BitboardRepresentationNode)newBoardState; }
 
-	@Override
+	//TODO
+	@Override 
 	public RepresentationNode enemyMakeMove(String encodedMove) {
 		
 
 		StringTokenizer st = new StringTokenizer(encodedMove, ",");
 		
 		String encodedSrcSquare = st.nextToken();
-		int srcSquare = -1;
+		int col = Integer.parseInt(""+encodedSrcSquare.charAt(1));
+		int srcSquare = ((char)encodedSrcSquare.charAt(0)-65)*4;
+		srcSquare += (col%2 == 0)? col/2-1 : col/2;
+		
+		
 		String direction = st.nextToken();
 		int distance = Integer.valueOf(st.nextToken());
-		
-		for(int i = 0; i < 32; i++) {
-			if(this.encodedSquares[i].equals(encodedSrcSquare)) {
-				srcSquare = i;
-				break;
-			}
-		}
 		
 		
 		int enemyStackSize = -1;
@@ -1908,8 +1577,8 @@ public class BasicGameEngine implements GameEngine {
 		
 		List<Integer> potentialsExitDirections = new LinkedList<Integer>();
 		for(int i = 0; i < 8; i++) {
-			if(this.exitMoves[this.enemyColor.ordinal()][srcSquare][i] != -1 &&
-			   this.exitMoves[this.enemyColor.ordinal()][srcSquare][i] <= distance) {
+			if(exitMoves[this.enemyColor.ordinal()][srcSquare][i] != -1 &&
+			   exitMoves[this.enemyColor.ordinal()][srcSquare][i] <= distance) {
 				potentialsExitDirections.add(i);
 			}
 		}
@@ -1944,20 +1613,20 @@ public class BasicGameEngine implements GameEngine {
 			int dstSquare = -1;
 			LinkedList<Integer> squares = new LinkedList<Integer>();
 			for(int i = 0; i < 32; i++) {
-				if(this.distances[srcSquare][i] == distance) squares.add(i);
+				if(distances[srcSquare][i] == distance) squares.add(i);
 			}
 			
 			while(!squares.isEmpty()) {
 				int square = squares.removeFirst();
-				if(direction.equals(this.directions[srcSquare][square])) {
+				if(direction.equals(directions[srcSquare][square])) {
 					dstSquare = square;
 					break;
 				}
 			}
 			
-			BitSet playerOccupiedSquares = this.calculateOccupiedSquares(playerPieces);
+			BitSet playerOccupiedSquares = BoardStateBuilder.calculateOccupiedSquares(playerPieces);
 			if(!playerOccupiedSquares.get(dstSquare)) {
-				BitSet enemyOccupiedSquares = this.calculateOccupiedSquares(enemyPieces);
+				BitSet enemyOccupiedSquares = BoardStateBuilder.calculateOccupiedSquares(enemyPieces);
 				
 				this.currentBoardState = BoardStateBuilder.calculateNonCaptureMove(enemyPieces, 
 																	  			   playerPieces, 
@@ -2001,79 +1670,268 @@ public class BasicGameEngine implements GameEngine {
 		return this.currentBoardState;
 	}
 	
-	public RepresentationNode calculateEmptyMove(BitSet[] playerPieces) {
-		
-		RepresentationNode emptyMove = this.currentBoardState;		
-		boolean exit = false;
-		
-		for(int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
-			
-			int srcSquare = 0;
-			while(true) {
-				srcSquare = playerPieces[playerStackSize].nextSetBit(srcSquare);
-				if(srcSquare == -1) break;
-				String encodedSrcSquare = this.encodedSquares[srcSquare];
-				String encodedMove = encodedSrcSquare.concat(",");
-				if(this.playerColor == Color.WHITE) encodedMove = encodedMove.concat("N").concat(",");
-				else encodedMove = encodedMove.concat("S").concat(",");
-				encodedMove = encodedMove.concat(Integer.toString(0));
-				emptyMove.setMove(encodedMove);
-				exit = true;
-				break;
-			}
-			if(exit) break;
-		}
-		
-		if(!exit)
-			emptyMove = null;
-		
-		return emptyMove;
-	}
-	
-	
+	@Override
 	public List<RepresentationNode> validActions(RepresentationNode configuration, Color playingColor) {
-		 
+		
+		Color otherPlayer = Color.otherColor(playingColor);
 		BitboardRepresentationNode concreteBoardState = (BitboardRepresentationNode)configuration;
 		List<RepresentationNode> validMoves = new LinkedList<RepresentationNode>();
 		
 		BitSet[] playersOccupiedSquares = new BitSet[2];
-		playersOccupiedSquares[this.playerColor.ordinal()] = calculateOccupiedSquares(concreteBoardState.getPlayerPieces(this.playerColor));
-		playersOccupiedSquares[this.enemyColor.ordinal()] = calculateOccupiedSquares(concreteBoardState.getPlayerPieces(this.enemyColor));
-		BitSet emptySquares = calculateEmptySquares(playersOccupiedSquares[0], playersOccupiedSquares[1]);
+		playersOccupiedSquares[playingColor.ordinal()] = BoardStateBuilder.calculateOccupiedSquares(concreteBoardState.getPlayerPieces(playingColor));
+		playersOccupiedSquares[otherPlayer.ordinal()] = BoardStateBuilder.calculateOccupiedSquares(concreteBoardState.getPlayerPieces(otherPlayer));
+		BitSet emptySquares = BoardStateBuilder.calculateEmptySquares(playersOccupiedSquares[0], playersOccupiedSquares[1]);
 		
 		
-		calculateNonCaptureMoves(concreteBoardState.getPlayerPieces(this.playerColor), 
-				 				 concreteBoardState.getPlayerPieces(this.enemyColor), 
-				 				 playersOccupiedSquares[this.playerColor.ordinal()], 
-				 				 playersOccupiedSquares[this.enemyColor.ordinal()], 
-				 				 emptySquares, 
+		calculateNonCaptureMoves(concreteBoardState.getPlayerPieces(playingColor), 
+				 				 concreteBoardState.getPlayerPieces(otherPlayer), 
+				 				 playersOccupiedSquares[playingColor.ordinal()], 
+				 				 playersOccupiedSquares[otherPlayer.ordinal()], 
+				 				 emptySquares,
+				 				 playingColor,
+				 				 otherPlayer,
 				 				 validMoves);
 		
-		calculateCapturesMoves(concreteBoardState.getPlayerPieces(this.playerColor), 
-				   concreteBoardState.getPlayerPieces(this.enemyColor),
-				   playersOccupiedSquares[this.playerColor.ordinal()], 
-				   playersOccupiedSquares[this.enemyColor.ordinal()], 
-				   emptySquares, 
+		calculateCapturesMoves(concreteBoardState.getPlayerPieces(playingColor), 
+				   concreteBoardState.getPlayerPieces(otherPlayer),
+				   playersOccupiedSquares[playingColor.ordinal()], 
+				   playersOccupiedSquares[otherPlayer.ordinal()], 
+				   emptySquares,
+				   playingColor,
+				   otherPlayer,
 				   validMoves);
 		
-		calculateExitMoves(concreteBoardState.getPlayerPieces(this.playerColor),
-						   concreteBoardState.getPlayerPieces(this.enemyColor),
-						   playersOccupiedSquares[this.playerColor.ordinal()], 
-						   playersOccupiedSquares[this.enemyColor.ordinal()], 
-						   emptySquares, 
+		calculateExitMoves(concreteBoardState.getPlayerPieces(playingColor),
+						   concreteBoardState.getPlayerPieces(otherPlayer),
+						   playersOccupiedSquares[playingColor.ordinal()], 
+						   playersOccupiedSquares[otherPlayer.ordinal()], 
+						   emptySquares,
+						   playingColor,
+						   otherPlayer,
 						   validMoves);
 		
 		if(validMoves.isEmpty()) {
-			RepresentationNode node = calculateEmptyMove(concreteBoardState.getPlayerPieces(this.playerColor));
+			RepresentationNode node = calculateEmptyMove(concreteBoardState, playingColor);
 			if(node != null)
 				validMoves.add(node);
 		}
 
 		return validMoves;
-		
 	}
 	
-	
-	
+	//Calcola iterativamente tutte le coordinate delle non-capture moves e, per ciascuna di esse,
+	//richiama il metodo che genera il nuovo stato della schacchera, che viene poi aggiunto alla lista
+	//delle mosse valide.
+	private void calculateNonCaptureMoves(BitSet[] playerPieces, BitSet[] enemyPieces, BitSet playerOccupiedSquares,
+			BitSet enemyOccupiedSquares, BitSet emptySquares, Color playerColor, Color enemyColor, List<RepresentationNode> validMoves) {
 
+		// Bitboard che, per ogni coppia di iterazoni (esterna ed interna) individua,
+		// alla fine dei calcoli, le posizioni su cui potrebbe spostarsi uno stack di n
+		// pedine posizionato in una certa casella (srcSquare).
+		BitSet reachableSquares = new BitSet(32);
+
+		// Bitboard (calcolata immediatamente) che individua caselle vuote e caselle
+		// occupate
+		// da pedine dello stesso colore. L'intersezione di questa bitboard con quella
+		// precedente
+		// individua, ad ogni iterazione e quindi per ogni stack su una specifica
+		// casella, le posizioni
+		// effettivamente raggiungibili.
+		BitSet idleSquares = new BitSet(32);
+		idleSquares.or(playerOccupiedSquares);
+		idleSquares.or(emptySquares);
+
+		// Itero su ogni tipologia di stack (stack con n + 1 pedine) 0 <= n < 12
+		for (int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
+
+			// Per ogni stack con n + 1 pedine, calcolo le celle su cui potrebbe spostarsi
+			// cioè celle vuote o contenenti stack dello stesso colore
+			int srcSquare = 0;
+			while (true) {
+				srcSquare = playerPieces[playerStackSize].nextSetBit(srcSquare);
+				if (srcSquare == -1)
+					break;
+
+				// Poichè in nonCaptureMovesBB (per ciascun colore e posizione di partenza) una
+				// bitboard
+				// in posizione i marca SOLO le posizioni raggiungibili a distanza i+1, se
+				// voglio valutare
+				// tutti gli spostamenti che uno stack di n+1 può fare, devo "sommare" tutte le
+				// bitboard
+				// da 0 a n
+				reachableSquares.clear();
+				for (int i = 0; i <= playerStackSize; i++) {
+					reachableSquares.or(nonCaptureMovesBB[playerColor.ordinal()][srcSquare][i]);
+				}
+				reachableSquares.and(idleSquares);
+
+				// Estraggo le celle raggiungibili e per ognuna genero la mossa corrispondente
+				int dstSquare = 0;
+				while (true) {
+					dstSquare = reachableSquares.nextSetBit(dstSquare);
+					if (dstSquare == -1)
+						break;
+
+					String encodedSrcSquare = encodedSquares[srcSquare];
+					String direction = directions[srcSquare][dstSquare];
+					int distance = distances[srcSquare][dstSquare];
+
+					validMoves.add(BoardStateBuilder.calculateNonCaptureMove(playerPieces, enemyPieces,
+							playerOccupiedSquares, playerStackSize, srcSquare, dstSquare, encodedSrcSquare, direction,
+							distance, playerColor, enemyColor));
+					dstSquare++;
+				}
+				srcSquare++;
+			}
+		}
+
+	}
+	
+	private void calculateCapturesMoves(BitSet[] playerPieces, BitSet[] enemyPieces, BitSet playerOccupiedSquares,
+			BitSet enemyOccupiedSquares, BitSet emptySquares, Color playerColor, Color enemyColor, List<RepresentationNode> validMoves) {
+
+		// Bitboard che, per ogni coppia di iterazoni (esterna ed interna) individua,
+		// alla fine dei calcoli, le posizioni su cui potrebbe spostarsi uno stack di n
+		// pedine posizionato in una certa casella (srcSquare).
+		BitSet reachableSquares = new BitSet(32);
+
+		// Bitboard (calcolata immediatamente) che individua le caselle occupate dal
+		// nemico.
+		// L'intersezione di questa bitboard con quella precedente individua, ad ogni
+		// iterazione
+		// i pezzi potenzialmente catturabili.
+		BitSet idleSquares = new BitSet(32);
+		idleSquares.or(enemyOccupiedSquares);
+
+		// Itero su ogni tipologia di stack (stack con n + 1 pedine) 0 <= n < 12
+		for (int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
+
+			// Per ogni stack con n + 1 pedine, calcolo le celle su cui potrebbe spostarsi
+			// cioe celle vuote o contenenti stack dello stesso colore
+			int srcSquare = 0;
+			while (true) {
+				srcSquare = playerPieces[playerStackSize].nextSetBit(srcSquare);
+				if (srcSquare == -1)
+					break;
+
+				// Poiche in captureMovesBB (per ciascun colore e posizione di partenza) una
+				// bitboard
+				// in posizione i marca SOLO le posizioni raggiungibili a distanza i + 1, se
+				// voglio valutare
+				// tutti gli spostamenti che uno stack di n+1 può fare, devo "sommare" tutte le
+				// bitboard
+				// da 0 a n
+				reachableSquares.clear();
+				for (int i = 0; i <= playerStackSize; i++) {
+					reachableSquares.or(captureMovesBB[srcSquare][i]);
+				}
+				reachableSquares.and(idleSquares);
+
+				// Estraggo le celle di destinazione corrispondenti a capture moves valide e,
+				// per ognuna di esse,
+				// genero il nuovo stato della scacchiera.
+				int dstSquare = 0;
+				while (true) {
+					dstSquare = reachableSquares.nextSetBit(dstSquare);
+					if (dstSquare == -1)
+						break;
+
+					int enemyStackSize = -1;
+					for (int i = 0; i < 12; i++) {
+						if (enemyPieces[i].get(dstSquare)) {
+							enemyStackSize = i;
+							break;
+						}
+					}
+					int distance = distances[srcSquare][dstSquare];
+
+					if (distance - 1 >= enemyStackSize && playerStackSize >= enemyStackSize) {
+						String encodedSrcSquare = encodedSquares[srcSquare];
+						String direction = directions[srcSquare][dstSquare];
+
+						validMoves.add(BoardStateBuilder.calculateCaptureMove(playerPieces, enemyPieces,
+								playerStackSize, enemyStackSize, srcSquare, dstSquare, encodedSrcSquare, direction,
+								distance, playerColor, enemyColor));
+					}
+					dstSquare++;
+				}
+				srcSquare++;
+			}
+		}
+	}
+	
+	private void calculateExitMoves(BitSet[] playerPieces, BitSet[] enemyPieces, BitSet playerOccupiedSquares,
+			BitSet enemyOccupiedSquares, BitSet emptySquares, Color playerColor, Color enemyColor, List<RepresentationNode> validMoves) {
+
+		// Itero su ogni tipologia di stack (stack con stackSize + 1 pedine) 0 <=
+		// stackSize < 12
+		for (int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
+
+			int srcSquare = 0;
+			while (true) {
+				srcSquare = playerPieces[playerStackSize].nextSetBit(srcSquare);
+				if (srcSquare == -1)
+					break;
+
+				String encodedSrcSquare = encodedSquares[srcSquare];
+				String direction = null;
+				int minDistance = -1;
+				for (int i = 0; i < 8; i++) {
+					if (exitMoves[playerColor.ordinal()][srcSquare][i] != -1) {
+						minDistance = exitMoves[playerColor.ordinal()][srcSquare][i];
+						direction = Direction.getDirectionByInt(i).toString();
+
+						for (int distance = minDistance; playerStackSize - distance >= -1
+								&& (direction.equals("N") || direction.equals("S")); distance += 2) {
+							validMoves.add(BoardStateBuilder.calculateExitMove(playerPieces, enemyPieces,
+									playerStackSize, srcSquare, encodedSrcSquare, direction, distance, playerColor, enemyColor));
+						}
+
+						for (int distance = minDistance; playerStackSize - distance >= -1
+								&& (direction.equals("NW") || direction.equals("NE") || direction.equals("SW")
+										|| direction.equals("SE")); distance += 1) {
+							validMoves.add(BoardStateBuilder.calculateExitMove(playerPieces, enemyPieces,
+									playerStackSize, srcSquare, encodedSrcSquare, direction, distance, playerColor,
+									enemyColor));
+						}
+					}
+				}
+				srcSquare++;
+			}
+		}
+	}
+
+	public RepresentationNode calculateEmptyMove(BitboardRepresentationNode configuration, Color playingColor) {
+
+		RepresentationNode emptyMove = configuration;
+		BitSet[] playerPieces = configuration.getPlayerPieces(playingColor);
+		boolean exit = false;
+
+		for (int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
+
+			int srcSquare = 0;
+			while (true) {
+				srcSquare = playerPieces[playerStackSize].nextSetBit(srcSquare);
+				if (srcSquare == -1)
+					break;
+				String encodedSrcSquare = encodedSquares[srcSquare];
+				String encodedMove = encodedSrcSquare.concat(",");
+				if (playingColor == Color.WHITE)
+					encodedMove = encodedMove.concat("N").concat(",");
+				else
+					encodedMove = encodedMove.concat("S").concat(",");
+				encodedMove = encodedMove.concat("0");
+				emptyMove.setMove(encodedMove);
+				exit = true;
+				break;
+			}
+			if (exit)
+				break;
+		}
+
+		if (!exit)
+			emptyMove = null;
+
+		return emptyMove;
+	}
 }

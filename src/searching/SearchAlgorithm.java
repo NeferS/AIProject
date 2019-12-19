@@ -1,6 +1,7 @@
-package strategies;
+package searching;
 
 import representations.RepresentationNode;
+import strategies.IHeuristic;
 
 /**Rappresenta un algoritmo di ricerca sull'albero degli stati.
  * @author Vincenzo Parrilla

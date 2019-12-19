@@ -6,9 +6,8 @@ import util.Semaphores;
 import util.General;
 import representations.Color;
 import representations.RepresentationNode;
+import searching.SearchAlgorithm;
 import strategies.IHeuristic;
-import strategies.MyHeuristic;
-import strategies.SearchAlgorithm;
 
 public class Player extends Thread {
 	
@@ -19,7 +18,7 @@ public class Player extends Thread {
 	protected final String MOVE = "MOVE ";
 	
 	public Player(Protocol p, SearchAlgorithm a, IHeuristic s) {
-		if(p == null || a == null) throw new IllegalArgumentException();
+		if(p == null || a == null || s == null) throw new IllegalArgumentException();
 		protocol = p;
 		algorithm = a;
 		initialStrategy = s;
@@ -47,10 +46,7 @@ public class Player extends Thread {
 		}//programma terminato
 		General.isWhite = welcome[1].charAt(0) != Protocol.black;
 		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
-		if(initialStrategy == null) 
-			initialStrategy = new MyHeuristic(General.isWhite? Color.WHITE : Color.BLACK);
-		else 
-			initialStrategy.color(General.isWhite? Color.WHITE : Color.BLACK);
+		initialStrategy.color(General.isWhite? Color.WHITE : Color.BLACK);
 		algorithm.initStrategy(initialStrategy);
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected

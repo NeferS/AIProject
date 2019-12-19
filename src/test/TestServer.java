@@ -7,8 +7,8 @@ import representations.BasicGameEngine;
 import representations.BitboardRepresentationNode;
 import representations.Color;
 import representations.RepresentationNode;
+import searching.RandomizedMMAB;
 import strategies.MyHeuristic;
-import strategies.RandomizedMMAB;
 import util.General;
 
 public class TestServer {

@@ -42,7 +42,6 @@ public class MyHeuristic implements IHeuristic {
 		
 		for(int i=0; i<BOARDS; i++) {
 			//player
-			tots += (maxs_stacks[i] - ps[i].cardinality());
 			totpp += ps[i].cardinality() * (i+1);
 			if(ps[i].cardinality() > 0) {
 				int nextpos = ps[i].nextSetBit(0);
@@ -50,6 +49,7 @@ public class MyHeuristic implements IHeuristic {
 					totpm += (i+1) * (nextpos/4 + 1);
 					nextpos = ps[i].nextSetBit(nextpos+1);
 				}
+				tots += (maxs_stacks[i] - ps[i].cardinality());
 			}
 			
 			//enemy
