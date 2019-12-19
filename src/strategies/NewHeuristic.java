@@ -23,7 +23,7 @@ public class NewHeuristic implements IHeuristic {
 	
 	
 	
-
+	public NewHeuristic() { }
 
 	public NewHeuristic(Color playerColor) {
 		this.playerColor = playerColor;
@@ -78,6 +78,13 @@ public class NewHeuristic implements IHeuristic {
 		}
 		double [] ret = {advantage, numPedine};
 		return ret;
+	}
+
+
+	@Override
+	public void color(Color c) {
+		this.playerColor = c;
+		this.enemyColor = Color.otherColor(c);
 	}
 
 }

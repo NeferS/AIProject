@@ -1,9 +1,9 @@
 package main;
 
 import communication.Protocol;
-import player.Player2;
+import player.Player;
 import representations.BasicGameEngine;
-import strategies.HashMMAB;
+import strategies.RandomizedMMAB;
 import util.General;
 
 public class MainSecondHeuristic {
@@ -18,7 +18,7 @@ public class MainSecondHeuristic {
 			}
 			General.gameEngine = new BasicGameEngine();
 			Protocol p = (args[0].charAt(1) == 'h')? new Protocol(args[1], Integer.parseInt(args[3])) : new Protocol(args[3], Integer.parseInt(args[1]));
-			Player2 pl = new Player2(p, new HashMMAB()); //new RandomizedMMAB());////new MinMaxAlphaBeta());
+			Player pl = new Player(p, new RandomizedMMAB(), null); //new RandomizedMMAB());////new MinMaxAlphaBeta());
 			pl.start();
 		}
 		

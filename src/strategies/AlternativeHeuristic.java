@@ -6,6 +6,7 @@ import representations.BasicGameEngine;
 import representations.BitboardRepresentationNode;
 import representations.Color;
 import representations.RepresentationNode;
+import util.General;
 
 public class AlternativeHeuristic implements IHeuristic {
 
@@ -13,6 +14,8 @@ public class AlternativeHeuristic implements IHeuristic {
 	private final int BOARDS = 12;
 	private Color playerColor, enemyColor;
 
+	public AlternativeHeuristic() { }
+	
 	public AlternativeHeuristic(Color playerColor) {
 		this.playerColor = playerColor;
 		this.enemyColor = Color.otherColor(playerColor);
@@ -36,7 +39,7 @@ public class AlternativeHeuristic implements IHeuristic {
 					while(true){
 						square = enemy[j].nextSetBit(square);
 						if (square == -1) break;
-						int distance = BasicGameEngine.distances[srcSquare][square];
+						int distance = ((BasicGameEngine)General.gameEngine).distances[srcSquare][square];
 						if (distance != -1) {
 							int diffPedine = i-j;
 							if ( diffPedine < 0 && j+1 >= distance && i+1<=distance ) {
@@ -53,9 +56,15 @@ public class AlternativeHeuristic implements IHeuristic {
 			totpp += (player[i].cardinality()*(i+1));
 			totep += (enemy[i].cardinality()*(i+1));
 		}	
-		if(totpp == 0) return Double.MIN_VALUE;
-		if(totep == 0) return Double.MAX_VALUE;
+		if(totpp == 0) return Double.NEGATIVE_INFINITY;
+		if(totep == 0) return Double.POSITIVE_INFINITY;
 		return advantage + (totpp - totep);
+	}
+
+	@Override
+	public void color(Color c) {
+		this.playerColor = c;
+		this.enemyColor = Color.otherColor(c);
 	}
 }
 /*
