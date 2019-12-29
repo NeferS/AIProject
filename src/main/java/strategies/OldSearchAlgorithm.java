@@ -5,14 +5,14 @@ import representations.RepresentationNode;
 /**Rappresenta un algoritmo di ricerca sull'albero degli stati.
  * @author Vincenzo Parrilla
  */
-public abstract class SearchAlgorithm{
+public abstract class OldSearchAlgorithm {
 	/**La strategia che implementa la funzione euristica dell'algoritmo.*/
 	protected IHeuristic strategy = null;
 	protected final long LIMIT = 900;
-	
+
 	/**Inizializza la strategia di questo oggetto.
 	 * @param s0 la strategia iniziale
-	 * @throws IllegalStateException se la strategia era già stata precedentemente inizializzata
+	 * @throws IllegalStateException se la strategia era giï¿½ stata precedentemente inizializzata
 	 */
 	public void initStrategy(IHeuristic s0) throws IllegalStateException {
 		if(s0 == null) throw new IllegalArgumentException();

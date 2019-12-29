@@ -9,16 +9,17 @@ public class BoardStateBuilder {
 	//il numero n + 1 di pedine posizionate sulla casella srcSquare e la casella di destinazione, il metodo costruisce un
 	//nuovo RepresentationNode che rappresenta il nuovo stato della scacchiera dopo aver effettuato la mossa individuata.
 	public static BitboardRepresentationNode calculateNonCaptureMove(BitSet[] playerPieces, 
-															   BitSet[] enemyPieces, 
-															   BitSet playerOccupiedSquares,
-															   int playerStackSize, 
-															   int srcSquare, 
-															   int dstSquare,
-															   String encodedSrcSquare,
-															   String direction,
-															   int distance,
-															   Color playerColor,
-															   Color enemyColor) {
+																	 BitSet[] enemyPieces,
+																	 BitSet playerOccupiedSquares,
+																	 int playerStackSize,
+																	 int srcSquare,
+															   		 int dstSquare,
+															   		 String encodedSrcSquare,
+															  		 String direction,
+															  		 int distance,
+															  		 Color playerColor,
+															  		 Color enemyColor,
+																	 Moves moveType) {
 		
 		
 		BitboardRepresentationNode validMove = new BitboardRepresentationNode();
@@ -96,6 +97,7 @@ public class BoardStateBuilder {
 		validMove.setPlayerPieces(playerColor, newPlayerPieces);
 		validMove.setPlayerPieces(enemyColor, enemyPieces);
 		validMove.setMove(encodedMove);
+		validMove.setMoveType(moveType);
 		
 		return validMove;
 	}
@@ -110,7 +112,8 @@ public class BoardStateBuilder {
 																  String direction,
 																  int distance,
 																  Color playerColor,
-																  Color enemyColor) {
+																  Color enemyColor,
+																  Moves moveType) {
 
 
 		BitboardRepresentationNode validMove = new BitboardRepresentationNode();
@@ -153,6 +156,7 @@ public class BoardStateBuilder {
 		validMove.setPlayerPieces(playerColor, newPlayerPieces);
 		validMove.setPlayerPieces(enemyColor, newEnemyPieces);
 		validMove.setMove(encodedMove);
+		validMove.setMoveType(moveType);
 		
 		return validMove;
 
@@ -166,7 +170,8 @@ public class BoardStateBuilder {
 				 											   String direction,
 				 											   int distance,
 				 											   Color playerColor,
-				 											   Color enemyColor) {
+				 											   Color enemyColor,
+															   Moves moveType) {
 
 
 		BitboardRepresentationNode validMove = new BitboardRepresentationNode();
@@ -192,6 +197,7 @@ public class BoardStateBuilder {
 		validMove.setPlayerPieces(playerColor, newPlayerPieces);
 		validMove.setPlayerPieces(enemyColor, enemyPieces);
 		validMove.setMove(encodedMove);
+		validMove.setMoveType(moveType);
 		
 		return validMove;
 

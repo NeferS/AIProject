@@ -1363,113 +1363,80 @@ public class BasicGameEngine implements GameEngine {
 				},
 				}
 			};
-	
+
 	public final int[][][] exitMoves = {
 			{
-				{1, -1, -1, -1, 1, 1, -1, -1, },
-				{1, -1, -1, -1, 1, 1, -1, -1, },
-				{1, -1, -1, -1, 1, 1, -1, -1, },
-				{1, -1, -1, -1, 1, 1, -1, -1, },
-				{2, -1, -1, -1, 1, 2, -1, -1, },
-				{2, -1, -1, -1, 2, 2, -1, -1, },
-				{2, -1, -1, -1, 2, 2, -1, -1, },
-				{2, -1, -1, -1, 2, 2, -1, -1, },
-				{3, -1, -1, -1, 2, 3, -1, -1, },
-				{3, -1, -1, -1, 3, 3, -1, -1, },
-				{3, -1, -1, -1, 3, 3, -1, -1, },
-				{3, -1, -1, -1, 3, 1, -1, -1, },
-				{4, -1, -1, -1, 1, 4, -1, -1, },
-				{4, -1, -1, -1, 3, 4, -1, -1, },
-				{4, -1, -1, -1, 4, 4, -1, -1, },
-				{4, -1, -1, -1, 4, 2, -1, -1, },
-				{5, -1, -1, -1, 2, 5, -1, -1, },
-				{5, -1, -1, -1, 4, 5, -1, -1, },
-				{5, -1, -1, -1, 5, 3, -1, -1, },
-				{5, -1, -1, -1, 5, 1, -1, -1, },
-				{6, -1, -1, -1, 1, 6, -1, -1, },
-				{6, -1, -1, -1, 3, 6, -1, -1, },
-				{6, -1, -1, -1, 5, 4, -1, -1, },
-				{6, -1, -1, -1, 6, 2, -1, -1, },
-				{7, -1, -1, -1, 2, 7, -1, -1, },
-				{7, -1, -1, -1, 4, 5, -1, -1, },
-				{7, -1, -1, -1, 6, 3, -1, -1, },
-				{7, -1, -1, -1, 7, 1, -1, -1, },
-				{8, -1, -1, -1, 1, 8, -1, -1, },
-				{8, -1, -1, -1, 3, 6, -1, -1, },
-				{8, -1, -1, -1, 5, 4, -1, -1, },
-				{8, -1, -1, -1, 7, 2, -1, -1, },
-				},
+					{2, -1, -1, -1, 1, 1, -1, -1, },
+					{2, -1, -1, -1, 1, 1, -1, -1, },
+					{2, -1, -1, -1, 1, 1, -1, -1, },
+					{2, -1, -1, -1, 1, 1, -1, -1, },
+					{2, -1, -1, -1, 1, 2, -1, -1, },
+					{2, -1, -1, -1, 2, 2, -1, -1, },
+					{2, -1, -1, -1, 2, 2, -1, -1, },
+					{2, -1, -1, -1, 2, 2, -1, -1, },
+					{4, -1, -1, -1, 2, 3, -1, -1, },
+					{4, -1, -1, -1, 3, 3, -1, -1, },
+					{4, -1, -1, -1, 3, 3, -1, -1, },
+					{4, -1, -1, -1, 3, 1, -1, -1, },
+					{4, -1, -1, -1, 1, 4, -1, -1, },
+					{4, -1, -1, -1, 3, 4, -1, -1, },
+					{4, -1, -1, -1, 4, 4, -1, -1, },
+					{4, -1, -1, -1, 4, 2, -1, -1, },
+					{6, -1, -1, -1, 2, 5, -1, -1, },
+					{6, -1, -1, -1, 4, 5, -1, -1, },
+					{6, -1, -1, -1, 5, 3, -1, -1, },
+					{6, -1, -1, -1, 5, 1, -1, -1, },
+					{6, -1, -1, -1, 1, 6, -1, -1, },
+					{6, -1, -1, -1, 3, 6, -1, -1, },
+					{6, -1, -1, -1, 5, 4, -1, -1, },
+					{6, -1, -1, -1, 6, 2, -1, -1, },
+					{8, -1, -1, -1, 2, 7, -1, -1, },
+					{8, -1, -1, -1, 4, 5, -1, -1, },
+					{8, -1, -1, -1, 6, 3, -1, -1, },
+					{8, -1, -1, -1, 7, 1, -1, -1, },
+					{8, -1, -1, -1, 1, 8, -1, -1, },
+					{8, -1, -1, -1, 3, 6, -1, -1, },
+					{8, -1, -1, -1, 5, 4, -1, -1, },
+					{8, -1, -1, -1, 7, 2, -1, -1, },
+			},
 			{
-				{-1, 8, -1, -1, -1, -1, 2, 7, },
-				{-1, 8, -1, -1, -1, -1, 4, 5, },
-				{-1, 8, -1, -1, -1, -1, 6, 3, },
-				{-1, 8, -1, -1, -1, -1, 8, 1, },
-				{-1, 7, -1, -1, -1, -1, 1, 7, },
-				{-1, 7, -1, -1, -1, -1, 3, 6, },
-				{-1, 7, -1, -1, -1, -1, 5, 4, },
-				{-1, 7, -1, -1, -1, -1, 7, 2, },
-				{-1, 6, -1, -1, -1, -1, 2, 6, },
-				{-1, 6, -1, -1, -1, -1, 4, 5, },
-				{-1, 6, -1, -1, -1, -1, 6, 3, },
-				{-1, 6, -1, -1, -1, -1, 6, 1, },
-				{-1, 5, -1, -1, -1, -1, 1, 5, },
-				{-1, 5, -1, -1, -1, -1, 3, 5, },
-				{-1, 5, -1, -1, -1, -1, 5, 4, },
-				{-1, 5, -1, -1, -1, -1, 5, 2, },
-				{-1, 4, -1, -1, -1, -1, 2, 4, },
-				{-1, 4, -1, -1, -1, -1, 4, 4, },
-				{-1, 4, -1, -1, -1, -1, 4, 3, },
-				{-1, 4, -1, -1, -1, -1, 4, 1, },
-				{-1, 3, -1, -1, -1, -1, 1, 3, },
-				{-1, 3, -1, -1, -1, -1, 3, 3, },
-				{-1, 3, -1, -1, -1, -1, 3, 3, },
-				{-1, 3, -1, -1, -1, -1, 3, 2, },
-				{-1, 2, -1, -1, -1, -1, 2, 2, },
-				{-1, 2, -1, -1, -1, -1, 2, 2, },
-				{-1, 2, -1, -1, -1, -1, 2, 2, },
-				{-1, 2, -1, -1, -1, -1, 2, 1, },
-				{-1, 1, -1, -1, -1, -1, 1, 1, },
-				{-1, 1, -1, -1, -1, -1, 1, 1, },
-				{-1, 1, -1, -1, -1, -1, 1, 1, },
-				{-1, 1, -1, -1, -1, -1, 1, 1, },
-			}
+					{-1, 8, -1, -1, -1, -1, 2, 7, },
+					{-1, 8, -1, -1, -1, -1, 4, 5, },
+					{-1, 8, -1, -1, -1, -1, 6, 3, },
+					{-1, 8, -1, -1, -1, -1, 8, 1, },
+					{-1, 8, -1, -1, -1, -1, 1, 7, },
+					{-1, 8, -1, -1, -1, -1, 3, 6, },
+					{-1, 8, -1, -1, -1, -1, 5, 4, },
+					{-1, 8, -1, -1, -1, -1, 7, 2, },
+					{-1, 6, -1, -1, -1, -1, 2, 6, },
+					{-1, 6, -1, -1, -1, -1, 4, 5, },
+					{-1, 6, -1, -1, -1, -1, 6, 3, },
+					{-1, 6, -1, -1, -1, -1, 6, 1, },
+					{-1, 6, -1, -1, -1, -1, 1, 5, },
+					{-1, 6, -1, -1, -1, -1, 3, 5, },
+					{-1, 6, -1, -1, -1, -1, 5, 4, },
+					{-1, 6, -1, -1, -1, -1, 5, 2, },
+					{-1, 4, -1, -1, -1, -1, 2, 4, },
+					{-1, 4, -1, -1, -1, -1, 4, 4, },
+					{-1, 4, -1, -1, -1, -1, 4, 3, },
+					{-1, 4, -1, -1, -1, -1, 4, 1, },
+					{-1, 4, -1, -1, -1, -1, 1, 3, },
+					{-1, 4, -1, -1, -1, -1, 3, 3, },
+					{-1, 4, -1, -1, -1, -1, 3, 3, },
+					{-1, 4, -1, -1, -1, -1, 3, 2, },
+					{-1, 2, -1, -1, -1, -1, 2, 2, },
+					{-1, 2, -1, -1, -1, -1, 2, 2, },
+					{-1, 2, -1, -1, -1, -1, 2, 2, },
+					{-1, 2, -1, -1, -1, -1, 2, 1, },
+					{-1, 2, -1, -1, -1, -1, 1, 1, },
+					{-1, 2, -1, -1, -1, -1, 1, 1, },
+					{-1, 2, -1, -1, -1, -1, 1, 1, },
+					{-1, 2, -1, -1, -1, -1, 1, 1, },
+			},
 	};
 
-
-	
-	/*
-	final String[][] exitMovesDirections = {
-			{
-			 "N", "N", "N", "N", "NW", "N", "N", "N", 
-			 "NW", "N", "N", "NE", "NW", "NW", "N", "NE", 
-			 "NW", "NW", "NE", "NE", "NW", "NW", "NE", "NE", 
-			 "NW", "NW", "NE", "NE", "NW", "NW", "NE", "NE", 
-			},
-			{
-			 "SW", "SW", "SE", "SE", "SW", "SW", "SE", "SE", 
-			 "SW", "SW", "SE", "SE", "SW", "SW", "SE", "SE", 
-			 "SW", "S", "SE", "SE", "SW", "S", "S", "SE", 
-			 "S", "S", "S", "SE", "S", "S", "S", "S", 
-			}
-	};
-	
-	final int[][] exitMovesDistances = {
-			{
-				1, 1, 1, 1, 1, 2, 2, 2, 
-				2, 3, 3, 1, 1, 3, 4, 2, 
-				2, 4, 3, 1, 1, 3, 4, 2, 
-				2, 4, 3, 1, 1, 3, 4, 2, 
-			},
-			{
-				2, 4, 3, 1, 1, 3, 4, 2, 
-				2, 4, 3, 1, 1, 3, 4, 2, 
-				2, 4, 3, 1, 1, 3, 3, 2, 
-				2, 2, 2, 1, 1, 1, 1, 1, 
-			},
-	};
-	*/
 			
-	final String[] encodedSquares = {
+	private final String[] encodedSquares = {
 			 "A2", "A4", "A6", "A8", "B1", "B3", "B5", "B7", 
 			 "C2", "C4", "C6", "C8", "D1", "D3", "D5", "D7", 
 			 "E2", "E4", "E6", "E8", "F1", "F3", "F5", "F7", 
@@ -1593,6 +1560,8 @@ public class BasicGameEngine implements GameEngine {
 										  BitSet playerOccupiedSquares, 
 										  BitSet enemyOccupiedSquares, 
 										  BitSet emptySquares,
+										  Color playerColor,
+										  Color enemyColor,
 										  List<RepresentationNode> validMoves) {
 		
 		//Bitboard che, per ogni coppia di iterazoni (esterna ed interna) individua,
@@ -1624,7 +1593,7 @@ public class BasicGameEngine implements GameEngine {
 				//da 0 a n
 				reachableSquares.clear();
 				for(int i = 0; i <= playerStackSize; i++) {
-					reachableSquares.or(this.nonCaptureMovesBB[this.playerColor.ordinal()][srcSquare][i]);
+					reachableSquares.or(this.nonCaptureMovesBB[playerColor.ordinal()][srcSquare][i]);
 				}
 				reachableSquares.and(idleSquares);
 					
@@ -1647,8 +1616,9 @@ public class BasicGameEngine implements GameEngine {
 														   encodedSrcSquare,
 														   direction,
 														   distance,
-														   this.playerColor,
-														   this.enemyColor));
+														   playerColor,
+														   enemyColor,
+														   Moves.NONCAPTURE));
 					dstSquare++;
 				}
 				
@@ -1664,6 +1634,8 @@ public class BasicGameEngine implements GameEngine {
 									BitSet playerOccupiedSquares, 
 									BitSet enemyOccupiedSquares, 
 									BitSet emptySquares,
+									Color playerColor,
+									Color enemyColor,
 									List<RepresentationNode> validMoves) {
 		
 		
@@ -1681,8 +1653,8 @@ public class BasicGameEngine implements GameEngine {
 				String direction = null;
 				int minDistance = -1;
 				for(int i = 0; i < 8; i++) {
-					if(this.exitMoves[this.playerColor.ordinal()][srcSquare][i] != -1) {
-						minDistance = this.exitMoves[this.playerColor.ordinal()][srcSquare][i];
+					if(this.exitMoves[playerColor.ordinal()][srcSquare][i] != -1) {
+						minDistance = this.exitMoves[playerColor.ordinal()][srcSquare][i];
 						direction = Direction.getDirectionByInt(i).toString();
 						
 						for(int distance = minDistance; playerStackSize - distance >= -1 && (direction.equals("N") || direction.equals("S")); distance += 2) {
@@ -1693,8 +1665,9 @@ public class BasicGameEngine implements GameEngine {
 											  				    			   encodedSrcSquare,
 											  				    			   direction,
 											  				    			   distance,
-											  				    			   this.playerColor,
-											  				    			   this.enemyColor
+											  				    			   playerColor,
+											  				    			   enemyColor,
+									  									       Moves.EXIT
 											  								  ));
 						}
 						
@@ -1706,8 +1679,9 @@ public class BasicGameEngine implements GameEngine {
 											  				    			   encodedSrcSquare,
 											  				    			   direction,
 											  				    			   distance,
-											  				    			   this.playerColor,
-											  				    			   this.enemyColor
+											  				    			   playerColor,
+											  				    			   enemyColor,
+															  	     	       Moves.EXIT
 											  								  ));
 						}
 					}
@@ -1719,53 +1693,14 @@ public class BasicGameEngine implements GameEngine {
 		
 	}
 
-	/*	
-	private void calculateExitMoves(BitSet[] playerPieces, 
-									BitSet[] enemyPieces,
-									BitSet playerOccupiedSquares, 
-									BitSet enemyOccupiedSquares, 
-									BitSet emptySquares,
-									List<RepresentationNode> validMoves) {
-		
-		
-		//Itero su ogni tipologia di stack (stack con stackSize + 1 pedine) 0 <= stackSize < 12
-		for(int stackSize = 0; stackSize < 12; stackSize++) {
-			
-			int srcSquare = 0;
-			while(true) {
-				srcSquare = playerPieces[stackSize].nextSetBit(srcSquare);
-				if(srcSquare == -1) break;
-
-				int minDistance = this.exitMovesDistances[this.playerColor.ordinal()][srcSquare];
-				String encodedSrcSquare = this.encodedSquares[srcSquare];
-				String direction = this.exitMovesDirections[this.playerColor.ordinal()][srcSquare];
-				for(int distance = minDistance; stackSize - distance >= 0; distance++) {
-					BoardStateBuilder.calculateExitMove(playerPieces, 
-									  enemyPieces,
-									  stackSize,
-									  srcSquare,
-									  encodedSrcSquare,
-									  direction,
-									  distance,
-									  this.playerColor,
-									  this.enemyColor
-									  );
-				}
-	
-				srcSquare++;
-			}
-		}
-	
-	}
-	*/
-
-
 
 	private void calculateCapturesMoves(BitSet[] playerPieces, 
 										BitSet[] enemyPieces,
 								   		BitSet playerOccupiedSquares, 
 								   		BitSet enemyOccupiedSquares, 
 								   		BitSet emptySquares,
+								   		Color playerColor,
+								   		Color enemyColor,
 								   		List<RepresentationNode> validMoves) {
 
 		
@@ -1830,8 +1765,9 @@ public class BasicGameEngine implements GameEngine {
 																			  encodedSrcSquare,
 																			  direction,
 																			  distance,
-																			  this.playerColor,
-																			  this.enemyColor
+																			  playerColor,
+																			  enemyColor,
+																		      Moves.CAPTURE
 																			 ));
 					}
 					
@@ -1843,6 +1779,65 @@ public class BasicGameEngine implements GameEngine {
 		}
 		
 	}
+
+
+
+	//Restituisce un array di 8 Bitset, dove l'i-esima Bitset indica le posizioni raggiungibili spostando (i+1) pedine.
+	private BitSet[] calculateCoveredSquares(BitSet[] playerPieces, BitSet[] movesBB) {
+
+		BitSet[] coveredSquares = new BitSet[7];
+		//byte[] emptyByteArray = new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
+
+
+		for(int i = 0; i < 7; i++) coveredSquares[i] = BitSet.valueOf(new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00});
+
+		for(int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
+			int srcSquare = 0;
+			while(true) {
+				srcSquare = playerPieces[playerStackSize].nextSetBit(srcSquare);
+				if(srcSquare == -1) break;
+
+				for(int distance = 0; distance < 7 && distance <= playerStackSize; distance++) {
+					coveredSquares[distance].or(movesBB[distance]);
+				}
+			}
+		}
+
+		return coveredSquares;
+
+	}
+
+
+	/*
+	private void calculateNonCaptureDefenseMoves(BitSet[] playerPieces,
+												 BitSet[] enemyPieces,
+												 BitSet[] enemyCaptureMovesBB,
+												 BitSet playerOccupiedSquares,
+												 BitSet enemyOccupiedSquares,
+												 BitSet emptySquares,
+												 LinkedList<RepresentationNode> nextBoardStates) {
+
+
+
+		BitSet secureSquares = new BitSet(32);
+
+
+		//Se mantengo differenziate caselle libere e caselle occupate dal giocatore, posso forzare
+		//un ordinamento delle mosse generate.
+		BitSet idleSquares = new BitSet(32);
+		idleSquares.or(playerOccupiedSquares);
+		idleSquares.or(emptySquares);
+
+		BitSet[] enemyCoveredSquares = calculateCoveredSquares(enemyPieces, enemyCaptureMovesBB);
+
+		for(int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
+
+		}
+
+
+		
+	}
+	*/
 
 	@Override
 	public void start(Color color) {
@@ -1936,7 +1931,8 @@ public class BasicGameEngine implements GameEngine {
 																		 direction, 
 																		 distance, 
 																		 enemyColor, 
-																		 playerColor);
+																		 playerColor,
+																	     Moves.EXIT);
 		}
 		
 		else {
@@ -1969,7 +1965,8 @@ public class BasicGameEngine implements GameEngine {
 																	  			   direction,
 																	  			   distance,
 																	  			   this.enemyColor,
-																	  			   this.playerColor);
+																	  			   this.playerColor,
+																				   Moves.NONCAPTURE);
 			}
 			else {
 				
@@ -1992,7 +1989,8 @@ public class BasicGameEngine implements GameEngine {
 																   				direction,
 																   				distance,
 																   				this.enemyColor,
-																   				this.playerColor);								   
+																   				this.playerColor,
+																			    Moves.CAPTURE);
 			}
 			
 		}
@@ -2001,11 +1999,13 @@ public class BasicGameEngine implements GameEngine {
 		return this.currentBoardState;
 	}
 	
-	public RepresentationNode calculateEmptyMove(BitSet[] playerPieces) {
-		
-		RepresentationNode emptyMove = this.currentBoardState;		
+	public RepresentationNode calculateEmptyMove(RepresentationNode boardState, Color playerColor) {
+
+		BitboardRepresentationNode emptyMove = (BitboardRepresentationNode)boardState;
+		BitSet[] playerPieces = emptyMove.getPlayerPieces(playerColor);
 		boolean exit = false;
-		
+
+
 		for(int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
 			
 			int srcSquare = 0;
@@ -2014,23 +2014,119 @@ public class BasicGameEngine implements GameEngine {
 				if(srcSquare == -1) break;
 				String encodedSrcSquare = this.encodedSquares[srcSquare];
 				String encodedMove = encodedSrcSquare.concat(",");
-				if(this.playerColor == Color.WHITE) encodedMove = encodedMove.concat("N").concat(",");
+				if(playerColor == Color.WHITE) encodedMove = encodedMove.concat("N").concat(",");
 				else encodedMove = encodedMove.concat("S").concat(",");
 				encodedMove = encodedMove.concat(Integer.toString(0));
 				emptyMove.setMove(encodedMove);
+				emptyMove.setMoveType(Moves.EMPTY);
 				exit = true;
 				break;
 			}
 			if(exit) break;
 		}
-		
-		if(!exit)
-			emptyMove = null;
+
 		
 		return emptyMove;
 	}
-	
-	
+
+	public LinkedList<RepresentationNode> applyLegalMoves(RepresentationNode boardState, Moves movesType, boolean playerTurn, LinkedList<RepresentationNode> nextBoardStates) {
+
+		BitboardRepresentationNode concreteBoardState = (BitboardRepresentationNode)boardState;
+		if(nextBoardStates == null) { nextBoardStates = new LinkedList<RepresentationNode>(); }
+
+		Color playerColor = null;
+		Color enemyColor = null;
+
+		if(playerTurn) {
+			playerColor = this.playerColor;
+			enemyColor = this.enemyColor;
+		}
+		else {
+			playerColor = this.enemyColor;
+			enemyColor = this.playerColor;
+		}
+
+		BitSet[] playersOccupiedSquares = new BitSet[2];
+		playersOccupiedSquares[playerColor.ordinal()] = calculateOccupiedSquares(concreteBoardState.getPlayerPieces(playerColor));
+		playersOccupiedSquares[enemyColor.ordinal()] = calculateOccupiedSquares(concreteBoardState.getPlayerPieces(enemyColor));
+
+		BitSet emptySquares = calculateEmptySquares(playersOccupiedSquares[0], playersOccupiedSquares[1]);
+
+		switch(movesType) {
+
+			case NONCAPTURE:
+				calculateNonCaptureMoves(concreteBoardState.getPlayerPieces(playerColor),
+										 concreteBoardState.getPlayerPieces(enemyColor),
+										 playersOccupiedSquares[playerColor.ordinal()],
+										 playersOccupiedSquares[enemyColor.ordinal()],
+										 emptySquares,
+						  			 	 playerColor,
+						  			 	 enemyColor,
+						  			 	 nextBoardStates);
+				break;
+
+			case CAPTURE:
+				calculateCapturesMoves(concreteBoardState.getPlayerPieces(playerColor),
+									   concreteBoardState.getPlayerPieces(enemyColor),
+									   playersOccupiedSquares[playerColor.ordinal()],
+									   playersOccupiedSquares[enemyColor.ordinal()],
+						  			   emptySquares,
+									   playerColor,
+									   enemyColor,
+									   nextBoardStates);
+				break;
+
+			case EXIT:
+				calculateExitMoves(concreteBoardState.getPlayerPieces(playerColor),
+								   concreteBoardState.getPlayerPieces(enemyColor),
+								   playersOccupiedSquares[playerColor.ordinal()],
+								   playersOccupiedSquares[enemyColor.ordinal()],
+								   emptySquares,
+						 		   playerColor,
+						 		   enemyColor,
+						 		   nextBoardStates);
+				break;
+
+			case ALL:
+				calculateNonCaptureMoves(concreteBoardState.getPlayerPieces(playerColor),
+										 concreteBoardState.getPlayerPieces(enemyColor),
+									     playersOccupiedSquares[playerColor.ordinal()],
+										 playersOccupiedSquares[enemyColor.ordinal()],
+										 emptySquares,
+										 playerColor,
+										 enemyColor,
+										 nextBoardStates);
+
+				calculateCapturesMoves(concreteBoardState.getPlayerPieces(playerColor),
+						  			   concreteBoardState.getPlayerPieces(enemyColor),
+									   playersOccupiedSquares[playerColor.ordinal()],
+									   playersOccupiedSquares[enemyColor.ordinal()],
+									   emptySquares,
+									   playerColor,
+									   enemyColor,
+									   nextBoardStates);
+
+				calculateExitMoves(concreteBoardState.getPlayerPieces(playerColor),
+								   concreteBoardState.getPlayerPieces(enemyColor),
+								   playersOccupiedSquares[playerColor.ordinal()],
+								   playersOccupiedSquares[enemyColor.ordinal()],
+								   emptySquares,
+								   playerColor,
+								   enemyColor,
+								   nextBoardStates);
+				break;
+
+		}
+
+
+		if(nextBoardStates.isEmpty()) {
+			nextBoardStates.add(calculateEmptyMove(concreteBoardState, playerColor));
+		}
+
+		return nextBoardStates;
+	}
+
+
 	public List<RepresentationNode> validActions(RepresentationNode configuration) {
 		 
 		BitboardRepresentationNode concreteBoardState = (BitboardRepresentationNode)configuration;
@@ -2045,33 +2141,74 @@ public class BasicGameEngine implements GameEngine {
 		calculateNonCaptureMoves(concreteBoardState.getPlayerPieces(this.playerColor), 
 				 				 concreteBoardState.getPlayerPieces(this.enemyColor), 
 				 				 playersOccupiedSquares[this.playerColor.ordinal()], 
-				 				 playersOccupiedSquares[this.enemyColor.ordinal()], 
-				 				 emptySquares, 
+				 				 playersOccupiedSquares[this.enemyColor.ordinal()],
+				 				 emptySquares,
+				 				 playerColor,
+				 				 enemyColor,
 				 				 validMoves);
 		
 		calculateCapturesMoves(concreteBoardState.getPlayerPieces(this.playerColor), 
 				   concreteBoardState.getPlayerPieces(this.enemyColor),
 				   playersOccupiedSquares[this.playerColor.ordinal()], 
 				   playersOccupiedSquares[this.enemyColor.ordinal()], 
-				   emptySquares, 
+				   emptySquares,
+				   playerColor,
+				   enemyColor,
 				   validMoves);
 		
 		calculateExitMoves(concreteBoardState.getPlayerPieces(this.playerColor),
 						   concreteBoardState.getPlayerPieces(this.enemyColor),
 						   playersOccupiedSquares[this.playerColor.ordinal()], 
 						   playersOccupiedSquares[this.enemyColor.ordinal()], 
-						   emptySquares, 
+						   emptySquares,
+						   playerColor,
+						   enemyColor,
 						   validMoves);
-		
+		/*
 		if(validMoves.isEmpty()) {
-			RepresentationNode node = calculateEmptyMove(concreteBoardState.getPlayerPieces(this.playerColor));
+			RepresentationNode node = calculateEmptyMove(concreteBoardState.getPlayerPieces(this.playerColor), this.playerColor);
 			if(node != null)
 				validMoves.add(node);
 		}
-		
+		*/
 		return validMoves;
 		
 	}
-	
+
+
+
+	public List<RepresentationNode> getWBCaptureMoves(RepresentationNode boardState) {
+
+		BitboardRepresentationNode concreteBoardState = (BitboardRepresentationNode)boardState;
+		List<RepresentationNode> validMoves = new LinkedList<RepresentationNode>();
+
+		BitSet[] playersOccupiedSquares = new BitSet[2];
+		playersOccupiedSquares[this.playerColor.ordinal()] = calculateOccupiedSquares(concreteBoardState.getPlayerPieces(this.playerColor));
+		playersOccupiedSquares[this.enemyColor.ordinal()] = calculateOccupiedSquares(concreteBoardState.getPlayerPieces(this.enemyColor));
+		BitSet emptySquares = calculateEmptySquares(playersOccupiedSquares[0], playersOccupiedSquares[1]);
+
+		calculateCapturesMoves(concreteBoardState.getPlayerPieces(this.playerColor),
+				concreteBoardState.getPlayerPieces(this.enemyColor),
+				playersOccupiedSquares[this.playerColor.ordinal()],
+				playersOccupiedSquares[this.enemyColor.ordinal()],
+				emptySquares,
+				playerColor,
+				enemyColor,
+				validMoves);
+
+		calculateCapturesMoves(concreteBoardState.getPlayerPieces(this.enemyColor),
+				concreteBoardState.getPlayerPieces(this.playerColor),
+				playersOccupiedSquares[this.enemyColor.ordinal()],
+				playersOccupiedSquares[this.playerColor.ordinal()],
+				emptySquares,
+				playerColor,
+				enemyColor,
+				validMoves);
+
+		return validMoves;
+
+	}
+
+
 
 }

@@ -7,10 +7,10 @@ import representations.BitboardRepresentationNode;
 import representations.Color;
 import representations.GameEngine;
 import representations.RepresentationNode;
+import util.General;
 
 public class FirstHeuristic implements IHeuristic {
 
-	private BasicGameEngine ge;
 	
 	private int[][] maxExitDistances = {
 			{
@@ -21,18 +21,18 @@ public class FirstHeuristic implements IHeuristic {
 			}
 	};
 	
-	public FirstHeuristic(GameEngine ge) { this.ge = (BasicGameEngine)ge; }
-	
+
 	@Override
 	public double h(RepresentationNode node) {
 		
 		BitboardRepresentationNode boardState = (BitboardRepresentationNode)node;
 	
-		double playerMainAdvantage = calculatePlayerMainAdvantage(boardState, this.ge.getPlayerColor());
-		double enemyMainAdvantage = calculatePlayerMainAdvantage(boardState, this.ge.getEnemyColor());
+		double playerMainAdvantage = calculatePlayerMainAdvantage(boardState, General.gameEngine.getPlayerColor());
+		double enemyMainAdvantage = calculatePlayerMainAdvantage(boardState, General.gameEngine.getEnemyColor());
 		
 		
 		double res = playerMainAdvantage - enemyMainAdvantage;
+
 		
 		return res;
 	}

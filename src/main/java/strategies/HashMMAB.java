@@ -15,7 +15,7 @@ import representations.RepresentationNode;
  */
 public class HashMMAB extends MinMaxAlphaBeta {
 	
-	/**Questa mappa serve ad avere un ordine di precedenza sui nodi del livello l+2, dove l è
+	/**Questa mappa serve ad avere un ordine di precedenza sui nodi del livello l+2, dove l ï¿½
 	 * il livello dell'iterazione corrente (in cui gioco io).*/
 	private HashMap<RepresentationNode, LinkedList<RepresentationNode>> current, best;
 	
@@ -24,7 +24,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 		List<RepresentationNode> actions;
 		
 		/*Se ho precedentemente salvato il figlio della mossa migliore dell'iterazione precedente (quella
-		 *effettivamente inviata al server) che corrisponde alla mossa effettuata dall'avversario, ho già 
+		 *effettivamente inviata al server) che corrisponde alla mossa effettuata dall'avversario, ho giï¿½ 
 		 *un ordine di preferenza sui nodi figli di tale nodo.*/
 		if(best != null && best.get(node) != null)
 			actions = best.get(node);
@@ -38,7 +38,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 		double alpha = v;
 		best = null;
 		for(RepresentationNode child: actions) {
-			current = new HashMap<>();
+			current = new HashMap<RepresentationNode, LinkedList<RepresentationNode>>();
 			double val = valoreMin(t, (byte)1, child, alpha, infinite);
 			if(val > v) {
 				v = val;
@@ -63,15 +63,15 @@ public class HashMMAB extends MinMaxAlphaBeta {
 		/*Ogni chiamata di questo metodo al livello 2 viene effettuata su uno dei nodi "radice" dell'iterazione
 		 *successiva.*/
 		if(depth == 2) 
-			current.put(node, new LinkedList<>());
+			current.put(node, new LinkedList<RepresentationNode>());
 		
 		if((System.currentTimeMillis() - t) >= LIMIT) return beta;
 		for(RepresentationNode child: actions) {
 			double val = valoreMin(t, (byte)(depth+1), child, alpha, beta);
 			v = (v > val)? v : val;
 			
-			/*Se faccio pruning su questo nodo è perché rappresenta una scelta che probabilmente l'avversario non
-			 *compirà; per questo motivo inizio ad alleggerire la tabella hash. Inoltre, se sto facendo pruning,
+			/*Se faccio pruning su questo nodo ï¿½ perchï¿½ rappresenta una scelta che probabilmente l'avversario non
+			 *compirï¿½; per questo motivo inizio ad alleggerire la tabella hash. Inoltre, se sto facendo pruning,
 			 *potrebbe essere che sto interrompendo l'espansione di questo nodo senza aver ancora visitato tutti i
 			 *suoi figli.*/
 			if(v >= beta) {
@@ -91,7 +91,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 		return v;
 	}
 	
-	/**Inserisce l'elemento in testa alla lista, se è vuota, oppure effettua un passo di insertionSort, mantenendo la lista
+	/**Inserisce l'elemento in testa alla lista, se ï¿½ vuota, oppure effettua un passo di insertionSort, mantenendo la lista
 	 * sempre ordinata in ordine decrescente rispetto al valore euristico degli elementi in essa contenuti.
 	 * @param list la lista da espandere
 	 * @param node il nodo da inserire

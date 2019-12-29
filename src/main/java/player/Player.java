@@ -2,14 +2,11 @@ package player;
 
 import communication.Listener;
 import communication.Protocol;
+import strategies.*;
 import util.Semaphores;
 import util.General;
 import representations.Color;
 import representations.RepresentationNode;
-import strategies.FirstHeuristic;
-import strategies.MyHeuristic;
-import strategies.RandomizedMMAB;
-import strategies.SearchAlgorithm;
 
 public class Player extends Thread {
 	
@@ -46,9 +43,7 @@ public class Player extends Thread {
 		}//programma terminato
 		General.isWhite = welcome[1].charAt(0) != Protocol.black;
 		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
-		if(!General.isWhite)
-			algorithm = new RandomizedMMAB();
-		algorithm.initStrategy(new FirstHeuristic(General.gameEngine));
+		//algorithm.initStrategy(new FirstHeuristic());
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected
 		
@@ -69,11 +64,11 @@ public class Player extends Thread {
 		
 		while(true) {
 			long t = Semaphores.waitACK();
-			RepresentationNode configuration = algorithm.explore(General.gameEngine.getCurrentBoardState(), t);
+			RepresentationNode configuration = algorithm.getBestMove(General.gameEngine.getCurrentBoardState(), t);
 			General.gameEngine.playerMakeMove(configuration);
 			protocol.send(MOVE+configuration.getMove());
-			if(General.isWhite) System.out.println("White : " + configuration.getMove());
-			else System.out.println("Black : " + configuration.getMove());
+			//if(General.isWhite) System.out.println("White : " + configuration.getMove());
+			//else System.out.println("Black : " + configuration.getMove());
 			sent = true;
 			Semaphores.waitACK();
 			

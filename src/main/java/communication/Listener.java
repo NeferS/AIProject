@@ -44,22 +44,37 @@ public class Listener extends Thread {
 				printMsg(msg[0]);
 				break;
 			case 7: //TIMEOUT, VICTORY, MESSAGE
+				try {
+					Thread.sleep(1);
+				}
+				catch(InterruptedException e) {}
+
+				log();
 				if(msg[0].charAt(0) == Protocol.tout)
 					printMsg(msg[0]);
 				else if(msg[0].charAt(0) == Protocol.msg)
 					printMsg(msg);
 				else {
 					printMsg(msg[0]);
-					System.exit(0);
 				}
+				System.exit(0);
+
 				break;
 			case 6: case 3: //DEFEAT, TIE
+				log();
 				printMsg(msg[0]);
 				System.exit(0);
 			}
 		}
 	}
-	
+
+	public void log() {
+
+	}
+
+
+
+
 	/**Stampa un messaggio.
 	 * @param msg il messaggio da stampare
 	 */

@@ -74,39 +74,30 @@ public class ProcessorMove {
 		Point p1 = new Point(x-65, y-1);
 		Point p2 = new Point();
 		int numPos = Integer.parseInt(array[2]);
-		switch(array[1]) {
-		  case "N":
-			  p2.x=p1.x-numPos;
-			  p2.y=p1.y;
-			  break;
-		  case "NE":
-			  p2.x=p1.x-numPos;
-			  p2.y=p1.y+numPos;
-			  break;
-		  case "E":
-			  p2.x=p1.x;
-			  p2.y=p1.y+numPos;
-			  break;
-		  case "SE":
-			  p2.x=p1.x+numPos;
-			  p2.y=p1.y+numPos;
-			  break;
-		  case "S":
-			  p2.x=p1.x+numPos;
-			  p2.y=p1.y;
-			  break;
-		  case "SW":
-			  p2.x=p1.x+numPos;
-			  p2.y=p1.y-numPos;
-			  break;
-		  case "W":
-			  p2.x=p1.x;
-			  p2.y=p1.y-numPos;
-			  break;
-		  case "NW":
-			  p2.x=p1.x-numPos;
-			  p2.y=p1.y-numPos;
-			  break;
+		if ("N".equals(array[1])) {
+			p2.x = p1.x - numPos;
+			p2.y = p1.y;
+		} else if ("NE".equals(array[1])) {
+			p2.x = p1.x - numPos;
+			p2.y = p1.y + numPos;
+		} else if ("E".equals(array[1])) {
+			p2.x = p1.x;
+			p2.y = p1.y + numPos;
+		} else if ("SE".equals(array[1])) {
+			p2.x = p1.x + numPos;
+			p2.y = p1.y + numPos;
+		} else if ("S".equals(array[1])) {
+			p2.x = p1.x + numPos;
+			p2.y = p1.y;
+		} else if ("SW".equals(array[1])) {
+			p2.x = p1.x + numPos;
+			p2.y = p1.y - numPos;
+		} else if ("W".equals(array[1])) {
+			p2.x = p1.x;
+			p2.y = p1.y - numPos;
+		} else if ("NW".equals(array[1])) {
+			p2.x = p1.x - numPos;
+			p2.y = p1.y - numPos;
 		}
 		Point [] ret = {p1,p2};
 		return ret;

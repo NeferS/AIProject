@@ -16,7 +16,6 @@ public enum Direction {
 			case 5 : return NE;
 			case 6 : return SW;
 			case 7 : return SE;
-			
 		}
 		
 		return null;

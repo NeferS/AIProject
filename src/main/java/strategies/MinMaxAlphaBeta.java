@@ -9,10 +9,10 @@ import util.General;
  * fissato L.
  * @author Vincenzo Parrilla
  */
-public class MinMaxAlphaBeta extends SearchAlgorithm {
+public class MinMaxAlphaBeta extends OldSearchAlgorithm {
 
-	protected final double infinite = Double.MAX_VALUE, min_infinite = Double.MIN_VALUE;
-	protected final byte L = 5;
+	protected final double infinite = Double.MAX_VALUE, min_infinite = -Double.MAX_VALUE;
+	protected final byte L = 4;
 	
 	/*Esegue il primo passo della funzione valoreMax, ma si applica solo al nodo radice in quanto esegue
 	 *operazioni specifiche (come, ad esempio, tenere traccia della migliore mossa fino ad un generico istante t.*/
