@@ -17,7 +17,7 @@ public class Main {
 		}
 		General.gameEngine = new BasicGameEngine();
 		Protocol p = (args[0].charAt(1) == 'h')? new Protocol(args[1], Integer.parseInt(args[3])) : new Protocol(args[3], Integer.parseInt(args[1]));
-		Player pl = new Player(p, new IterativeDeepening(new int[] {3, 5, 7}, new FirstHeuristic()));
+		Player pl = new Player(p, new IterativeDeepening(new int[] {3, 4, 5, 6, 7}, new FirstHeuristic()));
 		pl.start();
 	}
 	

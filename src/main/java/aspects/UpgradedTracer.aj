@@ -1,6 +1,8 @@
 package aspects;
 
 
+import representations.Moves;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,6 +50,10 @@ public aspect UpgradedTracer {
 
     private Integer[] maxExtendedDepth;
     private List<Integer[]> maxExtendedDepthCollection;
+
+
+    private Integer[][] numberOfBestMovesPerType;
+    private List<Integer[][]> numberOfBestMovesPerTypeCollection;
 
 
     private representations.RepresentationNode boardState;
@@ -144,6 +150,7 @@ public aspect UpgradedTracer {
         this.numberOfNodesAtTargetDepthCollection = new LinkedList<Integer[]>();
         this.numberOfNodesBelowTargetDepthCollection = new LinkedList<Integer[]>();
         this.maxExtendedDepthCollection = new LinkedList<Integer[]>();
+        this.numberOfBestMovesPerTypeCollection = new LinkedList<Integer[][]>();
 
 
 
@@ -187,6 +194,7 @@ public aspect UpgradedTracer {
         this.numberOfNodesAtTargetDepth = new Integer[targetIterations];
         this.numberOfNodesBelowTargetDepth = new Integer[targetIterations];
         this.maxExtendedDepth = new Integer[targetIterations];
+        this.numberOfBestMovesPerType = new Integer[targetIterations][Moves.numberOfMainMoveTypes];
 
         for(int i = 0; i < targetIterations; i++) {
             numberOfGeneratedNodes[i] = 0;
@@ -196,6 +204,10 @@ public aspect UpgradedTracer {
             numberOfNodesBelowTargetDepth[i] = 0;
 
             maxExtendedDepth[i] = depths[i];
+
+            for(int j = 0; j < Moves.numberOfMainMoveTypes; j++) {
+                this.numberOfBestMovesPerType[i][j] = 0;
+            }
         }
 
 
@@ -243,6 +255,7 @@ public aspect UpgradedTracer {
         if(!trace) return;
         numberOfCompletedIterationsCollection.add(completedIterations);
         numberOfStartedIterationsCollection.add(numberOfStartedIterations);
+
     }
 
 
@@ -261,6 +274,7 @@ public aspect UpgradedTracer {
         numberOfNodesAtTargetDepthCollection.add(numberOfNodesAtTargetDepth);
         numberOfNodesBelowTargetDepthCollection.add(numberOfNodesBelowTargetDepth);
         maxExtendedDepthCollection.add(maxExtendedDepth);
+        numberOfBestMovesPerTypeCollection.add(numberOfBestMovesPerType);
 
 
 
@@ -270,11 +284,25 @@ public aspect UpgradedTracer {
     before(List<representations.RepresentationNode> boardStates): seeBestMoves(boardStates) {
         if(!trace) return;
 
-        /*
-        for(int i = 0; i < boardStates.size(); i++) {
-            System.out.println(boardStates.size());
+        Moves moveType;
+
+        for(representations.RepresentationNode boardState: boardStates) {
+            moveType = boardState.getMoveType();
+            switch(moveType) {
+                case NONCAPTURE:
+                    numberOfBestMovesPerType[currentIteration][moveType.ordinal()]++;
+                    break;
+                case CAPTURE:
+                    numberOfBestMovesPerType[currentIteration][moveType.ordinal()]++;
+                    break;
+                case EXIT:
+                    numberOfBestMovesPerType[currentIteration][moveType.ordinal()]++;
+                    break;
+
+                default:
+                    throw new IllegalStateException();
+            }
         }
-    */
 
     }
 
@@ -358,6 +386,10 @@ public aspect UpgradedTracer {
                 System.out.print(numberOfNodesAtTargetDepthCollection.get(j)[i] + " nodes at level " + depths[i] + ", ");
                 System.out.print(numberOfNodesBelowTargetDepthCollection.get(j)[i] + " nodes below level " + depths[i] + ", ");
                 System.out.print(maxExtendedDepthCollection.get(j)[i] + " max depth reached in extension points\n");
+                System.out.print("         Number of equivalent NONCAPTURE moves = " + numberOfBestMovesPerTypeCollection.get(j)[i][Moves.NONCAPTURE.ordinal()] +
+                                 " , CAPTURE moves =  " + numberOfBestMovesPerTypeCollection.get(j)[i][Moves.CAPTURE.ordinal()] +
+                                 " , EXIT moves = " + numberOfBestMovesPerTypeCollection.get(j)[i][Moves.EXIT.ordinal()]);
+                System.out.println();
             }
 
         }

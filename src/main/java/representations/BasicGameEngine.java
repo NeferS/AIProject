@@ -2052,6 +2052,8 @@ public class BasicGameEngine implements GameEngine {
 
 		BitSet emptySquares = calculateEmptySquares(playersOccupiedSquares[0], playersOccupiedSquares[1]);
 
+		if(playersOccupiedSquares[playerColor.ordinal()].isEmpty()) return nextBoardStates;
+
 		switch(movesType) {
 
 			case NONCAPTURE:

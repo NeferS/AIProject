@@ -76,7 +76,7 @@ public class UpgradedRMMAB implements SearchAlgorithm {
 
         if(bestMove == null) {
             for(RepresentationNode move: equalVals) {
-                if(move.getMoveType() == Moves.EXIT) {
+                if(move.getMoveType() == Moves.CAPTURE) {
                     bestMove = move;
                     break;
                 }
