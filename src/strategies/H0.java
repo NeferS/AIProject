@@ -6,7 +6,7 @@ import representations.BitboardRepresentationNode;
 import representations.RepresentationNode;
 import util.General;
 
-public class MyHeuristic implements IHeuristic {
+public class H0 implements IHeuristic {
 	
 	private final int BOARDS = 12;
 	private final int[] maxs_stacks  = { 2, 4, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1 };

@@ -7,7 +7,7 @@ import representations.BitboardRepresentationNode;
 import representations.RepresentationNode;
 import util.General;
 
-public class MergeHeuristic implements IHeuristic {
+public class ActualH implements IHeuristic {
 
 	private final int BOARDS = 12;
 	private final int[] maxs_stacks  = { 2, 4, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1 };

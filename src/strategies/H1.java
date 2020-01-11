@@ -7,7 +7,7 @@ import representations.Color;
 import representations.RepresentationNode;
 import util.General;
 
-public class NewHeuristic implements IHeuristic {
+public class H1 implements IHeuristic {
 
 	private final int BOARDS = 12;
 	//0: BIANCHI

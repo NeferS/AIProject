@@ -7,7 +7,7 @@ import representations.BitboardRepresentationNode;
 import representations.RepresentationNode;
 import util.General;
 
-public class AlternativeHeuristic implements IHeuristic {
+public class H2 implements IHeuristic {
 
 	private final int BOARDS = 12;
 
