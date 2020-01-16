@@ -22,7 +22,7 @@ public interface RepresentationNode {
 	 */
 	public double getHeuristicValue();
 
-	public boolean steadyState(RepresentationNode boardState);
+	//public boolean steadyState(RepresentationNode boardState);
 
 	public Moves getMoveType();
 }

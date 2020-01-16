@@ -17,7 +17,7 @@ public interface GameEngine {
 	
 	public RepresentationNode enemyMakeMove(String encodedMove);
 
-	public List<RepresentationNode> getWBCaptureMoves(RepresentationNode boardState);
+	//public List<RepresentationNode> getWBCaptureMoves(RepresentationNode boardState);
 
 	public Color getPlayerColor();
 

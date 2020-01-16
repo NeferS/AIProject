@@ -46,14 +46,14 @@ public class BitboardRepresentationNode implements RepresentationNode {
 	public double getHeuristicValue() {
 		return heuristicValue;
 	}
-
+	/*
 	public boolean steadyState(RepresentationNode boardState) {
 
 		List<RepresentationNode> wbCaptureMoves = General.gameEngine.getWBCaptureMoves(boardState);
 
 		return wbCaptureMoves.isEmpty();
 	}
-
+	*/
 
 
 	public int hashCode() {

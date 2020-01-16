@@ -8,10 +8,12 @@ public class IterativeDeepening implements SearchAlgorithm {
     private IHeuristic heuristic;
     private int[] depths;
     private int nIterations;
+    private final long LIMIT = 900;
+
 
     public IterativeDeepening(int[] depths, IHeuristic heuristic) {
 
-        heuristic = new FirstHeuristic();
+        //heuristic = new FirstHeuristic();
         this.nIterations = depths.length;
 
         searchAlgorithms = new UpgradedRMMAB[this.nIterations];
@@ -27,6 +29,10 @@ public class IterativeDeepening implements SearchAlgorithm {
         int nCompletedIterations = 0;
 
         for(int i = 0; i < this.nIterations; i++) {
+            if((System.currentTimeMillis() - t) >= LIMIT) {
+                break;
+            }
+
             tmpBestMove = searchAlgorithms[i].getBestMove(currentBoardState, t);
             if(!searchAlgorithms[i].interrupted()) {
                 bestMove = tmpBestMove;

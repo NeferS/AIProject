@@ -15,10 +15,10 @@ public class Player extends Thread {
 	protected boolean sent;
 	protected final String MOVE = "MOVE ";
 	
-	public Player(Protocol p, SearchAlgorithm a) {
-		if(p == null || a == null) throw new IllegalArgumentException();
+	public Player(Protocol p) {
+		if(p == null) throw new IllegalArgumentException();
 		protocol = p;
-		algorithm = a;
+		//algorithm = a;
 	}
 	
 	/*Scheletro algoritmico del giocatore*/
@@ -44,6 +44,19 @@ public class Player extends Thread {
 		General.isWhite = welcome[1].charAt(0) != Protocol.black;
 		General.gameEngine.start((General.isWhite)? Color.WHITE : Color.BLACK);
 		//algorithm.initStrategy(new FirstHeuristic());
+
+		algorithm = new IterativeDeepening(new int[] {3, 4, 5, 6, 7}, new FirstHeuristic());
+
+		/*
+		if(!General.isWhite) {
+			algorithm = new IterativeDeepening(new int[] {3, 4, 5, 6, 7}, new MyHeuristic(Color.BLACK));
+		}
+		else {
+			algorithm = new IterativeDeepening(new int[] {3, 4, 5, 6, 7}, new FirstHeuristic());
+		}
+		*/
+
+
 		System.out.println(protocol.recv()); //MESSAGE Group n, please wait for the opponent
 		protocol.recv(); //MESSAGE All players connected
 		

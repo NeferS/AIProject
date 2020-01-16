@@ -13,7 +13,7 @@ public class UpgradedRMMAB implements SearchAlgorithm {
     private int targetDepth;
     private int extendedDepth;
     private IHeuristic h;
-    private final long LIMIT = 900;
+    private final long LIMIT = 700;
     private boolean interrupted;
 
     public UpgradedRMMAB(int targetDepth, IHeuristic h) {
@@ -27,31 +27,36 @@ public class UpgradedRMMAB implements SearchAlgorithm {
     public RepresentationNode getBestMove(RepresentationNode node, long t) {
 
         LinkedList<RepresentationNode> actions = General.gameEngine.applyLegalMoves(node, Moves.ALL, true, null);
-        RepresentationNode bestMove = actions.get(0);
+        RepresentationNode bestMove = null;
 
         double v = -Double.MAX_VALUE;
         double alpha = v;
         List<RepresentationNode> equalVals = new LinkedList<RepresentationNode>();
 
-
-        for(RepresentationNode child: actions) {
-            double val = min(t, (byte)1, child, alpha, Double.MAX_VALUE);
-
-            if(val > v) {
-                equalVals.clear();
-                v = val;
-                bestMove = child;
-                equalVals.add(child);
-            } else if(Math.abs(val - v) < 1e-8)
-                equalVals.add(child);
-
-
-            if((System.currentTimeMillis() - t) >= LIMIT) {
-                this.interrupted = true;
-                break;
-            }
-            alpha = (alpha > val)? alpha : val;
+        if(actions.isEmpty()) {
+            General.gameEngine.applyLegalMoves(node, Moves.EMPTY, true, actions);
         }
+        else {
+            for(RepresentationNode child: actions) {
+                double val = min(t, (byte)1, child, alpha, Double.MAX_VALUE);
+
+                if(val > v) {
+                    equalVals.clear();
+                    v = val;
+                    bestMove = child;
+                    equalVals.add(child);
+                } else if(Math.abs(val - v) < 1e-8)
+                    equalVals.add(child);
+
+
+                if((System.currentTimeMillis() - t) >= LIMIT) {
+                    this.interrupted = true;
+                    break;
+                }
+                alpha = (alpha > val)? alpha : val;
+            }
+        }
+
 
 
         seeBestMoves(equalVals);
@@ -74,6 +79,7 @@ public class UpgradedRMMAB implements SearchAlgorithm {
             }
         }
 
+        /*
         if(bestMove == null) {
             for(RepresentationNode move: equalVals) {
                 if(move.getMoveType() == Moves.CAPTURE) {
@@ -82,10 +88,20 @@ public class UpgradedRMMAB implements SearchAlgorithm {
                 }
             }
         }
+        */
 
         if(bestMove == null) {
             for(RepresentationNode move: equalVals) {
                 if(move.getMoveType() == Moves.EXIT) {
+                    bestMove = move;
+                    break;
+                }
+            }
+        }
+
+        if(bestMove == null) {
+            for(RepresentationNode move: equalVals) {
+                if(move.getMoveType() == Moves.EMPTY) {
                     bestMove = move;
                     break;
                 }
@@ -99,6 +115,8 @@ public class UpgradedRMMAB implements SearchAlgorithm {
 
         double v = -Double.MAX_VALUE;
         LinkedList<RepresentationNode> nextBoardStates = null;
+        LinkedList<RepresentationNode> tmp = null;
+
         if((System.currentTimeMillis() - t) >= LIMIT) {
             interrupted = true;
             return beta;
@@ -108,6 +126,15 @@ public class UpgradedRMMAB implements SearchAlgorithm {
         if(depth >= targetDepth && depth <= extendedDepth) {
 
             nextBoardStates = General.gameEngine.applyLegalMoves(boardState, Moves.CAPTURE, true, null);
+            //nextBoardStates = General.gameEngine.applyLegalMoves(boardState, Moves.BASIC_DEFENSE, true, nextBoardStates);
+            /*
+            tmp = General.gameEngine.applyLegalMoves(boardState, Moves.CAPTURE, false, null);
+
+            if(!tmp.isEmpty()) {
+                nextBoardStates = General.gameEngine.applyLegalMoves(boardState, Moves.NONCAPTURE, true, nextBoardStates);
+                nextBoardStates = General.gameEngine.applyLegalMoves(boardState, Moves.EXIT, true, nextBoardStates);
+            }
+            */
             if(nextBoardStates.isEmpty() || boardState.getMoveType() == Moves.EMPTY) {
                 return h.h(boardState);
             }
@@ -121,6 +148,7 @@ public class UpgradedRMMAB implements SearchAlgorithm {
         }
         else {
             nextBoardStates = General.gameEngine.applyLegalMoves(boardState, Moves.ALL, true, null);
+
         }
 
         if(nextBoardStates.isEmpty())
@@ -144,6 +172,8 @@ public class UpgradedRMMAB implements SearchAlgorithm {
 
         double v = Double.MAX_VALUE;
         LinkedList<RepresentationNode> nextBoardStates = null;
+        LinkedList<RepresentationNode> tmp = null;
+
         if((System.currentTimeMillis() - t) >= LIMIT) {
             this.interrupted = true;
             return alpha;
@@ -152,6 +182,16 @@ public class UpgradedRMMAB implements SearchAlgorithm {
         if(depth >= targetDepth && depth <= extendedDepth) {
 
             nextBoardStates = General.gameEngine.applyLegalMoves(boardState, Moves.CAPTURE, false, null);
+            //nextBoardStates = General.gameEngine.applyLegalMoves(boardState, Moves.BASIC_DEFENSE, false, nextBoardStates);
+            /*
+            tmp = General.gameEngine.applyLegalMoves(boardState, Moves.CAPTURE, true, null);
+
+            if(!tmp.isEmpty()) {
+                nextBoardStates = General.gameEngine.applyLegalMoves(boardState, Moves.NONCAPTURE, false, nextBoardStates);
+                nextBoardStates = General.gameEngine.applyLegalMoves(boardState, Moves.EXIT, false, nextBoardStates);
+            }
+            */
+
             if(nextBoardStates.isEmpty() || boardState.getMoveType() == Moves.EMPTY) {
                 return h.h(boardState);
             }

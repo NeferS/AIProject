@@ -1553,7 +1553,7 @@ public class BasicGameEngine implements GameEngine {
 
 	
 	//Calcola iterativamente tutte le coordinate delle non-capture moves e, per ciascuna di esse,
-	//richiama il metodo che genera il nuovo stato della schacchera, che viene poi aggiunto alla lista
+	//richiama il metodo che genera il nuovo stato della schacchiera, che viene poi aggiunto alla lista
 	//delle mosse valide.
 	private void calculateNonCaptureMoves(BitSet[] playerPieces, 
 										  BitSet[] enemyPieces,
@@ -1808,36 +1808,120 @@ public class BasicGameEngine implements GameEngine {
 	}
 
 
-	/*
-	private void calculateNonCaptureDefenseMoves(BitSet[] playerPieces,
-												 BitSet[] enemyPieces,
-												 BitSet[] enemyCaptureMovesBB,
-												 BitSet playerOccupiedSquares,
-												 BitSet enemyOccupiedSquares,
-												 BitSet emptySquares,
-												 LinkedList<RepresentationNode> nextBoardStates) {
+	private BitSet[] calculateSecureSquaresForPlayer(BitSet[] reachableSquaresByEnemy) {
+
+		BitSet[] secureSquares = new BitSet[7];
+
+		for(int i = 0; i < 7; i++) secureSquares[i] = BitSet.valueOf(new byte[] { (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF});
+
+		for(int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
+			for(int distance = 0; distance < 7 && distance <= playerStackSize; distance++) {
+				secureSquares[distance].andNot(reachableSquaresByEnemy[distance]);
+			}
+		}
+
+		return secureSquares;
+
+	}
+
+	private void calculateBasicDefenseMoves(BitSet[] playerPieces,
+											BitSet[] enemyPieces,
+											BitSet playerOccupiedSquares,
+											BitSet enemyOccupiedSquares,
+											BitSet emptySquares,
+											Color playerColor,
+											Color enemyColor,
+											LinkedList<RepresentationNode> nextBoardStates) {
 
 
 
-		BitSet secureSquares = new BitSet(32);
+		//BitSet[] secureSquares = new BitSet[7];
+
 
 
 		//Se mantengo differenziate caselle libere e caselle occupate dal giocatore, posso forzare
 		//un ordinamento delle mosse generate.
-		BitSet idleSquares = new BitSet(32);
-		idleSquares.or(playerOccupiedSquares);
-		idleSquares.or(emptySquares);
+		BitSet idleSquaresForPlayer = new BitSet(32);
+		idleSquaresForPlayer.or(playerOccupiedSquares);
+		idleSquaresForPlayer.or(emptySquares);
 
-		BitSet[] enemyCoveredSquares = calculateCoveredSquares(enemyPieces, enemyCaptureMovesBB);
 
-		for(int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {
+		BitSet[] reachableSquaresByEnemyAtDistance = calculateCoveredSquares(enemyPieces, this.captureMovesBB[enemyColor.ordinal()]);
+		//BitSet[] secureSquaresForPlayer = calculateSecureSquares(reachableSquaresByEnemy);
 
+
+
+		BitSet reachableSquaresByEnemy = new BitSet(32);
+		//Itero su ogni tipologia di stack (stack con n + 1 pedine) 0 <= n < 12
+		for(int enemyStackSize = 0; enemyStackSize < 12; enemyStackSize++) {
+
+			//Per ogni stack con n + 1 pedine, calcolo le celle su cui potrebbe spostarsi
+			//cioè celle vuote o contenenti stack dello stesso colore
+			int srcSquare = 0;
+			while(true) {
+				srcSquare = enemyPieces[enemyStackSize].nextSetBit(srcSquare);
+				if(srcSquare == -1) break;
+
+				//Poichè in captureMovesBB (per ciascun colore e posizione di partenza) una bitboard
+				//in posizione i marca SOLO le posizioni raggiungibili a distanza i + 1, se voglio valutare
+				//tutti gli spostamenti che uno stack di n+1 può fare, devo "sommare" tutte le bitboard
+				//da 0 a n
+				reachableSquaresByEnemy.clear();
+				for(int i = 0; i <= enemyStackSize; i++) {
+					reachableSquaresByEnemy.or(this.captureMovesBB[srcSquare][i]);
+				}
+				reachableSquaresByEnemy.and(enemyOccupiedSquares);
+
+				//Estraggo le celle di destinazione corrispondenti a capture moves valide e, per ognuna di esse,
+				//genero il nuovo stato della scacchiera.
+				int dstSquare = 0;
+				while(true) {
+					dstSquare = reachableSquaresByEnemy.nextSetBit(dstSquare);
+					if(dstSquare == -1) break;
+
+					int playerStackSize = -1;
+					for(int i = 0; i < 12; i++) {
+						if(enemyPieces[i].get(dstSquare)) {
+							enemyStackSize = i;
+							break;
+						}
+					}
+					int distance = this.distances[srcSquare][dstSquare];
+
+					if(distance - 1 >= playerStackSize &&  enemyStackSize >= playerStackSize) {
+						String encodedSrcSquare = this.encodedSquares[srcSquare];
+						String direction = this.directions[srcSquare][dstSquare];
+
+						/*
+						validMoves.add(BoardStateBuilder.calculateCaptureMove(playerPieces,
+								enemyPieces,
+								playerStackSize,
+								enemyStackSize,
+								srcSquare,
+								dstSquare,
+								encodedSrcSquare,
+								direction,
+								distance,
+								playerColor,
+								enemyColor,
+								Moves.CAPTURE
+						));
+						*/
+
+					}
+
+					dstSquare++;
+				}
+
+				srcSquare++;
+			}
 		}
+
 
 
 		
 	}
-	*/
+
 
 	@Override
 	public void start(Color color) {
@@ -2089,6 +2173,24 @@ public class BasicGameEngine implements GameEngine {
 						 		   nextBoardStates);
 				break;
 
+			case EMPTY:
+				nextBoardStates.add(calculateEmptyMove(concreteBoardState, playerColor));
+				break;
+
+
+			case BASIC_DEFENSE:
+				calculateBasicDefenseMoves(
+						concreteBoardState.getPlayerPieces(playerColor),
+						concreteBoardState.getPlayerPieces(enemyColor),
+						playersOccupiedSquares[playerColor.ordinal()],
+						playersOccupiedSquares[enemyColor.ordinal()],
+						emptySquares,
+						playerColor,
+						enemyColor,
+						nextBoardStates
+				);
+				break;
+
 			case ALL:
 				calculateNonCaptureMoves(concreteBoardState.getPlayerPieces(playerColor),
 										 concreteBoardState.getPlayerPieces(enemyColor),
@@ -2178,7 +2280,7 @@ public class BasicGameEngine implements GameEngine {
 	}
 
 
-
+	/*
 	public List<RepresentationNode> getWBCaptureMoves(RepresentationNode boardState) {
 
 		BitboardRepresentationNode concreteBoardState = (BitboardRepresentationNode)boardState;
@@ -2210,7 +2312,7 @@ public class BasicGameEngine implements GameEngine {
 		return validMoves;
 
 	}
-
+	*/
 
 
 }
