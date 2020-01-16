@@ -47,10 +47,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	 * @return l'etichetta del nodo passato come parametro, ricavata come massimo fra le etichette dei nodi figli
 	 */
 	protected double valoreMax(long t, byte depth, RepresentationNode node, double alpha, double beta) {
-		if(depth == L) return strategy.h(node);
-		
-		if(node.getMove().split(",")[2].equals("0"))
-			return strategy.h(node);
+		if(depth == L || node.getMove().split(",")[2].equals("0")) return strategy.h(node);
 		
 		double v = min_infinite;
 		if((System.currentTimeMillis() - t) >= LIMIT) return beta;
@@ -102,7 +99,8 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	@Override
 	public byte moves() { return moves; }
 	@Override
+	/*Necessario per retrocompatibilità*/
 	public void updateLevel() { L = (moves<=15)? (byte)6 : (moves<=25)? (byte)7 : (byte)8; }
-	
+	/*Utilizzato nell'IterativeDeepening*/
 	public void setL(int level) { L = (byte)level; }
 }

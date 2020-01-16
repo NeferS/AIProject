@@ -5,7 +5,7 @@ import strategies.IHeuristic;
 
 public class IterativeDeepening extends SearchAlgorithm {
 
-	protected final byte MIN_CUT_L = 5, MAX_CUT_L = 25;
+	protected final byte MIN_CUT_L = 5, MAX_CUT_L = 15;
 	protected MinMaxAlphaBeta mmab = new MinMaxAlphaBeta();
 	
 	@Override
@@ -30,8 +30,6 @@ public class IterativeDeepening extends SearchAlgorithm {
 				bestMove = current;
 		}
 		
-		System.out.println(i+"/"+MAX_CUT_L);
-		
 		return bestMove;
 	}
 	
@@ -40,7 +38,6 @@ public class IterativeDeepening extends SearchAlgorithm {
 	public void oneMove() { moves++; mmab.oneMove(); }
 	@Override
 	public byte moves() { return moves; }
-
 	@Override
 	public void updateLevel() { }
 

@@ -53,12 +53,13 @@ public class HashMMAB extends MinMaxAlphaBeta {
 	
 	@Override
 	protected double valoreMax(long t, byte depth, RepresentationNode node, double alpha, double beta) {
-		if(depth == L) return strategy.h(node);
-		double v = min_infinite;
+		if(depth == L || node.getMove().split(",")[2].equals("0")) return strategy.h(node);
 		
 		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), depth+moves);
 		if(actions.isEmpty())
 			return strategy.h(node);
+
+		double v = min_infinite;
 		
 		/*Ogni chiamata di questo metodo al livello 2 viene effettuata su uno dei nodi "radice" dell'iterazione
 		 *successiva.*/

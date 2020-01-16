@@ -65,8 +65,9 @@ public class Player extends Thread {
 			General.gameEngine.playerMakeMove(configuration);
 			algorithm.oneMove();
 			
-			if(algorithm.moves() <= 25)
-				algorithm.updateLevel();
+			/*Retrocompatibilità se si usa MinMax da solo*/
+			/*if(algorithm.moves() <= 25)
+				algorithm.updateLevel();*/
 			
 			//Da rimuovere TODO
 			if(General.isWhite) System.out.println("White : " + configuration.getMove());
