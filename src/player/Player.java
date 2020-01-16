@@ -2,13 +2,12 @@ package player;
 
 import communication.Listener;
 import communication.Protocol;
-import util.Semaphores;
-import util.General;
 import representations.Color;
 import representations.RepresentationNode;
-import searching.MinMaxAlphaBeta;
 import searching.SearchAlgorithm;
 import strategies.IHeuristic;
+import util.General;
+import util.Semaphores;
 
 public class Player extends Thread {
 	
@@ -65,8 +64,9 @@ public class Player extends Thread {
 			protocol.send(MOVE+configuration.getMove());
 			General.gameEngine.playerMakeMove(configuration);
 			algorithm.oneMove();
+			
 			if(algorithm.moves() <= 25)
-				((MinMaxAlphaBeta)algorithm).updateLevel();
+				algorithm.updateLevel();
 			
 			//Da rimuovere TODO
 			if(General.isWhite) System.out.println("White : " + configuration.getMove());

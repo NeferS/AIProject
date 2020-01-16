@@ -13,7 +13,6 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 
 	protected final double infinite = Double.POSITIVE_INFINITY, min_infinite = Double.NEGATIVE_INFINITY;
 	protected byte L = 6;
-	protected byte moves = 0;
 	
 	/*Esegue il primo passo della funzione valoreMax, ma si applica solo al nodo radice in quanto esegue
 	 *operazioni specifiche (come, ad esempio, tenere traccia della migliore mossa fino ad un generico istante t.*/
@@ -34,6 +33,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 			if((System.currentTimeMillis() - t) >= LIMIT) break;
 			alpha = (alpha > val)? alpha : val;
 		}
+		
 		return bestMove;
 	}
 	
@@ -48,6 +48,10 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	 */
 	protected double valoreMax(long t, byte depth, RepresentationNode node, double alpha, double beta) {
 		if(depth == L) return strategy.h(node);
+		
+		if(node.getMove().split(",")[2].equals("0"))
+			return strategy.h(node);
+		
 		double v = min_infinite;
 		if((System.currentTimeMillis() - t) >= LIMIT) return beta;
 		
@@ -68,7 +72,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	/**Restituisce il valore minimo fra le etichette dei nodi figli del nodo passato come parametro, assegnando quindi
 	 * questa etichetta al nodo stesso.
 	 * @param t il tempo di inizio di questa iterazione
-	 * @param depth la profonditï¿½ del nodo parametro
+	 * @param depth la profondità del nodo parametro
 	 * @param node il nodo a cui assegnare l'etichetta
 	 * @param alpha lower bound per il pruning
 	 * @param beta upper bound per il pruning
@@ -99,4 +103,6 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	public byte moves() { return moves; }
 	@Override
 	public void updateLevel() { L = (moves<=15)? (byte)6 : (moves<=25)? (byte)7 : (byte)8; }
+	
+	public void setL(int level) { L = (byte)level; }
 }

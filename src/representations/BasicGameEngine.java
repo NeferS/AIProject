@@ -1635,19 +1635,19 @@ public class BasicGameEngine implements GameEngine {
 		playersOccupiedSquares[otherPlayer.ordinal()] = BoardStateBuilder.calculateOccupiedSquares(concreteBoardState.getPlayerPieces(otherPlayer));
 		BitSet emptySquares = BoardStateBuilder.calculateEmptySquares(playersOccupiedSquares[0], playersOccupiedSquares[1]);
 		
-		calculateCapturesMoves(concreteBoardState.getPlayerPieces(playingColor), 
+		calculateCapturesMoves(concreteBoardState.getPlayerPieces(playingColor),
 				   concreteBoardState.getPlayerPieces(otherPlayer),
-				   playersOccupiedSquares[playingColor.ordinal()], 
-				   playersOccupiedSquares[otherPlayer.ordinal()], 
+				   playersOccupiedSquares[playingColor.ordinal()],
+				   playersOccupiedSquares[otherPlayer.ordinal()],
 				   emptySquares,
 				   playingColor,
 				   otherPlayer,
 				   validMoves);
 		
-		calculateNonCaptureMoves(concreteBoardState.getPlayerPieces(playingColor), 
-				 				 concreteBoardState.getPlayerPieces(otherPlayer), 
-				 				 playersOccupiedSquares[playingColor.ordinal()], 
-				 				 playersOccupiedSquares[otherPlayer.ordinal()], 
+		calculateNonCaptureMoves(concreteBoardState.getPlayerPieces(playingColor),
+				 				 concreteBoardState.getPlayerPieces(otherPlayer),
+				 				 playersOccupiedSquares[playingColor.ordinal()],
+				 				 playersOccupiedSquares[otherPlayer.ordinal()],
 				 				 emptySquares,
 				 				 playingColor,
 				 				 otherPlayer,
@@ -1656,8 +1656,8 @@ public class BasicGameEngine implements GameEngine {
 		if(level > playingColor.ordinal())
 			calculateExitMoves(concreteBoardState.getPlayerPieces(playingColor),
 							   concreteBoardState.getPlayerPieces(otherPlayer),
-							   playersOccupiedSquares[playingColor.ordinal()], 
-							   playersOccupiedSquares[otherPlayer.ordinal()], 
+							   playersOccupiedSquares[playingColor.ordinal()],
+							   playersOccupiedSquares[otherPlayer.ordinal()],
 							   emptySquares,
 							   playingColor,
 							   otherPlayer,
