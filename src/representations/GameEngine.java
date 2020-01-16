@@ -8,7 +8,7 @@ public interface GameEngine {
 	 * @param configuration la configurazione di partenza
 	 * @return un array di mosse valide
 	 */
-	List<RepresentationNode> validActions(RepresentationNode configuration, Color playingColor);
+	List<RepresentationNode> validActions(RepresentationNode configuration, Color playingColor, int level);
 
 	void start(Color color);
 	

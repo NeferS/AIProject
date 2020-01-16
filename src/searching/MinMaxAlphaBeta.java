@@ -12,13 +12,14 @@ import util.General;
 public class MinMaxAlphaBeta extends SearchAlgorithm {
 
 	protected final double infinite = Double.POSITIVE_INFINITY, min_infinite = Double.NEGATIVE_INFINITY;
-	protected final byte L = 5;
+	protected byte L = 6;
+	protected byte moves = 0;
 	
 	/*Esegue il primo passo della funzione valoreMax, ma si applica solo al nodo radice in quanto esegue
 	 *operazioni specifiche (come, ad esempio, tenere traccia della migliore mossa fino ad un generico istante t.*/
 	@Override
 	public RepresentationNode explore(RepresentationNode node, long t) {
-		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor()); //validActions deve essere ordinato per pruning efficiente
+		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), moves); //validActions deve essere ordinato per pruning efficiente
 		RepresentationNode bestMove = actions.get(0); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
 		
 		double v = min_infinite;
@@ -39,7 +40,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	/**Restituisce il valore massimo fra le etichette dei nodi figli del nodo passato come parametro, assegnando quindi
 	 * questa etichetta al nodo stesso.
 	 * @param t il tempo di inizio di questa iterazione
-	 * @param depth la profonditï¿½ del nodo parametro
+	 * @param depth la profondità del nodo parametro
 	 * @param node il nodo a cui assegnare l'etichetta
 	 * @param alpha lower bound per il pruning
 	 * @param beta upper bound per il pruning
@@ -50,7 +51,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		double v = min_infinite;
 		if((System.currentTimeMillis() - t) >= LIMIT) return beta;
 		
-		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor());
+		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), depth+moves);
 		if(actions.isEmpty())
 			return strategy.h(node);
 		
@@ -78,7 +79,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		double v = infinite;
 		if((System.currentTimeMillis() - t) >= LIMIT) return alpha;
 		
-		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getEnemyColor());
+		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getEnemyColor(), depth+moves);
 		if(actions.isEmpty())
 			return strategy.h(node);
 		
@@ -91,4 +92,11 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		}
 		return v;
 	}
+	
+	@Override
+	public void oneMove() { moves++; }
+	@Override
+	public byte moves() { return moves; }
+	@Override
+	public void updateLevel() { L = (moves<=15)? (byte)6 : (moves<=25)? (byte)7 : (byte)8; }
 }

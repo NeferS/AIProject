@@ -6,6 +6,7 @@ import util.Semaphores;
 import util.General;
 import representations.Color;
 import representations.RepresentationNode;
+import searching.MinMaxAlphaBeta;
 import searching.SearchAlgorithm;
 import strategies.IHeuristic;
 
@@ -14,7 +15,6 @@ public class Player extends Thread {
 	protected Protocol protocol;
 	protected SearchAlgorithm algorithm;
 	protected IHeuristic initialStrategy;
-	protected boolean sent;
 	protected final String MOVE = "MOVE ";
 	
 	public Player(Protocol p, SearchAlgorithm a, IHeuristic s) {
@@ -35,7 +35,7 @@ public class Player extends Thread {
 	/**Aggiorna la rappresentazione del mondo dopo una mossa.
 	 * @param move la mossa eseguita
 	 */
-	public void update(String move) { General.gameEngine.enemyMakeMove(move); }
+	public void update(String move) { General.gameEngine.enemyMakeMove(move); algorithm.oneMove(); }
 	
 	/**Esegue operazioni di inizializzazione: riceve il messaggio di welcome ed avvia un Listener.*/
 	protected void init() {
@@ -59,20 +59,20 @@ public class Player extends Thread {
 	/**Gioca la partita.
 	 * @throws InterruptedException if this thread is interrupted*/
 	protected void play() throws InterruptedException {
-		
-		if(!General.isWhite) {
-			//algorithm.preCompute(General.gameEngine.getCurrentBoardState(), this);
-			//while(Thread.interrupted());
-		}
-		
 		while(true) {
 			long t = Semaphores.waitACK();
 			RepresentationNode configuration = algorithm.explore(General.gameEngine.getCurrentBoardState(), t);
 			protocol.send(MOVE+configuration.getMove());
 			General.gameEngine.playerMakeMove(configuration);
+			algorithm.oneMove();
+			if(algorithm.moves() <= 25)
+				((MinMaxAlphaBeta)algorithm).updateLevel();
+			
+			//Da rimuovere TODO
 			if(General.isWhite) System.out.println("White : " + configuration.getMove());
 			else System.out.println("Black : " + configuration.getMove());
-			sent = true;
+			//Fine rimozione
+			
 			Semaphores.waitACK();
 		}
 	}

@@ -1624,7 +1624,7 @@ public class BasicGameEngine implements GameEngine {
 	}
 	
 	@Override
-	public List<RepresentationNode> validActions(RepresentationNode configuration, Color playingColor) {
+	public List<RepresentationNode> validActions(RepresentationNode configuration, Color playingColor, int level) {
 		
 		Color otherPlayer = Color.otherColor(playingColor);
 		BitboardRepresentationNode concreteBoardState = (BitboardRepresentationNode)configuration;
@@ -1635,6 +1635,14 @@ public class BasicGameEngine implements GameEngine {
 		playersOccupiedSquares[otherPlayer.ordinal()] = BoardStateBuilder.calculateOccupiedSquares(concreteBoardState.getPlayerPieces(otherPlayer));
 		BitSet emptySquares = BoardStateBuilder.calculateEmptySquares(playersOccupiedSquares[0], playersOccupiedSquares[1]);
 		
+		calculateCapturesMoves(concreteBoardState.getPlayerPieces(playingColor), 
+				   concreteBoardState.getPlayerPieces(otherPlayer),
+				   playersOccupiedSquares[playingColor.ordinal()], 
+				   playersOccupiedSquares[otherPlayer.ordinal()], 
+				   emptySquares,
+				   playingColor,
+				   otherPlayer,
+				   validMoves);
 		
 		calculateNonCaptureMoves(concreteBoardState.getPlayerPieces(playingColor), 
 				 				 concreteBoardState.getPlayerPieces(otherPlayer), 
@@ -1645,23 +1653,15 @@ public class BasicGameEngine implements GameEngine {
 				 				 otherPlayer,
 				 				 validMoves);
 		
-		calculateCapturesMoves(concreteBoardState.getPlayerPieces(playingColor), 
-				   concreteBoardState.getPlayerPieces(otherPlayer),
-				   playersOccupiedSquares[playingColor.ordinal()], 
-				   playersOccupiedSquares[otherPlayer.ordinal()], 
-				   emptySquares,
-				   playingColor,
-				   otherPlayer,
-				   validMoves);
-		
-		calculateExitMoves(concreteBoardState.getPlayerPieces(playingColor),
-						   concreteBoardState.getPlayerPieces(otherPlayer),
-						   playersOccupiedSquares[playingColor.ordinal()], 
-						   playersOccupiedSquares[otherPlayer.ordinal()], 
-						   emptySquares,
-						   playingColor,
-						   otherPlayer,
-						   validMoves);
+		if(level > playingColor.ordinal())
+			calculateExitMoves(concreteBoardState.getPlayerPieces(playingColor),
+							   concreteBoardState.getPlayerPieces(otherPlayer),
+							   playersOccupiedSquares[playingColor.ordinal()], 
+							   playersOccupiedSquares[otherPlayer.ordinal()], 
+							   emptySquares,
+							   playingColor,
+							   otherPlayer,
+							   validMoves);
 		
 		if(validMoves.isEmpty()) {
 			RepresentationNode node = calculateEmptyMove(concreteBoardState, playingColor);

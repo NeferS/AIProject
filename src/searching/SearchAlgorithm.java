@@ -35,4 +35,11 @@ public abstract class SearchAlgorithm{
 	 * @param caller il thread chiamante
 	 */
 	public void preCompute(RepresentationNode configuration, Thread caller) { while(!caller.isInterrupted()); }
+	
+	/**Esegue una qualche azione quando viene compiuta una mossa.*/
+	public abstract void oneMove();
+	/**Restituisce il numero di mosse eseguite (da entrambi i giocatori).*/
+	public abstract byte moves();
+	/**Aggiorna il livello massimo al quale scendere.*/
+	public abstract void updateLevel();
 }

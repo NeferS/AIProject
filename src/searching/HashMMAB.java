@@ -17,7 +17,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 	
 	/**Questa mappa serve ad avere un ordine di precedenza sui nodi del livello l+2, dove l è
 	 * il livello dell'iterazione corrente (in cui gioco io).*/
-	private HashMap<RepresentationNode, LinkedList<RepresentationNode>> current, best;
+	protected HashMap<RepresentationNode, LinkedList<RepresentationNode>> current, best;
 	
 	@Override
 	public RepresentationNode explore(RepresentationNode node, long t) {
@@ -30,9 +30,8 @@ public class HashMMAB extends MinMaxAlphaBeta {
 			actions = best.get(node);
 		/*Altrimenti mi affido al gameEngine.*/
 		else
-			actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor()); //validActions deve essere ordinato per pruning efficiente
+			actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), moves); //validActions deve essere ordinato per pruning efficiente
 		RepresentationNode bestMove = actions.get(0); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
-		if(bestMove.getMove().split(",")[2].charAt(0) == '0') return bestMove;
 		
 		double v = min_infinite;
 		double alpha = v;
@@ -48,6 +47,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 			if((System.currentTimeMillis() - t) >= LIMIT) break;
 			alpha = (alpha > val)? alpha : val;
 		}
+
 		return bestMove;
 	}
 	
@@ -56,7 +56,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 		if(depth == L) return strategy.h(node);
 		double v = min_infinite;
 		
-		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor());
+		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), depth+moves);
 		if(actions.isEmpty())
 			return strategy.h(node);
 		
@@ -96,7 +96,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 	 * @param list la lista da espandere
 	 * @param node il nodo da inserire
 	 */
-	private void insertSorted(LinkedList<RepresentationNode> list, RepresentationNode node) {
+	protected void insertSorted(LinkedList<RepresentationNode> list, RepresentationNode node) {
 		if(list.size() == 0)
 			list.addFirst(node);
 		else {
