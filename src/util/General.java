@@ -9,4 +9,5 @@ import representations.GameEngine;
 public final class General {
 	public static GameEngine gameEngine;
 	public static boolean isWhite;
+	public static byte moves = 0;
 }

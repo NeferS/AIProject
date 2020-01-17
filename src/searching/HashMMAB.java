@@ -30,7 +30,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 			actions = best.get(node);
 		/*Altrimenti mi affido al gameEngine.*/
 		else
-			actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), moves); //validActions deve essere ordinato per pruning efficiente
+			actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), (byte)0); //validActions deve essere ordinato per pruning efficiente
 		RepresentationNode bestMove = actions.get(0); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
 		
 		double v = min_infinite;
@@ -55,7 +55,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 	protected double valoreMax(long t, byte depth, RepresentationNode node, double alpha, double beta) {
 		if(depth == L || node.getMove().split(",")[2].equals("0")) return strategy.h(node);
 		
-		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), depth+moves);
+		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), depth);
 		if(actions.isEmpty())
 			return strategy.h(node);
 

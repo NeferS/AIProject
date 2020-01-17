@@ -22,7 +22,7 @@ public class RandomizedHashMMAB extends HashMMAB {
 			actions = best.get(node);
 		/*Altrimenti mi affido al gameEngine.*/
 		else
-			actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), moves); //validActions deve essere ordinato per pruning efficiente
+			actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), (byte)0); //validActions deve essere ordinato per pruning efficiente
 		
 		RepresentationNode bestMove = actions.get(0); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
 		

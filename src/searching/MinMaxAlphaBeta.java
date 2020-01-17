@@ -18,7 +18,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	 *operazioni specifiche (come, ad esempio, tenere traccia della migliore mossa fino ad un generico istante t.*/
 	@Override
 	public RepresentationNode explore(RepresentationNode node, long t) {
-		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), moves); //validActions deve essere ordinato per pruning efficiente
+		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), (byte)0); //validActions deve essere ordinato per pruning efficiente
 		RepresentationNode bestMove = actions.get(0); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
 		
 		double v = min_infinite;
@@ -52,7 +52,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		double v = min_infinite;
 		if((System.currentTimeMillis() - t) >= LIMIT) return beta;
 		
-		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), depth+moves);
+		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), depth);
 		if(actions.isEmpty())
 			return strategy.h(node);
 		
@@ -80,7 +80,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		double v = infinite;
 		if((System.currentTimeMillis() - t) >= LIMIT) return alpha;
 		
-		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getEnemyColor(), depth+moves);
+		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getEnemyColor(), depth);
 		if(actions.isEmpty())
 			return strategy.h(node);
 		
@@ -94,13 +94,8 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		return v;
 	}
 	
-	@Override
-	public void oneMove() { moves++; }
-	@Override
-	public byte moves() { return moves; }
-	@Override
-	/*Necessario per retrocompatibilità*/
-	public void updateLevel() { L = (moves<=15)? (byte)6 : (moves<=25)? (byte)7 : (byte)8; }
-	/*Utilizzato nell'IterativeDeepening*/
-	public void setL(int level) { L = (byte)level; }
+	/**Cambia il livello massimo al quale considerare i nodi come foglie.
+	 * @param level il nuovo livello massimo
+	 */
+	public void setLevel(int level) { L = (byte)level; }
 }

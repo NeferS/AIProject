@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import util.General;
+
 public class BasicGameEngine implements GameEngine {
 	
 	public static final BitSet[][] captureMovesBB = {
@@ -1624,7 +1626,7 @@ public class BasicGameEngine implements GameEngine {
 	}
 	
 	@Override
-	public List<RepresentationNode> validActions(RepresentationNode configuration, Color playingColor, int level) {
+	public List<RepresentationNode> validActions(RepresentationNode configuration, Color playingColor, byte depth) {
 		
 		Color otherPlayer = Color.otherColor(playingColor);
 		BitboardRepresentationNode concreteBoardState = (BitboardRepresentationNode)configuration;
@@ -1653,7 +1655,7 @@ public class BasicGameEngine implements GameEngine {
 				 				 otherPlayer,
 				 				 validMoves);
 		
-		if(level > playingColor.ordinal())
+		if((General.moves+depth) > playingColor.ordinal())
 			calculateExitMoves(concreteBoardState.getPlayerPieces(playingColor),
 							   concreteBoardState.getPlayerPieces(otherPlayer),
 							   playersOccupiedSquares[playingColor.ordinal()],

@@ -11,7 +11,7 @@ public class RandomizedMMAB extends MinMaxAlphaBeta {
 
 	@Override
 	public RepresentationNode explore(RepresentationNode node, long t) {
-		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), moves); //validActions deve essere ordinato per pruning efficiente
+		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), (byte)0); //validActions deve essere ordinato per pruning efficiente
 		RepresentationNode bestMove = actions.get(0); //validActions deve generare la mossa "vuota" se e solo se non sono possibili altre azioni
 		
 		double v = min_infinite;

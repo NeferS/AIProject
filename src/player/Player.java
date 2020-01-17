@@ -34,7 +34,7 @@ public class Player extends Thread {
 	/**Aggiorna la rappresentazione del mondo dopo una mossa.
 	 * @param move la mossa eseguita
 	 */
-	public void update(String move) { General.gameEngine.enemyMakeMove(move); algorithm.oneMove(); }
+	public void update(String move) { General.gameEngine.enemyMakeMove(move); General.moves++; }
 	
 	/**Esegue operazioni di inizializzazione: riceve il messaggio di welcome ed avvia un Listener.*/
 	protected void init() {
@@ -63,11 +63,11 @@ public class Player extends Thread {
 			RepresentationNode configuration = algorithm.explore(General.gameEngine.getCurrentBoardState(), t);
 			protocol.send(MOVE+configuration.getMove());
 			General.gameEngine.playerMakeMove(configuration);
-			algorithm.oneMove();
+			General.moves++;
 			
-			/*Retrocompatibilità se si usa MinMax da solo*/
-			/*if(algorithm.moves() <= 25)
-				algorithm.updateLevel();*/
+			/*Retrocompatibilità se si usa MinMaxAlphaBeta da solo, in modo da incrementare il livello di taglio.*/
+			/*if(General.moves <= 25)
+				((searching.MinMaxAlphaBeta)algorithm).setLevel((General.moves<=15)? (byte)6 : (General.moves<=25)? (byte)7 : (byte)8);*/
 			
 			//Da rimuovere TODO
 			if(General.isWhite) System.out.println("White : " + configuration.getMove());

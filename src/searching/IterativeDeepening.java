@@ -20,7 +20,7 @@ public class IterativeDeepening extends SearchAlgorithm {
 		RepresentationNode current = null;
 		int i;
 		for(i=MIN_CUT_L; i<=MAX_CUT_L; i++) {
-			mmab.setL(i);
+			mmab.setLevel(i);
 			current = mmab.explore(root, t);
 			if((System.currentTimeMillis() - t) >= LIMIT) {
 				if(bestMove == null)
@@ -32,13 +32,4 @@ public class IterativeDeepening extends SearchAlgorithm {
 		
 		return bestMove;
 	}
-	
-	
-	@Override
-	public void oneMove() { moves++; mmab.oneMove(); }
-	@Override
-	public byte moves() { return moves; }
-	@Override
-	public void updateLevel() { }
-
 }
