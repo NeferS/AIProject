@@ -1858,8 +1858,11 @@ public class BasicGameEngine implements GameEngine {
 
 	public RepresentationNode calculateEmptyMove(BitboardRepresentationNode configuration, Color playingColor) {
 
-		RepresentationNode emptyMove = configuration;
 		BitSet[] playerPieces = configuration.getPlayerPieces(playingColor);
+		
+		BitboardRepresentationNode emptyMove = new BitboardRepresentationNode();
+		emptyMove.setPlayerPieces(Color.otherColor(playingColor), configuration.getPlayerPieces(Color.otherColor(playingColor)));
+		emptyMove.setPlayerPieces(playingColor, playerPieces);
 		boolean exit = false;
 
 		for (int playerStackSize = 0; playerStackSize < 12; playerStackSize++) {

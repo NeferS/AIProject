@@ -49,9 +49,9 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	protected double valoreMax(long t, byte depth, RepresentationNode node, double alpha, double beta) {
 		if(depth == L || node.getMove().split(",")[2].equals("0")) return strategy.h(node);
 		
-		double v = min_infinite;
 		if((System.currentTimeMillis() - t) >= LIMIT) return beta;
 		
+		double v = min_infinite;
 		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), depth);
 		if(actions.isEmpty())
 			return strategy.h(node);
@@ -77,9 +77,10 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	 */
 	protected double valoreMin(long t, byte depth, RepresentationNode node, double alpha, double beta) {
 		if(depth == L) return strategy.h(node);
-		double v = infinite;
-		if((System.currentTimeMillis() - t) >= LIMIT) return alpha;
 		
+		if((System.currentTimeMillis() - t) >= LIMIT) return alpha;
+
+		double v = infinite;
 		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getEnemyColor(), depth);
 		if(actions.isEmpty())
 			return strategy.h(node);

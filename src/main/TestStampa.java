@@ -5,8 +5,10 @@ import java.util.BitSet;
 import representations.BasicGameEngine;
 import representations.BitboardRepresentationNode;
 import representations.Color;
+import representations.RepresentationNode;
 import searching.MinMaxAlphaBeta;
 import strategies.ActualH;
+import strategies.H4;
 import util.General;
 
 public class TestStampa {
@@ -44,34 +46,30 @@ public class TestStampa {
 		BitboardRepresentationNode node = new BitboardRepresentationNode();
 		node.setPlayerPieces(Color.WHITE, player);
 		node.setPlayerPieces(Color.BLACK, enemy);
+		System.out.println(node);
 		
 		BasicGameEngine bge = new BasicGameEngine();
 		bge.start(Color.WHITE);
 		bge.playerMakeMove(node);
 		General.gameEngine = bge;
 		
-		//for(RepresentationNode n: bge.validActions(node, Color.WHITE, 42))
+		//for(RepresentationNode n: bge.validActions(node, Color.WHITE, (byte)38))
 		//	System.out.println(n.getMove());
 
-		//MinMaxAlphaBeta mmab = new MinMaxAlphaBeta();
-		//mmab.initStrategy(new H3());
-		//for(int i=0; i<43; i++)
-		//	mmab.oneMove();
-		//System.out.println(mmab.explore(bge.getCurrentBoardState(), System.currentTimeMillis()).getMove());
+		MinMaxAlphaBeta mmab = new MinMaxAlphaBeta();
+		mmab.initStrategy(new ActualH());
+		General.moves = 38;
+		System.out.println(mmab.explore(bge.getCurrentBoardState(), System.currentTimeMillis()).getMove());
 		
-		ActualH h = new ActualH();
-		System.out.println(node);
-		System.out.println(h.h(node));
 	}
 	
 	public static void initBitSet() {
-		//b1.set(25);
-		//b11.set(30);
-		//n12.set(1);
-		
-		n11.set(1);
-		n1.set(6);
-		b12.set(30);
+		b3.set(30);
+		b2.set(31);
+		b2.set(20);
+		b1.set(5);
+		n1.set(29);
+		n1.set(26);
 	}
 
 }
