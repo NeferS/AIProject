@@ -23,7 +23,7 @@ public class ActualH implements IHeuristic {
 		int totpp = 0, totep = 0, // numero di pedine possedute da ciascun giocatore
 			totpm = 0, totem = 0, //numero di mosse necessarie a far uscire tutte le pedine di ciacun giocatore
 			tots = 0, //numero di stack totale
-			advantage = 0; //vantaggio rispetto all'avversario in termini di possibilità di cattura (+1 se posso catturare, -1 se posso essere catturato)
+			advantage = 0; //vantaggio rispetto all'avversario in termini di possibilitï¿½ di cattura (+1 se posso catturare, -1 se posso essere catturato)
 		
 		int srcSquare, square, quantity;
 		
@@ -71,6 +71,11 @@ public class ActualH implements IHeuristic {
 		}
 
 		if (totpp == 0) return Double.NEGATIVE_INFINITY;
-		return (totpm - totem) + advantage + (totpp - totep) + tots;
+		
+		Double max = 0.02; 
+		Double min = 0.01;
+		return (totpm - totem) + advantage + (totpp - totep) + tots +  ((Math.random() * (max - min) ) + min);
+        
+		
 	}
 }
