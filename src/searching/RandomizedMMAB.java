@@ -20,8 +20,8 @@ public class RandomizedMMAB extends MinMaxAlphaBeta {
 		
 		for(RepresentationNode child: actions) {
 			double val = valoreMin(t, (byte)1, child, alpha, infinite);
+			child.setHeuristicValue(val);
 			if(val > v) {
-				child.setHeuristicValue(val);
 				v = val;
 				bestMove = child;
 				equalVals.clear();

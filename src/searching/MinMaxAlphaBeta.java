@@ -1,7 +1,9 @@
 package searching;
 
+import java.util.BitSet;
 import java.util.List;
 
+import representations.BitboardRepresentationNode;
 import representations.RepresentationNode;
 import util.General;
 
@@ -26,6 +28,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		
 		for(RepresentationNode child: actions) {
 			double val = valoreMin(t, (byte)1, child, alpha, infinite);
+			child.setHeuristicValue(val);
 			if(val > v) {
 				v = val;
 				bestMove = child;
@@ -47,7 +50,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	 * @return l'etichetta del nodo passato come parametro, ricavata come massimo fra le etichette dei nodi figli
 	 */
 	protected double valoreMax(long t, byte depth, RepresentationNode node, double alpha, double beta) {
-		if(depth == L || node.getMove().split(",")[2].equals("0")) return strategy.h(node);
+		if(isGoal(node) || depth == L || node.getMove().split(",")[2].equals("0")) return strategy.h(node);
 		
 		if((System.currentTimeMillis() - t) >= LIMIT) return beta;
 		
@@ -58,6 +61,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		
 		for(RepresentationNode child: actions) {
 			double val = valoreMin(t, (byte)(depth+1), child, alpha, beta);
+			child.setHeuristicValue(val);
 			v = (v > val)? v : val;
 			if(v >= beta) return v;
 			if((System.currentTimeMillis() - t) >= LIMIT) return val;
@@ -76,7 +80,7 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 	 * @return l'etichetta del nodo passato come parametro, ricavata come minimo fra le etichette dei nodi figli
 	 */
 	protected double valoreMin(long t, byte depth, RepresentationNode node, double alpha, double beta) {
-		if(depth == L) return strategy.h(node);
+		if(isGoal(node) || depth == L) return strategy.h(node);
 		
 		if((System.currentTimeMillis() - t) >= LIMIT) return alpha;
 
@@ -87,12 +91,22 @@ public class MinMaxAlphaBeta extends SearchAlgorithm {
 		
 		for(RepresentationNode child: actions) {
 			double val = valoreMax(t, (byte)(depth+1), child, alpha, beta);
+			child.setHeuristicValue(val);
 			v = (v < val)? v : val;
 			if(v <= alpha) return v;
 			if((System.currentTimeMillis() - t) >= LIMIT) return val;
 			beta = (beta < v)? beta : v;
 		}
 		return v;
+	}
+	
+	@Override
+	public boolean isGoal(RepresentationNode node) {
+		BitSet[] enemyPieces = ((BitboardRepresentationNode)node).playersPieces[General.gameEngine.getEnemyColor().ordinal()];
+		for(BitSet bitset: enemyPieces)
+			if(bitset.cardinality() > 0)
+				return false;
+		return true;
 	}
 	
 	/**Cambia il livello massimo al quale considerare i nodi come foglie.

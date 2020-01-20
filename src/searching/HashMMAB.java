@@ -39,6 +39,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 		for(RepresentationNode child: actions) {
 			current = new HashMap<>();
 			double val = valoreMin(t, (byte)1, child, alpha, infinite);
+			child.setHeuristicValue(val);
 			if(val > v) {
 				v = val;
 				bestMove = child;
@@ -53,7 +54,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 	
 	@Override
 	protected double valoreMax(long t, byte depth, RepresentationNode node, double alpha, double beta) {
-		if(depth == L || node.getMove().split(",")[2].equals("0")) return strategy.h(node);
+		if(isGoal(node) || depth == L || node.getMove().split(",")[2].equals("0")) return strategy.h(node);
 		
 		List<RepresentationNode> actions = General.gameEngine.validActions(node, General.gameEngine.getPlayerColor(), depth);
 		if(actions.isEmpty())
@@ -69,6 +70,7 @@ public class HashMMAB extends MinMaxAlphaBeta {
 		if((System.currentTimeMillis() - t) >= LIMIT) return beta;
 		for(RepresentationNode child: actions) {
 			double val = valoreMin(t, (byte)(depth+1), child, alpha, beta);
+			child.setHeuristicValue(val);
 			v = (v > val)? v : val;
 			
 			/*Se faccio pruning su questo nodo è perché rappresenta una scelta che probabilmente l'avversario non

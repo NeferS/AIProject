@@ -32,4 +32,8 @@ public class IterativeDeepening extends SearchAlgorithm {
 		
 		return bestMove;
 	}
+	
+	@Override
+	public boolean isGoal(RepresentationNode node) { return false; }
+	
 }

@@ -30,6 +30,12 @@ public abstract class SearchAlgorithm{
 	 */
 	public abstract RepresentationNode explore(RepresentationNode root, long t);
 	
+	/**Restituisce true se il nodo passato è un goal.
+	 * @param node il nodo da esaminare
+	 * @return true se node è un goal, false altrimenti
+	 */
+	public abstract boolean isGoal(RepresentationNode node);
+	
 	/**Esplora lo spazio di ricerca mentre l'avversario sta rispondendo.
 	 * @param configuration configurazione di partenza
 	 * @param caller il thread chiamante

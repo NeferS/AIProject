@@ -34,6 +34,7 @@ public class RandomizedHashMMAB extends HashMMAB {
 		for(RepresentationNode child: actions) {
 			current = new HashMap<>();
 			double val = valoreMin(t, (byte)1, child, alpha, infinite);
+			child.setHeuristicValue(val);
 			if(val > v) {
 				child.setHeuristicValue(val);
 				v = val;
