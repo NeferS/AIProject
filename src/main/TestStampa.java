@@ -7,7 +7,9 @@ import representations.BitboardRepresentationNode;
 import representations.Color;
 import representations.RepresentationNode;
 import searching.MinMaxAlphaBeta;
-import strategies.ActualH;
+import searching.SearchAlgorithm;
+import searching.testMax;
+import strategies.H6;
 import strategies.H4;
 import util.General;
 
@@ -56,20 +58,16 @@ public class TestStampa {
 		//for(RepresentationNode n: bge.validActions(node, Color.WHITE, (byte)38))
 		//	System.out.println(n.getMove());
 
-		MinMaxAlphaBeta mmab = new MinMaxAlphaBeta();
-		mmab.initStrategy(new ActualH());
-		General.moves = 38;
-		System.out.println(mmab.explore(bge.getCurrentBoardState(), System.currentTimeMillis()).getMove());
-		
+		testMax mmab = new testMax();
+		mmab.setLevel(20);
+		mmab.explore(bge.getCurrentBoardState(), System.currentTimeMillis());
+		System.out.println("H5,NW,1 : "+mmab.goals);
 	}
 	
 	public static void initBitSet() {
-		b3.set(30);
-		b2.set(31);
-		b2.set(20);
-		b1.set(5);
-		n1.set(29);
-		n1.set(26);
+		n12.set(1);
+		b11.set(30);
+		b1.set(25);
 	}
 
 }

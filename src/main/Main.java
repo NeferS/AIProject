@@ -15,7 +15,7 @@ public class Main {
 		}
 		General.gameEngine = new BasicGameEngine();
 		Protocol p = (args[0].charAt(1) == 'h')? new Protocol(args[1], Integer.parseInt(args[3])) : new Protocol(args[3], Integer.parseInt(args[1]));
-		Player pl = new Player(p, new IterativeDeepening(), new ActualH());
+		Player pl = new Player(p, new IterativeDeepening(), new H6());
 		pl.start();
 	}
 	
