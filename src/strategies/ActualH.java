@@ -13,7 +13,7 @@ public class ActualH implements IHeuristic {
 	private final int BOARDS = 12;
 	private final int[] maxs_stacks  = { 2, 4, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1 };
 	private final int[][] notAlloweds = { { 1,6,7 }, {0,4,5} };
-	private final double max = 0.9, min = 0.1;
+	private final double max = 0.09, min = 0.01;
 	
 	@Override
 	public double h(RepresentationNode node) {
