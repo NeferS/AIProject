@@ -4,6 +4,7 @@ import java.util.BitSet;
 
 import representations.BasicGameEngine;
 import representations.BitboardRepresentationNode;
+import representations.Color;
 import representations.Direction;
 import representations.RepresentationNode;
 import util.General;
@@ -39,7 +40,7 @@ public class ActualH implements IHeuristic {
 				srcSquare = ps[i].nextSetBit(0);
 				while(srcSquare != -1) {
 					
-					quantity = BasicGameEngine.exitDistances[playerOrdinal][srcSquare];
+					quantity = (General.gameEngine.getPlayerColor() == Color.WHITE)? (srcSquare/4 + 1) : (8 - srcSquare/4);
 					totpm += (i+1) * quantity;
 					
 					for(Direction dir: Direction.values())
@@ -75,7 +76,7 @@ public class ActualH implements IHeuristic {
 				int nextpos = es[i].nextSetBit(0);
 				while(nextpos != -1) {
 					
-					quantity = BasicGameEngine.exitDistances[enemyOrdinal][nextpos];
+					quantity = (General.gameEngine.getPlayerColor() == Color.BLACK)? (nextpos/4 + 1) : (8 - nextpos/4);
 					totem += (i+1) * quantity;
 					
 					for(Direction dir: Direction.values())
