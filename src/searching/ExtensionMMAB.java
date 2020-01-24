@@ -46,6 +46,7 @@ public class ExtensionMMAB extends MinMaxAlphaBeta {
 					vv = value;
 					bestMove = equalVals.get(i);
 				}
+				if((System.currentTimeMillis() - t) >= LIMIT) break;
 			}
 
 		}
