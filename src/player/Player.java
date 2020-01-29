@@ -53,27 +53,20 @@ public class Player extends Thread {
 		l.start();
 	}
 	
-	protected void warmup() {  }//TODO
+	protected void warmup() {  }
 	
 	/**Gioca la partita.
 	 * @throws InterruptedException if this thread is interrupted*/
 	protected void play() throws InterruptedException {
-		while(true) {
+		if (!General.isWhite) {
+			Semaphores.waitACK();
+		}
+		while(!General.isGameEnded) {
 			long t = Semaphores.waitACK();
 			RepresentationNode configuration = algorithm.explore(General.gameEngine.getCurrentBoardState(), t);
 			protocol.send(MOVE+configuration.getMove());
 			General.gameEngine.playerMakeMove(configuration);
 			General.moves++;
-			
-			/*Retrocompatibilità se si usa MinMaxAlphaBeta da solo, in modo da incrementare il livello di taglio.*/
-			/*if(General.moves <= 25)
-				((searching.MinMaxAlphaBeta)algorithm).setLevel((General.moves<=15)? (byte)6 : (General.moves<=25)? (byte)7 : (byte)8);*/
-			
-			//Da rimuovere TODO
-			if(General.isWhite) System.out.println("White : " + configuration.getMove());
-			else System.out.println("Black : " + configuration.getMove());
-			//Fine rimozione
-			
 			Semaphores.waitACK();
 		}
 	}

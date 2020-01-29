@@ -13,7 +13,7 @@ public abstract class SearchAlgorithm{
 	
 	/**Inizializza la strategia di questo oggetto.
 	 * @param s0 la strategia iniziale
-	 * @throws IllegalStateException se la strategia era già stata precedentemente inizializzata
+	 * @throws IllegalStateException se la strategia era giï¿½ stata precedentemente inizializzata
 	 */
 	public void initStrategy(IHeuristic s0) throws IllegalStateException {
 		if(s0 == null) throw new IllegalArgumentException();
@@ -30,9 +30,9 @@ public abstract class SearchAlgorithm{
 	 */
 	public abstract RepresentationNode explore(RepresentationNode root, long t);
 	
-	/**Restituisce true se il nodo passato è un goal.
+	/**Restituisce true se il nodo passato ï¿½ un goal.
 	 * @param node il nodo da esaminare
-	 * @return true se node è un goal, false altrimenti
+	 * @return true se node ï¿½ un goal, false altrimenti
 	 */
 	public abstract boolean isGoal(RepresentationNode node);
 	

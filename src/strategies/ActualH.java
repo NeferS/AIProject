@@ -12,7 +12,7 @@ import util.General;
 public class ActualH implements IHeuristic {
 
 	private final int BOARDS = 12;
-	private final int[] maxs_stacks  = { 2, 4, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1 };
+	private final int[] maxs_stacks  = { 2, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1 };
 	private final int[][] notAlloweds = { { 1,6,7 }, {0,4,5} };
 	private final double max = 0.09, min = 0.01;
 	
@@ -26,9 +26,9 @@ public class ActualH implements IHeuristic {
 		BitSet[] ps = brn.playersPieces[playerOrdinal];
 		BitSet[] es = brn.playersPieces[enemyOrdinal];
 		
-		int totpp = 0, totep = 0, // numero di pedine possedute da ciascun giocatore
+		int totpp = 0, totep = 0, //numero di pedine possedute da ciascun giocatore
 			totpm = 0, totem = 0, //numero di mosse necessarie a far uscire tutte le pedine di ciacun giocatore
-			totpc = 0, totec = 0,
+			totpc = 0, totec = 0, //numero di celle controllate da ogni stack
 			tots = 0, //numero di stack totale
 			advantage = 0; //vantaggio rispetto all'avversario in termini di possibilit� di cattura (+1 se posso catturare, -1 se posso essere catturato)
 		
@@ -93,6 +93,6 @@ public class ActualH implements IHeuristic {
 		}
 
 		if (totpp == 0) return Double.NEGATIVE_INFINITY;
-		return (totpm - totem) + advantage + (totpp - totep) + tots + ((totpc - totec)*0.4) + ((Math.random() * (max - min) ) + min);
+		return (totpm - totem) + advantage + (totpp - totep) + tots + ((totpc - totec)*0.4);
 	}
 }

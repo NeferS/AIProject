@@ -6,7 +6,7 @@ import strategies.IHeuristic;
 public class IterativeDeepening extends SearchAlgorithm {
 
 	protected final byte MIN_CUT_L = 5, MAX_CUT_L = 15;
-	protected MinMaxAlphaBeta mmab = new MinMaxAlphaBeta();
+	protected MinMaxAlphaBeta mmab = new RandomizedMMAB(); //new MinMaxAlphaBeta();
 	
 	@Override
 	public void initStrategy(IHeuristic s0) throws IllegalStateException {

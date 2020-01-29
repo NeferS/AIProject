@@ -15,7 +15,7 @@ public final class Semaphores {
 	
 	public static long waitACK() { 
 		try { ack.acquire(); }
-		catch (InterruptedException e) { e.printStackTrace(); }
+		catch (InterruptedException e) { }
 		return t;
 	}
 	public static void sendACK() { t = System.currentTimeMillis(); ack.release(); }
