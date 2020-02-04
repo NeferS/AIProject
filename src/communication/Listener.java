@@ -62,8 +62,11 @@ public class Listener extends Thread {
 		} catch(Exception e) { }
 		finally { 
 			pr.closeAll();
+			Semaphores.sendACK();
 			General.isGameEnded = true;
 		}
+		
+		System.exit(0);
 	}
 
 	/**Stampa un messaggio.

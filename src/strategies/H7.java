@@ -9,7 +9,7 @@ import representations.Direction;
 import representations.RepresentationNode;
 import util.General;
 
-public class ActualH implements IHeuristic {
+public class H7 implements IHeuristic {
 
 	private final int BOARDS = 12;
 	private final int[] maxs_stacks  = { 2, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1 };
@@ -46,7 +46,7 @@ public class ActualH implements IHeuristic {
 						if( dir.ordinal()!=notAlloweds[playerOrdinal][0] &&
 							dir.ordinal()!=notAlloweds[playerOrdinal][1] && 
 							dir.ordinal()!=notAlloweds[playerOrdinal][2]) 
-							totpc += BasicGameEngine.borderDistances[dir.ordinal()][srcSquare];							
+							totpc += BasicGameEngine.controlledCells[dir.ordinal()][i>6? 6 : i][srcSquare];
 					
 					
 					for (int j=0; j<BOARDS; j++) {
@@ -81,8 +81,8 @@ public class ActualH implements IHeuristic {
 					for(Direction dir: Direction.values())
 						if (dir.ordinal()!=notAlloweds[enemyOrdinal][0] &&
 							dir.ordinal()!=notAlloweds[enemyOrdinal][1] && 
-							dir.ordinal()!=notAlloweds[enemyOrdinal][2]) 
-						totec += BasicGameEngine.borderDistances[dir.ordinal()][nextpos];
+							dir.ordinal()!=notAlloweds[enemyOrdinal][2])
+						totec += BasicGameEngine.controlledCells[dir.ordinal()][i>6? 6 : i][nextpos];
 					
 					nextpos = es[i].nextSetBit(nextpos+1);
 				}
@@ -92,6 +92,6 @@ public class ActualH implements IHeuristic {
 		}
 
 		if (totpp == 0) return Double.NEGATIVE_INFINITY;
-		return (totpm - totem) + advantage + (totpp - totep) + tots + ((totpc - totec)*0.4);
+		return (totpm - totem) + advantage + (totpp - totep) + tots + (totpc - totec)*0.4;
 	}
 }

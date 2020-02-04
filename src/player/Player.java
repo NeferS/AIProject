@@ -67,7 +67,9 @@ public class Player extends Thread {
 			protocol.send(MOVE+configuration.getMove());
 			General.gameEngine.playerMakeMove(configuration);
 			General.moves++;
-			Semaphores.waitACK();
+			if(!General.isGameEnded)
+				Semaphores.waitACK();
 		}
+		System.exit(0);
 	}
 }
