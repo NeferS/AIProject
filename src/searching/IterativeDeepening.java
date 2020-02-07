@@ -29,7 +29,7 @@ public class IterativeDeepening extends SearchAlgorithm {
 			} else
 				bestMove = current;
 		}
-		
+		System.out.println("Level: "+i);
 		return bestMove;
 	}
 	
